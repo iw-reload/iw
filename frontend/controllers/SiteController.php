@@ -77,14 +77,14 @@ class SiteController extends Controller
   public function successCallback($client)
   {
     $attributes = $client->getUserAttributes();
-    $serializedAttributes = var_dump( $attributes, true );
+    $serializedAttributes = print_r( $attributes, true );
 
     \Yii::info("AuthClient successCallback - user attributes: '{$serializedAttributes}'");
     
     if ($client instanceof \yii\authclient\clients\GitHub)
     {
       $emails = $client->api('user/emails');
-      $serializedEMails = var_dump( $emails, true );
+      $serializedEMails = print_r( $emails, true );
 
       \Yii::info("AuthClient successCallback - user emails: '{$serializedEMails}'");
     }
