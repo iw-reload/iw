@@ -80,6 +80,14 @@ class SiteController extends Controller
     $serializedAttributes = var_dump( $attributes, true );
 
     \Yii::info("AuthClient successCallback - user attributes: '{$serializedAttributes}'");
+    
+    if ($client instanceof \yii\authclient\clients\GitHub)
+    {
+      $emails = $client->api('user/emails');
+      $serializedEMails = var_dump( $emails, true );
+
+      \Yii::info("AuthClient successCallback - user emails: '{$serializedEMails}'");
+    }
   }    
     
     public function actionIndex()
