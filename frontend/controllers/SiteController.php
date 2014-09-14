@@ -69,13 +69,17 @@ class SiteController extends Controller
       ];
     }
 
+  /**
+   * 
+   * @param \yii\authclient\ClientInterface $client
+   * @return type
+   */
   public function successCallback($client)
   {
     $attributes = $client->getUserAttributes();
+    $serializedAttributes = var_dump( $attributes, true );
 
-    \Yii::info( var_dump( $attributes, true ) );
-    
-    return var_dump( $attributes, true );
+    \Yii::info("AuthClient successCallback - user attributes: '{$serializedAttributes}'");
   }    
     
     public function actionIndex()
