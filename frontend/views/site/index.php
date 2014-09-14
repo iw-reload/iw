@@ -12,11 +12,6 @@ $this->title = 'IceWars Reload';
           <!--
             <img src="images/TODO.png" />
           -->
-          
-        <?= '' /* yii\authclient\widgets\AuthChoice::widget([
-             'baseAuthUrl' => ['site/auth']
-        ]) */ ?>          
-          
         </p>
         
         <p class="lead"></p>

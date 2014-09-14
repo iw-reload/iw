@@ -69,11 +69,14 @@ class SiteController extends Controller
       ];
     }
 
-    public function successCallback($client)
-    {
-      $attributes = $client->getUserAttributes();
-      return var_dump( $attributes, true );
-    }    
+  public function successCallback($client)
+  {
+    $attributes = $client->getUserAttributes();
+
+    \Yii::info( var_dump( $attributes, true ) );
+    
+    return var_dump( $attributes, true );
+  }    
     
     public function actionIndex()
     {
