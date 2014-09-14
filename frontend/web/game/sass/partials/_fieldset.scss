@@ -1,0 +1,16 @@
+/* 
+    Created on : 26.08.2014, 00:27:42
+    Author     : ben
+*/
+
+fieldset {
+  margin-top: 3em;
+}
+
+fieldset:first-child {
+  margin-top: 0;
+}
+
+legend {
+  color: $font-color;
+}

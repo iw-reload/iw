@@ -1,0 +1,35 @@
+/* 
+    Created on : 27.08.2014, 00:07:03
+    Author     : ben
+*/
+
+$resources-layout:smart;
+@import "resources/*.png";
+
+$resources: iron, steel, chemicals, vv4a, population, ice, water, ice-and-water, energy;
+$dot: '.';
+$selector: ();
+
+@each $resource in $resources {
+  $selector: append( $selector, #{$dot}#{$resource}, comma );
+}
+
+#{$selector} {
+  &::before {
+    content: "";
+    display: inline-block;
+    position: relative;
+    top: 3px;
+    margin-right: 3px;
+  }
+}
+
+@each $resource in $resources {
+  #{$dot}#{$resource} {
+    &::before {
+      width: resources-sprite-width($resource);
+      height: resources-sprite-height($resource);
+      @include resources-sprite($resource);
+    }
+  }
+}

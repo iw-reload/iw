@@ -1,0 +1,102 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+
+$font-color: aliceblue;
+
+@import "partials/base";
+@import "partials/fieldset";
+@import "partials/resourceIcons";
+
+// because of navbar
+body { padding-bottom: 70px; }
+
+body {
+  background-color: black;
+  color: $font-color;
+}
+
+dt {
+  float: left;
+}
+
+dd {
+  text-align: right;
+}
+
+dd::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+.resource-widget {
+  ul {
+    display: inline;
+    padding-left: 0;
+  }
+  
+  li {
+    display: inline;
+    margin-left: 5px;
+  }
+}
+
+.resource-widget .col-sm-12
+{
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
+
+button,
+select,
+input {
+  background-color: #555555;
+}
+
+a[href="#"] {
+  pointer-events: none;
+  cursor: default;
+  color: red;  
+}
+
+
+.construction {
+
+  h4 {
+    text-align: center;
+  }
+  
+  ul {
+    padding: 0;
+  }
+  
+  li {
+    list-style-type: none;
+  }
+  
+  ul.buildings > li {
+    position: relative;
+    margin-top: 10px;
+    
+    input {
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      height: 2em;
+    }
+  }
+  
+  ul.cost li,
+  ul.balance li {
+    display: inline;
+    margin-right: 5px;
+  }
+  
+}

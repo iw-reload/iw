@@ -1,0 +1,204 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* 
+    Created on : 24.08.2014, 18:27:28
+    Author     : ben
+*/
+/* 
+    Created on : 26.08.2014, 00:27:42
+    Author     : ben
+*/
+/* line 6, ../sass/partials/_fieldset.scss */
+fieldset {
+  margin-top: 3em;
+}
+
+/* line 10, ../sass/partials/_fieldset.scss */
+fieldset:first-child {
+  margin-top: 0;
+}
+
+/* line 14, ../sass/partials/_fieldset.scss */
+legend {
+  color: aliceblue;
+}
+
+/* 
+    Created on : 27.08.2014, 00:07:03
+    Author     : ben
+*/
+/* line 128, resources/*.png */
+.resources-sprite, .iron::before, .steel::before, .chemicals::before, .vv4a::before, .population::before, .ice::before, .water::before, .ice-and-water::before, .energy::before {
+  background-image: url('../generated-images/resources-safb2ab0a02.png');
+  background-repeat: no-repeat;
+}
+
+/* line 18, ../sass/partials/_resourceIcons.scss */
+.iron::before, .steel::before, .chemicals::before, .vv4a::before, .population::before, .ice::before, .water::before, .ice-and-water::before, .energy::before {
+  content: "";
+  display: inline-block;
+  position: relative;
+  top: 3px;
+  margin-right: 3px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.iron::before {
+  width: 12px;
+  height: 12px;
+  background-position: 0 -12px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.steel::before {
+  width: 12px;
+  height: 12px;
+  background-position: -12px -48px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.chemicals::before {
+  width: 12px;
+  height: 12px;
+  background-position: 0 -24px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.vv4a::before {
+  width: 12px;
+  height: 12px;
+  background-position: 0 -60px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.population::before {
+  width: 12px;
+  height: 12px;
+  background-position: 0 -48px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.ice::before {
+  width: 12px;
+  height: 12px;
+  background-position: -12px -24px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.water::before {
+  width: 12px;
+  height: 12px;
+  background-position: -12px -60px;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.ice-and-water::before {
+  width: 26px;
+  height: 12px;
+  background-position: 0 0;
+}
+
+/* line 29, ../sass/partials/_resourceIcons.scss */
+.energy::before {
+  width: 12px;
+  height: 12px;
+  background-position: -12px -12px;
+}
+
+/* line 13, ../sass/screen.scss */
+body {
+  padding-bottom: 70px;
+}
+
+/* line 15, ../sass/screen.scss */
+body {
+  background-color: black;
+  color: aliceblue;
+}
+
+/* line 20, ../sass/screen.scss */
+dt {
+  float: left;
+}
+
+/* line 24, ../sass/screen.scss */
+dd {
+  text-align: right;
+}
+
+/* line 28, ../sass/screen.scss */
+dd::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+/* line 35, ../sass/screen.scss */
+.resource-widget ul {
+  display: inline;
+  padding-left: 0;
+}
+/* line 40, ../sass/screen.scss */
+.resource-widget li {
+  display: inline;
+  margin-left: 5px;
+}
+
+/* line 46, ../sass/screen.scss */
+.resource-widget .col-sm-12 {
+  text-align: center;
+}
+
+/* line 51, ../sass/screen.scss */
+table {
+  width: 100%;
+}
+
+/* line 55, ../sass/screen.scss */
+button,
+select,
+input {
+  background-color: #555555;
+}
+
+/* line 61, ../sass/screen.scss */
+a[href="#"] {
+  pointer-events: none;
+  cursor: default;
+  color: red;
+}
+
+/* line 70, ../sass/screen.scss */
+.construction h4 {
+  text-align: center;
+}
+/* line 74, ../sass/screen.scss */
+.construction ul {
+  padding: 0;
+}
+/* line 78, ../sass/screen.scss */
+.construction li {
+  list-style-type: none;
+}
+/* line 82, ../sass/screen.scss */
+.construction ul.buildings > li {
+  position: relative;
+  margin-top: 10px;
+}
+/* line 86, ../sass/screen.scss */
+.construction ul.buildings > li input {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 2em;
+}
+/* line 96, ../sass/screen.scss */
+.construction ul.cost li,
+.construction ul.balance li {
+  display: inline;
+  margin-right: 5px;
+}

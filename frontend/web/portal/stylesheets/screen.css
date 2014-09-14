@@ -1,0 +1,23 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* 
+    Created on : 24.08.2014, 18:27:28
+    Author     : ben
+*/
+/* line 11, ../sass/screen.scss */
+body {
+  padding-top: 70px;
+}
+
+/* line 15, ../sass/screen.scss */
+body {
+  background-color: black;
+  color: aliceblue;
+}
+
+/* line 20, ../sass/screen.scss */
+.jumbotron {
+  background-color: #222;
+}
