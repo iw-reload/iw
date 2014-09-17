@@ -89,13 +89,19 @@ class SiteController extends Controller
     
     if ($externalUser->validate())
     {
+      Yii::info('AuthForm validated.');
+      
       if ($externalUser->isRegistered())
       {
+        Yii::info('ExternalUser is registered. Logging in and redirecting to game/index.');
+        
         $externalUser->login();
         return $this->redirect('game/index');
       }
       else
       {
+        Yii::info('ExternalUser is not registered. Redirecting to site/signup.');
+        
         Yii::$app->session->set( 'game/register/authProvider', $externalUser->authProvider );
         Yii::$app->session->set( 'game/register/attributes'  , $attributes );
         
