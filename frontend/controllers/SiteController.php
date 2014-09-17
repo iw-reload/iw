@@ -111,6 +111,8 @@ class SiteController extends Controller
     else
     {
       // TODO error. Throw, display actionError?
+      Yii::info('AuthForm couldn\'t be validated. Errors: ' . print_r($externalUser->errors,true));
+      Yii::info('Client attributes: ' . print_r($attributes,true));
     }
   }    
     
