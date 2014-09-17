@@ -3,6 +3,7 @@
 namespace console\migrations;
 
 use yii\db\Migration;
+use Yii;
 
 /**
  * Description of SqlScriptMigration
