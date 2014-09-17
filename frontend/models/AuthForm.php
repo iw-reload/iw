@@ -24,7 +24,7 @@ class AuthForm extends Model
   {
     return [
       [['authProvider', 'externalUserId'], 'required'],
-      ['externalUserId', 'filter', 'strval'],
+      ['externalUserId', 'filter', 'filter' => 'strval'],
       [['authProvider', 'externalUserId'], 'string', 'max' => 32],
     ];
   }
