@@ -12,62 +12,63 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use frontend\models\AuthForm;
 
 /**
  * Site controller
  */
 class SiteController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
+  /**
+   * @inheritdoc
+   */
+  public function behaviors()
+  {
+    return [
+      'access' => [
+        'class' => AccessControl::className(),
+        'only' => ['logout', 'signup'],
+        'rules' => [
+          [
+            'actions' => ['signup'],
+            'allow' => true,
+            'roles' => ['?'],
+          ],
+          [
+            'actions' => ['logout'],
+            'allow' => true,
+            'roles' => ['@'],
+          ],
+        ],
+      ],
+      'verbs' => [
+        'class' => VerbFilter::className(),
+        'actions' => [
+          'logout' => ['post'],
+        ],
+      ],
+    ];
+  }
 
-    /**
-     * @inheritdoc
-     */
-    public function actions()
-    {
-      return [
-        'error' => [
-          'class' => 'yii\web\ErrorAction',
-        ],
-        'captcha' => [
-          'class' => 'yii\captcha\CaptchaAction',
-          'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-        ],
-        'auth' => [
-          'class' => 'yii\authclient\AuthAction',
-          'successCallback' => [$this, 'successCallback'],
-        ],
-      ];
-    }
+  /**
+   * @inheritdoc
+   */
+  public function actions()
+  {
+    return [
+      'error' => [
+        'class' => 'yii\web\ErrorAction',
+      ],
+      'captcha' => [
+        'class' => 'yii\captcha\CaptchaAction',
+        'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+      ],
+      'auth' => [
+        'class' => 'yii\authclient\AuthAction',
+        'successCallback' => [$this, 'successCallback'],
+      ],
+    ];
+  }
 
   /**
    * 
@@ -76,47 +77,64 @@ class SiteController extends Controller
    */
   public function successCallback($client)
   {
-    $attributes = $client->getUserAttributes();
-    $serializedAttributes = print_r( $attributes, true );
-
-    \Yii::info("AuthClient successCallback - user attributes: '{$serializedAttributes}'");
+    // TODO: Group FK's to one local user.
+    //       Otherwise, if we log in via FB and another time via google, we
+    //       end up with two local accounts.
     
-    if ($client instanceof \yii\authclient\clients\GitHub)
-    {
-      $emails = $client->api('user/emails');
-      $serializedEMails = print_r( $emails, true );
+    $attributes = $client->getUserAttributes();
 
-      \Yii::info("AuthClient successCallback - user emails: '{$serializedEMails}'");
+    $externalUser = new AuthForm();
+    $externalUser->authProvider = $client->getName();
+    $externalUser->externalUserId = array_key_exists('id', $attributes) ? $attributes['id'] : null;
+    
+    if ($externalUser->validate())
+    {
+      if ($externalUser->isRegistered())
+      {
+        $externalUser->login();
+        return $this->redirect('game/index');
+      }
+      else
+      {
+        Yii::$app->session->set( 'game/register/authProvider', $externalUser->authProvider );
+        Yii::$app->session->set( 'game/register/attributes'  , $attributes );
+        
+        return $this->redirect('site/signup');
+      }    
+    }
+    else
+    {
+      // TODO error. Throw, display actionError?
     }
   }    
     
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
+  public function actionIndex()
+  {
+    return $this->render('index');
+  }
 
-    public function actionLogin()
-    {
-        if (!\Yii::$app->user->isGuest) {
-            return \Yii::$app->user->getReturnUrl();
-        }
+  public function actionLogin()
+  {
+      if (!\Yii::$app->user->isGuest) {
+          return \Yii::$app->user->getReturnUrl();
+      }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        } else {
-            return $this->render('login', [
-                'model' => $model,
-            ]);
-        }
-    }
+      $model = new LoginForm();
+      if ($model->load(Yii::$app->request->post()) && $model->login()) {
+          return $this->goBack();
+      } else {
+          return $this->render('login', [
+              'model' => $model,
+          ]);
+      }
+  }
 
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
+  public function actionLogout()
+  {
+      Yii::$app->user->logout();
 
-        return $this->goHome();
-    }
+      return $this->goHome();
+  }
 
     public function actionContact()
     {
