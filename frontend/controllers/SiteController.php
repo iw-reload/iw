@@ -96,7 +96,7 @@ class SiteController extends Controller
         Yii::info('ExternalUser is registered. Logging in and redirecting to game/index.');
         
         $externalUser->login();
-        return $this->redirect('game/index');
+        return $this->redirect(['game/index']);
       }
       else
       {
@@ -105,7 +105,7 @@ class SiteController extends Controller
         Yii::$app->session->set( 'game/register/authProvider', $externalUser->authProvider );
         Yii::$app->session->set( 'game/register/attributes'  , $attributes );
         
-        return $this->redirect('site/signup');
+        return $this->redirect(['site/signup']);
       }    
     }
     else
