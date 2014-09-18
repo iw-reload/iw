@@ -80,6 +80,11 @@ class SiteController extends Controller
     // TODO: Group FK's to one local user.
     //       Otherwise, if we log in via FB and another time via google, we
     //       end up with two local accounts.
+    $action = $this->action;
+    
+    if (!$action instanceof \yii\authclient\AuthAction) {
+      throw new \yii\base\InvalidCallException("successCallback is only meant to be executed by AuthAction!");
+    }
     
     $attributes = $client->getUserAttributes();
 
@@ -96,7 +101,7 @@ class SiteController extends Controller
         Yii::info('ExternalUser is registered. Logging in and redirecting to game/index.');
         
         $externalUser->login();
-        return $this->redirect(['game/index']);
+        return $this->action->redirect(['game/index']);
       }
       else
       {
@@ -105,7 +110,7 @@ class SiteController extends Controller
         Yii::$app->session->set( 'game/register/authProvider', $externalUser->authProvider );
         Yii::$app->session->set( 'game/register/attributes'  , $attributes );
         
-        return $this->redirect(['site/signup']);
+        return $this->action->redirect(['site/signup']);
       }    
     }
     else
