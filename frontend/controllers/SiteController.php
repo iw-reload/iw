@@ -13,6 +13,7 @@ use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use frontend\models\AuthForm;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -101,7 +102,7 @@ class SiteController extends Controller
         Yii::info('ExternalUser is registered. Logging in and redirecting to game/index.');
         
         $externalUser->login();
-        return $this->action->redirect(['game/index']);
+        return $this->action->redirect( Url::toRoute(['game/index'],true) );
       }
       else
       {
@@ -110,7 +111,7 @@ class SiteController extends Controller
         Yii::$app->session->set( 'game/register/authProvider', $externalUser->authProvider );
         Yii::$app->session->set( 'game/register/attributes'  , $attributes );
         
-        return $this->action->redirect(['site/signup']);
+        return $this->action->redirect( Url::toRoute(['site/signup'],true) );
       }    
     }
     else
