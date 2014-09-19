@@ -89,7 +89,7 @@ class SignupForm extends Model
     if ($this->validate())
     {
       $user = new User();
-      $user->username = $this->username;
+      $user->name = $this->username;
       
       $transaction = $user->getDb()->beginTransaction();
       

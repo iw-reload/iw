@@ -54,7 +54,7 @@ class BaseOwnedByUserValidator extends Validator
     {
       $result = [ $this->message, [
         'value' => $value,
-        'username' => $this->user->username,
+        'username' => $this->user->name,
       ]];
     }
     
