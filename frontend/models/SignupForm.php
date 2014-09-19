@@ -29,7 +29,6 @@ class SignupForm extends Model
       ['username', 'string', 'min' => 2, 'max' => 255],
       
       [['authProviderName', 'externalUserId'], 'required'],
-      ['externalUserId', 'filter', 'filter' => 'strval'],
       [['authProviderName', 'externalUserId'], 'string', 'max' => 32],
       
     ];
@@ -40,7 +39,7 @@ class SignupForm extends Model
   }
 
   public function setAuthProviderName($authProviderName) {
-    $this->_authProviderName = $authProviderName;
+    $this->_authProviderName = strval($authProviderName);
   }
     
   public function getAuthProviderTitle() {
@@ -69,17 +68,13 @@ class SignupForm extends Model
   public function getExternalUserId()
   {
     return is_array($this->_externalUserAttributes) && array_key_exists('id', $this->_externalUserAttributes)
-      ? $this->_externalUserAttributes['id']
+      ? strval($this->_externalUserAttributes['id'])
       : '';
-  }
-  
-  public function setExternalUserId( $externalUserId ) {
-    $this->_externalUserAttributes['id'] = $externalUserId;
   }
   
   public function isAuthenticated()
   {
-    return !(empty($this->getAuthProviderName()) || empty($this->getExternalUserId()));
+    return !($this->getAuthProviderName() === '' || $this->getExternalUserId() === '');
   }
   
   /**
