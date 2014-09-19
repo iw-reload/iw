@@ -29,12 +29,12 @@ class Identity extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [
-            [['internal_user_id', 'auth_provider', 'external_user_id'], 'required'],
-            [['internal_user_id'], 'integer'],
-            [['auth_provider', 'external_user_id'], 'string', 'max' => 32],
-            [['auth_provider', 'external_user_id'], 'unique', 'targetAttribute' => ['auth_provider', 'external_user_id'], 'message' => 'The combination of Auth Provider and External User ID has already been taken.']
-        ];
+      return [
+        [['internal_user_id', 'auth_provider', 'external_user_id'], 'required'],
+        [['internal_user_id'], 'integer'],
+        [['auth_provider', 'external_user_id'], 'string', 'max' => 32],
+        [['auth_provider', 'external_user_id'], 'unique', 'targetAttribute' => ['auth_provider', 'external_user_id'], 'message' => 'The combination of Auth Provider and External User ID has already been taken.']
+      ];
     }
 
     /**

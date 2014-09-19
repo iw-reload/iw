@@ -2,13 +2,8 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
-use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -60,10 +55,6 @@ class SiteController extends Controller
       'error' => [
         'class' => 'yii\web\ErrorAction',
       ],
-      'captcha' => [
-        'class' => 'yii\captcha\CaptchaAction',
-        'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-      ],
       'auth' => [
         'class' => 'yii\authclient\AuthAction',
         'successCallback' => [$this, 'successCallback'],
@@ -81,9 +72,8 @@ class SiteController extends Controller
     // TODO: Group FK's to one local user.
     //       Otherwise, if we log in via FB and another time via google, we
     //       end up with two local accounts.
-    $action = $this->action;
     
-    if (!$action instanceof \yii\authclient\AuthAction) {
+    if (!$this->action instanceof \yii\authclient\AuthAction) {
       throw new \yii\base\InvalidCallException("successCallback is only meant to be executed by AuthAction!");
     }
     
@@ -108,8 +98,9 @@ class SiteController extends Controller
       {
         Yii::info('ExternalUser is not registered. Redirecting to site/signup.');
         
-        Yii::$app->session->set( 'game/register/authProvider', $externalUser->authProvider );
-        Yii::$app->session->set( 'game/register/attributes'  , $attributes );
+        Yii::$app->session->set( 'game/register/authProviderName', $client->getName() );
+        Yii::$app->session->set( 'game/register/authProviderTitle', $client->getTitle() );
+        Yii::$app->session->set( 'game/register/attributes', $attributes );
         
         return $this->action->redirect( Url::toRoute(['site/signup'],true) );
       }    
@@ -129,20 +120,49 @@ class SiteController extends Controller
 
   public function actionLogin()
   {
-      if (!\Yii::$app->user->isGuest) {
-          return \Yii::$app->user->getReturnUrl();
-      }
+    if (!\Yii::$app->user->isGuest) {
+        return \Yii::$app->user->getReturnUrl();
+    }
 
-      $model = new LoginForm();
-      if ($model->load(Yii::$app->request->post()) && $model->login()) {
-          return $this->goBack();
-      } else {
-          return $this->render('login', [
-              'model' => $model,
-          ]);
-      }
+    return $this->render('login', [
+    ]);
   }
 
+  public function actionSignup()
+  {
+    $authProviderName = Yii::$app->session->get( 'game/register/authProviderName' );
+    $authProviderTitle = Yii::$app->session->get( 'game/register/authProviderTitle' );
+    $externalUserAttributes = Yii::$app->session->get( 'game/register/attributes' );
+
+    $model = new SignupForm();
+    $model->setAuthProviderName( $authProviderName );
+    $model->setAuthProviderTitle( $authProviderTitle );
+    $model->externalUserAttributes = $externalUserAttributes;
+    
+    if ($model->load(Yii::$app->request->post()))
+    {
+      if ($user = $model->signup())
+      {
+        Yii::$app->session->remove( 'game/register/authProvider' );
+        Yii::$app->session->remove( 'game/register/attributes' );
+        
+        if (Yii::$app->getUser()->login($user)) {
+          return $this->goHome();
+        }
+      }
+    }
+    else
+    {
+      $model->username = is_array($externalUserAttributes) && array_key_exists('login', $externalUserAttributes)
+        ? $externalUserAttributes['login']
+        : '';
+    }
+    
+    return $this->render('signup', [
+      'model' => $model,
+    ]);
+  }
+  
   public function actionLogout()
   {
       Yii::$app->user->logout();
@@ -150,79 +170,26 @@ class SiteController extends Controller
       return $this->goHome();
   }
 
-    public function actionContact()
+  public function actionContact()
+  {
+    $model = new ContactForm();
+    
+    if ($model->load(Yii::$app->request->post()) && $model->validate())
     {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
-            }
+      if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+        Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+      } else {
+        Yii::$app->session->setFlash('error', 'There was an error sending email.');
+      }
 
-            return $this->refresh();
-        } else {
-            return $this->render('contact', [
-                'model' => $model,
-            ]);
-        }
+      return $this->refresh();
     }
-
-    public function actionAbout()
+    else
     {
-        return $this->render('about');
+      return $this->render('contact', [
+        'model' => $model,
+      ]);
     }
+  }
 
-    public function actionSignup()
-    {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
-            }
-        }
-
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionRequestPasswordReset()
-    {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
-            } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
-            }
-        }
-
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
-    }
-
-    public function actionResetPassword($token)
-    {
-        try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->getSession()->setFlash('success', 'New password was saved.');
-
-            return $this->goHome();
-        }
-
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
-    }
 }
