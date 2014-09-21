@@ -6,6 +6,7 @@ use common\models\CelestialBody;
 use yii\base\Component;
 use yii\base\InvalidCallException;
 use yii\db\Connection;
+use yii\di\Instance;
 
 /**
  * Description of UniverseComponent
