@@ -5,6 +5,7 @@ namespace common\components\universe;
 use common\models\CelestialBody;
 use yii\base\Component;
 use yii\base\InvalidCallException;
+use yii\db\Connection;
 
 /**
  * Description of UniverseComponent
@@ -13,6 +14,11 @@ use yii\base\InvalidCallException;
  */
 class UniverseComponent extends Component
 {
+  /**
+    * @var string the application component ID of the DB connection.
+    */
+  public $db = 'db';
+
   public $galaxyCount = 2;
   public $avgSystemCount = 15;
   public $avgPlanetCount = 12;
@@ -207,6 +213,33 @@ class UniverseComponent extends Component
     }
     
     return $planets;
+  }
+  
+  /**
+   * Selects a celestial body that should be used for a new player.
+   * @todo could use a better algorithm. Maybe place new players in areas that
+   *       are not too densly populated.
+   *       Or place them among other players just having started playing.
+   * @return CelestialBody
+   */
+  public function chooseCelestialBodyForNewPlayer()
+  {
+    $db = Instance::ensure( $this->db, Connection::className() );
+    /* @var $db Connection */
+    
+    $sql = <<<'EOT'
+SELECT {{cb}}.[[id]] AS [[id]],
+FROM {{%celestial_body}} {{cb}}
+LEFT JOIN {{%base}} {{b}} ON {{b}}.[[id]] = {{cb}}.[[id]]
+WHERE {{b}}.[[id]] IS NULL
+;
+EOT;
+
+    $recordSets = $db->createCommand( $sql )->queryAll();
+    $randomOffset = rand( 0, count($celestialBodies) - 1);
+    $randomRecordSet = $recordSets[ $randomOffset ];
+    
+    return CelestialBody::findOne(['id' => $randomRecordSet['id']]);
   }
   
   /**
