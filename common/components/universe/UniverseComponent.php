@@ -229,7 +229,7 @@ class UniverseComponent extends Component
     /* @var $db Connection */
     
     $sql = <<<'EOT'
-SELECT {{cb}}.[[id]] AS [[id]],
+SELECT {{cb}}.[[id]] AS [[id]]
 FROM {{%celestial_body}} {{cb}}
 LEFT JOIN {{%base}} {{b}} ON {{b}}.[[id]] = {{cb}}.[[id]]
 WHERE {{b}}.[[id]] IS NULL
