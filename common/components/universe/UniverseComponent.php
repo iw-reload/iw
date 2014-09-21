@@ -127,15 +127,26 @@ class UniverseComponent extends Component
    * reset to the defaults. This method does not save the celestial body after
    * modifying it.
    * 
-   * @param int $id
+   * @param CelestialBody|int $celestialBody
    * @return CelestialBody
    */
-  public function resetCelestialBody( $id )
+  public function resetCelestialBody( $celestialBody )
   {
-    $cb = CelestialBody::findOne([ 'id' => $id ]);
-    
-    if (!$cb instanceof CelestialBody) {
-      throw new InvalidCallException("Can't reset celestian body '{$id}'. It does not exist.");
+    if (is_int($celestialBody))
+    {
+      $cb = CelestialBody::findOne([ 'id' => $celestialBody ]);
+      
+      if (!$cb instanceof CelestialBody) {
+        throw new InvalidCallException("Can't reset celestian body '{$celestialBody}'. It does not exist.");
+      }      
+    }
+    else if ($celestialBody instanceof CelestialBody)
+    {
+      $cb = $celestialBody;
+    }
+    else
+    {
+      throw new InvalidParamException( 'Pass a CelestialBody instance or the ID of a celestial body.' );
     }
     
     $cb->density_chemicals = 1.0;
