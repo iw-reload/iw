@@ -28,13 +28,11 @@ return [
         ],
       ],
     ],    
-    'user' => [
-      'identityClass' => 'common\models\User',
-      'enableAutoLogin' => true,
-      'returnUrl' => ['game'],
-    ],
     'building' => [
       'class' => 'frontend\components\building\BuildingComponent',
+    ],
+    'errorHandler' => [
+      'errorAction' => 'site/error',
     ],
     'log' => [
       'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -45,8 +43,13 @@ return [
         ],
       ],
     ],
-    'errorHandler' => [
-      'errorAction' => 'site/error',
+    'universe' => [
+      'class' => 'common\components\universe\UniverseComponent',
+    ],
+    'user' => [
+      'identityClass' => 'common\models\User',
+      'enableAutoLogin' => true,
+      'returnUrl' => ['game'],
     ],
   ],
   'controllerMap' => [

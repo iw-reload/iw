@@ -8,7 +8,6 @@ use yii\caching\Cache;
 use yii\caching\DbDependency;
 use yii\db\Connection;
 use yii\di\Instance;
-use PDO;
 
 
 /**

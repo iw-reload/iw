@@ -134,13 +134,8 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
   /**
    * Returns a label for this base. Can be used as text for links.
    */
-  public function getLabel()
-  {
-    $gal = $this->celestialBody->pos_galaxy;
-    $sys = $this->celestialBody->pos_system;
-    $pla = $this->celestialBody->pos_planet;
-    $name = $this->name;
-    return "[{$gal}:{$sys}:{$pla}] {$name}";
+  public function getLabel() {
+    return "[{$this->celestialBody->label}] {$this->name}";
   }
   
   /**

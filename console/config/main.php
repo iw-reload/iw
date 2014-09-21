@@ -7,20 +7,23 @@ $params = array_merge(
 );
 
 return [
-    'id' => 'app-console',
-    'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
-    'controllerNamespace' => 'console\controllers',
-    'modules' => [],
-    'components' => [
-        'log' => [
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['error', 'warning'],
-                ],
-            ],
+  'id' => 'app-console',
+  'basePath' => dirname(__DIR__),
+  'bootstrap' => ['log'],
+  'controllerNamespace' => 'console\controllers',
+  'modules' => [],
+  'components' => [
+    'log' => [
+      'targets' => [
+        [
+          'class' => 'yii\log\FileTarget',
+          'levels' => ['error', 'warning'],
         ],
+      ],
     ],
-    'params' => $params,
+    'universe' => [
+      'class' => 'common\components\universe\UniverseComponent',
+    ],
+  ],
+  'params' => $params,
 ];

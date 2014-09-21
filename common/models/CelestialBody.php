@@ -66,4 +66,18 @@ class CelestialBody extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Base::className(), ['id' => 'id']);
     }
+    
+  /**
+   * Returns a label for this celestial body. Can be used as text for links.
+   */
+  public function getLabel() {
+    return $this->createLabel( $this->pos_galaxy, $this->pos_system, $this->pos_planet );
+  }
+  
+  /**
+   * Returns a label for this celestial body. Can be used as text for links.
+   */
+  public static function createLabel( $gal, $sys, $pla ) {
+    return "{$gal}:{$sys}:{$pla}";
+  }
 }
