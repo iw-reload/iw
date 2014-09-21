@@ -69,13 +69,12 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
     return [
       [ [ 'id', 'user_id', 'name', 'stored_iron', 'stored_steel',
           'stored_chemicals', 'stored_vv4a', 'stored_ice', 'stored_water',
-          'stored_energy', 'stored_people', 'stored_credits', 'created_at',
-          'updated_at'
+          'stored_energy', 'stored_people', 'stored_credits',
         ], 'required'],
       [ [ 'id', 'user_id', 'stored_iron', 'stored_steel', 'stored_chemicals',
           'stored_vv4a', 'stored_ice', 'stored_water', 'stored_energy',
           'stored_people', 'stored_credits', 'produced_steel', 'produced_vv4a',
-          'produced_water', 'created_at', 'updated_at'
+          'produced_water',
         ], 'integer'],
       [['name'], 'string', 'max' => 255],
     ];

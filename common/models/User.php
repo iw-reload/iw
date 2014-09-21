@@ -58,8 +58,7 @@ class User  extends ActiveRecord
   public function rules()
   {
     return [
-      [['name', 'created_at', 'updated_at'], 'required'],
-      [['created_at', 'updated_at'], 'integer'],
+      [['name'], 'required'],
       [['name'], 'string', 'max' => 255],
       [['name'], 'unique']
     ];
