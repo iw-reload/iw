@@ -125,7 +125,7 @@ class BuildingComponent extends Component implements BuildingFinderInterface
       // $cache->set() is called.
       $cacheDependency = new DbDependency([
         'db'  => $this->db,
-        'sql' => 'SELECT modified FROM iw_reload.building ORDER BY modified DESC LIMIT 1;',
+        'sql' => 'SELECT [[modified]] FROM {{%building}} ORDER BY [[modified]] DESC LIMIT 1;',
       ]);
       
       // The value will never expire (special value 0)
