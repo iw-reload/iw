@@ -236,7 +236,7 @@ WHERE {{b}}.[[id]] IS NULL
 EOT;
 
     $recordSets = $db->createCommand( $sql )->queryAll();
-    $randomOffset = rand( 0, count($celestialBodies) - 1);
+    $randomOffset = rand( 0, count($recordSets) - 1);
     $randomRecordSet = $recordSets[ $randomOffset ];
     
     return CelestialBody::findOne(['id' => $randomRecordSet['id']]);
