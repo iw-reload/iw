@@ -106,7 +106,7 @@ class SignupForm extends Model
       $user->name = $this->username;
 
       if (!$user->save()) {
-        throw new \Exception( 'Failed to save user.' );
+        throw new \Exception( 'Failed to save user. Errors: ' . print_r($user->errors,true) );
       }
 
       $identity = new Identity();
@@ -115,7 +115,7 @@ class SignupForm extends Model
       $identity->internal_user_id = $user->id;
 
       if (!$identity->save()) {
-        throw new \Exception( 'Failed to save identity.' );
+        throw new \Exception( 'Failed to save identity. Errors: ' . print_r($identity->errors,true) );
       }
       
       /* @var $universe UniverseComponent */
@@ -128,7 +128,7 @@ class SignupForm extends Model
       );
 
       if (!$celestialBody->save()) {
-        throw new \Exception( 'Failed to save celestial body.' );
+        throw new \Exception( 'Failed to save celestial body. Errors: ' . print_r($celestialBody->errors,true) );
       }
 
       $base = new \common\models\Base();
@@ -150,7 +150,7 @@ class SignupForm extends Model
       //$base->stored_last_update = ;
             
       if (!$base->save()) {
-        throw new \Exception( 'Failed to save base.' );
+        throw new \Exception( 'Failed to save base. Errors: ' . print_r($base->errors,true) );
       }
 
       // place some default buildings on the base
