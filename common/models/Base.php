@@ -8,6 +8,7 @@ use frontend\behaviors\UpdateStockBehavior;
 use frontend\components\building\BuildingComponent;
 use frontend\interfaces\ConstructionTaskProvider;
 use frontend\models\Building;
+use yii\behaviors\TimestampBehavior;
 use yii\di\Instance;
 
 /**
