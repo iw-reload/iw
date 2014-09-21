@@ -1,6 +1,7 @@
 <?php
 namespace frontend\models;
 
+use common\components\universe\UniverseComponent;
 use common\models\User;
 use common\models\Identity;
 use yii\base\Model;
@@ -84,62 +85,83 @@ class SignupForm extends Model
    */
   public function signup()
   {
-    $user = null;
+    if (!$this->validate()) {
+      return null;
+    }
     
-    if ($this->validate())
+    $transaction = \Yii::$app->db->beginTransaction();
+
+    try
     {
-      $transaction = \Yii::$app->db->beginTransaction();
-      
-      try
-      {
-        // TODO: Creating a user isn't that easy.
-        //       First, we need to create the start planet and stuff for the
-        //       player.
-        //       Also, currently the base must belong to a player and a player
-        //       must have a main base. Break this circular dependency. We must
-        //       start creating something.
-        
-        // find one without a base
-        // set default attributes
-        $celestialBody = new \common\models\CelestialBody();
-        
-        if (!$celestialBody->save()) {
-          throw new \Exception( 'Failed to save celestial body.' );
-        }
-                  
-        $base = new \common\models\Base();
-        $base->id = $celestialBody->id;
+      // Creating a user:
+      // - Create the user
+      // - Create identity and link it to user
+      // - Find a celestial body for the player and reset its attributes
+      //   to default values.
+      // - Create a base on that celestial body
+      // - Initialize the base with basic buildings
+      // 
 
-        if (!$base->save()) {
-          throw new \Exception( 'Failed to save base.' );
-        }
-        
-        // place some default buildings on the base
-        
-        $user = new User();
-        $user->name = $this->username;
-        $user->main_base_id = $base->id;
-        
-        if (!$user->save()) {
-          throw new \Exception( 'Failed to save user.' );
-        }
-        
-        $identity = new Identity();
-        $identity->auth_provider = $this->getAuthProviderName();
-        $identity->external_user_id = $this->getExternalUserId();
-        $identity->internal_user_id = $user->id;
+      $user = new User();
+      $user->name = $this->username;
 
-        if (!$identity->save()) {
-          throw new \Exception( 'Failed to save identity.' );
-        }
-
-        $transaction->commit();
+      if (!$user->save()) {
+        throw new \Exception( 'Failed to save user.' );
       }
-      catch(Exception $e)
-      {
-        $transaction->rollback();
-        $user = null;
-      }      
+
+      $identity = new Identity();
+      $identity->auth_provider = $this->getAuthProviderName();
+      $identity->external_user_id = $this->getExternalUserId();
+      $identity->internal_user_id = $user->id;
+
+      if (!$identity->save()) {
+        throw new \Exception( 'Failed to save identity.' );
+      }
+      
+      /* @var $universe UniverseComponent */
+      $universe = \Yii::$app->universe;
+
+      // 1) Find a celestial body for the player and reset its attributes
+      //    to default values.
+      $celestialBody = $universe->resetCelestialBody(
+        $universe->chooseCelestialBodyForNewPlayer()
+      );
+
+      if (!$celestialBody->save()) {
+        throw new \Exception( 'Failed to save celestial body.' );
+      }
+
+      $base = new \common\models\Base();
+      $base->id = $celestialBody->id;
+      $base->user_id = $user->id;
+      $base->name = \Yii::t( 'app', "{username}'s colony", [
+        'username' => $user->name,
+      ]);
+      // TODO make configurable
+      $base->stored_iron        = 5000;
+      $base->stored_steel       = 2000;
+      $base->stored_chemicals   = 5000;
+      $base->stored_vv4a        = 0;
+      $base->stored_ice         = 5000;
+      $base->stored_water       = 5000;
+      $base->stored_energy      = 5000;
+      $base->stored_people      = 500;
+      $base->stored_credits     = 5000;
+      //$base->stored_last_update = ;
+            
+      if (!$base->save()) {
+        throw new \Exception( 'Failed to save base.' );
+      }
+
+      // place some default buildings on the base
+
+      $transaction->commit();
+    }
+    catch (\Exception $e)
+    {
+      $transaction->rollback();
+      \Yii::error( $e->getMessage() );
+      $user = null;
     }
     
     return $user;

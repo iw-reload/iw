@@ -9,7 +9,6 @@ use frontend\components\building\BuildingComponent;
 use frontend\interfaces\ConstructionTaskProvider;
 use frontend\models\Building;
 use yii\di\Instance;
-use frontend\models\taskdata\BaseTaskData;
 
 /**
  * This is the model class for table "base".
@@ -30,6 +29,8 @@ use frontend\models\taskdata\BaseTaskData;
  * @property string $produced_steel
  * @property string $produced_vv4a
  * @property string $produced_water
+ * @property integer $created_at
+ * @property integer $updated_at
  * 
  * @property CelestialBody $celestialBody
  * @property User $user
@@ -66,8 +67,17 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
   public function rules()
   {
     return [
-      [['id', 'user_id', 'name', 'stored_iron', 'stored_steel', 'stored_chemicals', 'stored_vv4a', 'stored_ice', 'stored_water', 'stored_energy', 'stored_people', 'stored_credits'], 'required'],
-      [['id', 'user_id', 'stored_iron', 'stored_steel', 'stored_chemicals', 'stored_vv4a', 'stored_ice', 'stored_water', 'stored_energy', 'stored_people', 'stored_credits', 'produced_steel', 'produced_vv4a', 'produced_water'], 'integer']
+      [ [ 'id', 'user_id', 'name', 'stored_iron', 'stored_steel',
+          'stored_chemicals', 'stored_vv4a', 'stored_ice', 'stored_water',
+          'stored_energy', 'stored_people', 'stored_credits', 'created_at',
+          'updated_at'
+        ], 'required'],
+      [ [ 'id', 'user_id', 'stored_iron', 'stored_steel', 'stored_chemicals',
+          'stored_vv4a', 'stored_ice', 'stored_water', 'stored_energy',
+          'stored_people', 'stored_credits', 'produced_steel', 'produced_vv4a',
+          'produced_water', 'created_at', 'updated_at'
+        ], 'integer'],
+      [['name'], 'string', 'max' => 255],
     ];
   }
 
@@ -92,6 +102,8 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
       'produced_steel' => 'Produced Steel', 
       'produced_vv4a' => 'Produced VV4A', 
       'produced_water' => 'Produced Water', 
+      'created_at' => 'Created At',
+      'updated_at' => 'Updated At',
     ];
   }
 
@@ -102,6 +114,7 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
   { 
     return [ 
       TaskQueueBehavior::className(),
+      TimestampBehavior::className(),
       UpdateStockBehavior::className(),
       // TaskBehavior::className(), 
     ]; 

@@ -15,7 +15,6 @@ use frontend\interfaces\ConstructionTaskProvider;
  * @property string $name
  * @property integer $created_at
  * @property integer $updated_at
- * @property integer $main_base_id
  * 
  * @property Base[] $bases
  * @property Base $currentBase
@@ -59,10 +58,9 @@ class User  extends ActiveRecord
   public function rules()
   {
     return [
-      [['name', 'created_at', 'updated_at', 'main_base_id'], 'required'],
-      [['created_at', 'updated_at', 'main_base_id'], 'integer'],
+      [['name', 'created_at', 'updated_at'], 'required'],
+      [['created_at', 'updated_at'], 'integer'],
       [['name'], 'string', 'max' => 255],
-      [['main_base_id'], 'unique'],
       [['name'], 'unique']
     ];
   }
@@ -77,7 +75,6 @@ class User  extends ActiveRecord
         'name' => 'Name',
         'created_at' => 'Created At',
         'updated_at' => 'Updated At',
-        'main_base_id' => 'Main Base ID',
       ];
    }
    
@@ -130,11 +127,27 @@ class User  extends ActiveRecord
   }
   
   /**
-   * @return \yii\db\ActiveQuery
+   * @todo  For now, the main base is simply the first base the user ever built.
+   *        We need another algorithm (or class implementing that algorithm)
+   *        once we want to give users the possibility to declare another base
+   *        as their main base.
+   * @return Base
    */
   public function getMainBase()
   {
-    return $this->hasOne( Base::className(), ['id' => 'main_base_id'] );
+    $bases = $this->bases;
+    
+    /* @var $mainBase Base */
+    $mainBase = \reset( $bases );
+    
+    foreach ($bases as $base)
+    {
+      if ($base->created_at < $mainBase->created_at) {
+        $mainBase = $base;
+      }
+    }
+    
+    return $mainBase;
   }
   
  /**
