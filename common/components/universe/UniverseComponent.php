@@ -24,7 +24,7 @@ class UniverseComponent extends Component
   /**
    * @var float variance of chemicals (min = avg - avg*var, max = avg + avg*var)
    */
-  public $varChemicals = 50;
+  public $varChemicals = 0.5;
   /**
    * @var float average desity of iron
    */
@@ -32,7 +32,7 @@ class UniverseComponent extends Component
   /**
    * @var float variance of iron (min = avg - avg*var, max = avg + avg*var)
    */
-  public $varIron = 50;
+  public $varIron = 0.5;
   /**
    * @var float average desity of ice
    */
@@ -40,7 +40,7 @@ class UniverseComponent extends Component
   /**
    * @var float variance of ice (min = avg - avg*var, max = avg + avg*var)
    */
-  public $varIce = 20;
+  public $varIce = 0.5;
   /**
    * @var float
    */
@@ -231,7 +231,7 @@ class UniverseComponent extends Component
     $cb->density_chemicals = rand( $minChemicals, $maxChemicals ) / 100.0;
     $cb->density_ice = rand( $minIce, $maxIce ) / 100.0;
     $cb->density_iron = rand( $minIron, $maxIron ) / 100.0;
-    $cb->gravity = rand( $this->minGravitation, $this->maxGravitation );
+    $cb->gravity = rand( $this->minGravitation * 100, $this->maxGravitation * 100 ) / 100.0;
     $cb->living_conditions = rand( $this->minLivingConditions, $this->maxLivingConditions ) / 100;
   }
 }
