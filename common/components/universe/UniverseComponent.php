@@ -3,6 +3,7 @@
 namespace common\components\universe;
 
 use common\models\CelestialBody;
+use yii\base\Component;
 use yii\base\InvalidCallException;
 
 /**
