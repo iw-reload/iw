@@ -1,5 +1,6 @@
 <?php
 
+use console\migrations\SqlScriptMigration;
 
 class m140914_155216_setup_db extends SqlScriptMigration
 {  
