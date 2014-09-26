@@ -10,6 +10,11 @@ return [
   'id' => 'app-console',
   'basePath' => dirname(__DIR__),
   'bootstrap' => ['log'],
+  'controllerMap' => [
+    'message' => [
+      'class' => 'console\controllers\MessageController',
+    ],
+  ],
   'controllerNamespace' => 'console\controllers',
   'modules' => [],
   'components' => [
