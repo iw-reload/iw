@@ -128,6 +128,20 @@ class SiteController extends Controller
     ]);
   }
 
+  /**
+   * Allows us to login during development, when we can't use social login,
+   * because the dev machines might not be reachable by external auth providers.
+   */
+  public function actionDevLogin()
+  {
+    if (!\Yii::$app->user->isGuest) {
+        return \Yii::$app->user->getReturnUrl();
+    }
+
+    return $this->render('devlogin', [
+    ]);
+  }
+
   public function actionSignup()
   {
     $authProviderName = Yii::$app->session->get( 'game/register/authProviderName' );
