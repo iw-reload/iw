@@ -26,6 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
+            'pos_galaxy',
+            'pos_system',
+            'pos_planet',
+            'density_iron',
+            'density_chemicals',
+            'density_ice',
+            'gravity',
+            'living_conditions',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

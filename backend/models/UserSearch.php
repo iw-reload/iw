@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Account;
+use common\models\User;
 
 /**
- * AccountSearch represents the model behind the search form about `common\models\Account`.
+ * UserSearch represents the model behind the search form about `common\models\User`.
  */
-class AccountSearch extends Account
+class UserSearch extends User
 {
     /**
      * @inheritdoc
@@ -18,7 +18,7 @@ class AccountSearch extends Account
     public function rules()
     {
         return [
-            [['id', 'owner_id'], 'integer'],
+            [['id', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -41,7 +41,7 @@ class AccountSearch extends Account
      */
     public function search($params)
     {
-        $query = Account::find();
+        $query = User::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -53,7 +53,8 @@ class AccountSearch extends Account
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'owner_id' => $this->owner_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name]);

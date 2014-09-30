@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Building */
+/* @var $model common\models\Building */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Buildings', 'url' => ['index']];
@@ -53,6 +53,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'balance_people',
             'balance_credits',
             'balance_satisfaction',
+            'storage_chemicals',
+            'storage_ice_and_water',
+            'storage_energy',
+            'shelter_iron',
+            'shelter_steel',
+            'shelter_chemicals',
+            'shelter_vv4a',
+            'shelter_ice_and_water',
+            'shelter_energy',
+            'shelter_people',
             'highscore_points',
             'modified',
         ],

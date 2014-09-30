@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Building;
+use common\models\Building;
 use backend\models\BuildingSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -43,7 +43,7 @@ class BuildingController extends Controller
 
     /**
      * Displays a single Building model.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionView($id)
@@ -74,7 +74,7 @@ class BuildingController extends Controller
     /**
      * Updates an existing Building model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionUpdate($id)
@@ -93,7 +93,7 @@ class BuildingController extends Controller
     /**
      * Deletes an existing Building model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param string $id
+     * @param integer $id
      * @return mixed
      */
     public function actionDelete($id)
@@ -106,7 +106,7 @@ class BuildingController extends Controller
     /**
      * Finds the Building model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param string $id
+     * @param integer $id
      * @return Building the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */

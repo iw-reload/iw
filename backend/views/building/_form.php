@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Building */
+/* @var $model common\models\Building */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
@@ -20,23 +20,23 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'cost_iron')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_iron')->textInput() ?>
 
-    <?= $form->field($model, 'cost_steel')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_steel')->textInput() ?>
 
-    <?= $form->field($model, 'cost_chemicals')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_chemicals')->textInput() ?>
 
-    <?= $form->field($model, 'cost_vv4a')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_vv4a')->textInput() ?>
 
-    <?= $form->field($model, 'cost_ice')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_ice')->textInput() ?>
 
-    <?= $form->field($model, 'cost_water')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_water')->textInput() ?>
 
-    <?= $form->field($model, 'cost_energy')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_energy')->textInput() ?>
 
-    <?= $form->field($model, 'cost_people')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_people')->textInput() ?>
 
-    <?= $form->field($model, 'cost_credits')->textInput(['maxlength' => 11]) ?>
+    <?= $form->field($model, 'cost_credits')->textInput() ?>
 
     <?= $form->field($model, 'cost_time')->textInput() ?>
 
@@ -59,6 +59,26 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'balance_credits')->textInput() ?>
 
     <?= $form->field($model, 'balance_satisfaction')->textInput() ?>
+
+    <?= $form->field($model, 'storage_chemicals')->textInput() ?>
+
+    <?= $form->field($model, 'storage_ice_and_water')->textInput() ?>
+
+    <?= $form->field($model, 'storage_energy')->textInput() ?>
+
+    <?= $form->field($model, 'shelter_iron')->textInput() ?>
+
+    <?= $form->field($model, 'shelter_steel')->textInput() ?>
+
+    <?= $form->field($model, 'shelter_chemicals')->textInput() ?>
+
+    <?= $form->field($model, 'shelter_vv4a')->textInput() ?>
+
+    <?= $form->field($model, 'shelter_ice_and_water')->textInput() ?>
+
+    <?= $form->field($model, 'shelter_energy')->textInput() ?>
+
+    <?= $form->field($model, 'shelter_people')->textInput() ?>
 
     <?= $form->field($model, 'highscore_points')->textInput() ?>
 

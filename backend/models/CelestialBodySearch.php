@@ -18,7 +18,8 @@ class CelestialBodySearch extends CelestialBody
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'pos_galaxy', 'pos_system', 'pos_planet'], 'integer'],
+            [['density_iron', 'density_chemicals', 'density_ice', 'gravity', 'living_conditions'], 'number'],
         ];
     }
 
@@ -52,6 +53,14 @@ class CelestialBodySearch extends CelestialBody
 
         $query->andFilterWhere([
             'id' => $this->id,
+            'pos_galaxy' => $this->pos_galaxy,
+            'pos_system' => $this->pos_system,
+            'pos_planet' => $this->pos_planet,
+            'density_iron' => $this->density_iron,
+            'density_chemicals' => $this->density_chemicals,
+            'density_ice' => $this->density_ice,
+            'gravity' => $this->gravity,
+            'living_conditions' => $this->living_conditions,
         ]);
 
         return $dataProvider;

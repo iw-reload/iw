@@ -29,6 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
+            'pos_galaxy',
+            'pos_system',
+            'pos_planet',
+            'density_iron',
+            'density_chemicals',
+            'density_ice',
+            'gravity',
+            'living_conditions',
         ],
     ]) ?>
 

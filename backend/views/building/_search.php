@@ -65,6 +65,26 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'balance_satisfaction') ?>
 
+    <?php // echo $form->field($model, 'storage_chemicals') ?>
+
+    <?php // echo $form->field($model, 'storage_ice_and_water') ?>
+
+    <?php // echo $form->field($model, 'storage_energy') ?>
+
+    <?php // echo $form->field($model, 'shelter_iron') ?>
+
+    <?php // echo $form->field($model, 'shelter_steel') ?>
+
+    <?php // echo $form->field($model, 'shelter_chemicals') ?>
+
+    <?php // echo $form->field($model, 'shelter_vv4a') ?>
+
+    <?php // echo $form->field($model, 'shelter_ice_and_water') ?>
+
+    <?php // echo $form->field($model, 'shelter_energy') ?>
+
+    <?php // echo $form->field($model, 'shelter_people') ?>
+
     <?php // echo $form->field($model, 'highscore_points') ?>
 
     <?php // echo $form->field($model, 'modified') ?>
