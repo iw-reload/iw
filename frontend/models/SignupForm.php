@@ -1,11 +1,9 @@
 <?php
 namespace frontend\models;
 
-use common\components\universe\UniverseComponent;
+use common\behaviors\CreateExternalIdentityBehavior;
 use common\models\User;
-use common\models\Identity;
 use yii\base\Model;
-use Yii;
 
 /**
  * Signup form
@@ -85,85 +83,23 @@ class SignupForm extends Model
    */
   public function signup()
   {
-    if (!$this->validate()) {
-      return null;
-    }
-    
-    $transaction = \Yii::$app->db->beginTransaction();
-
-    try
+    if ($this->validate())
     {
-      // Creating a user:
-      // - Create the user
-      // - Create identity and link it to user
-      // - Find a celestial body for the player and reset its attributes
-      //   to default values.
-      // - Create a base on that celestial body
-      // - Initialize the base with basic buildings
-      // 
+      $createExternalIdentityBehavior = new CreateExternalIdentityBehavior();
+      $createExternalIdentityBehavior->authProviderName = $this->getAuthProviderName();
+      $createExternalIdentityBehavior->externalUserId = $this->getExternalUserId();
 
       $user = new User();
+      $user->attachBehavior( 0, $createExternalIdentityBehavior );
       $user->name = $this->username;
 
-      if (!$user->save()) {
-        throw new \Exception( 'Failed to save user. Errors: ' . print_r($user->errors,true) );
-      }
-
-      $identity = new Identity();
-      $identity->auth_provider = $this->getAuthProviderName();
-      $identity->external_user_id = $this->getExternalUserId();
-      $identity->internal_user_id = $user->id;
-
-      if (!$identity->save()) {
-        throw new \Exception( 'Failed to save identity. Errors: ' . print_r($identity->errors,true) );
-      }
-      
-      /* @var $universe UniverseComponent */
-      $universe = \Yii::$app->universe;
-
-      // 1) Find a celestial body for the player and reset its attributes
-      //    to default values.
-      $celestialBody = $universe->resetCelestialBody(
-        $universe->chooseCelestialBodyForNewPlayer()
-      );
-
-      if (!$celestialBody->save()) {
-        throw new \Exception( 'Failed to save celestial body. Errors: ' . print_r($celestialBody->errors,true) );
-      }
-
-      $base = new \common\models\Base();
-      $base->id = $celestialBody->id;
-      $base->user_id = $user->id;
-      $base->name = \Yii::t( 'app', "{username}'s colony", [
-        'username' => $user->name,
-      ]);
-      // TODO make configurable
-      $base->stored_iron        = 5000;
-      $base->stored_steel       = 2000;
-      $base->stored_chemicals   = 5000;
-      $base->stored_vv4a        = 0;
-      $base->stored_ice         = 5000;
-      $base->stored_water       = 5000;
-      $base->stored_energy      = 5000;
-      $base->stored_people      = 500;
-      $base->stored_credits     = 5000;
-      //$base->stored_last_update = ;
-            
-      if (!$base->save()) {
-        throw new \Exception( 'Failed to save base. Errors: ' . print_r($base->errors,true) );
-      }
-
-      // place some default buildings on the base
-
-      $transaction->commit();
+      $result = $user->save() ? $user : null;
     }
-    catch (\Exception $e)
+    else
     {
-      $transaction->rollback();
-      \Yii::error( $e->getMessage() );
-      $user = null;
+      $result = null;
     }
-    
-    return $user;
+   
+    return $result;
   }
 }
