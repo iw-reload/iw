@@ -3,6 +3,7 @@
 namespace frontend\objects;
 
 use frontend\interfaces\ShelterInterface;
+use yii\base\Object;
 
 /**
  * Implements the rule for shelter capacity growth.
