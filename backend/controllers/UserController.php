@@ -4,27 +4,44 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\User;
+use common\objects\RbacRole;
 use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class UserController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+  public function behaviors()
+  {
+    return [
+      'access' => [
+        'class' => AccessControl::className(),
+        'ruleConfig' => [
+          'allow' => true,
+        ],
+        'rules' => [
+          ['actions' => ['create'], 'roles' => [RbacRole::USER_CREATE]],
+          ['actions' => ['delete'], 'roles' => [RbacRole::USER_DELETE]],
+          ['actions' => ['index'] , 'roles' => [RbacRole::USER_LIST]],
+          ['actions' => ['update'], 'roles' => [RbacRole::USER_UPDATE]],
+          ['actions' => ['view']  , 'roles' => [RbacRole::USER_VIEW]],
+        ],
+      ],
+      'verbs' => [
+        'class' => VerbFilter::className(),
+        'actions' => [
+          'create' => ['post'],
+          'delete' => ['post'],
+          'update' => ['post'],
+        ],
+      ],
+    ];
+  }
 
     /**
      * Lists all User models.
