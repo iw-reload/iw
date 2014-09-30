@@ -1,14 +1,12 @@
 <?php
 
-use Yii;
-
 /* @var $this yii\web\View */
 /* @var $user common\models\User */
 
 $this->title = 'IceWars Reload - Construct';
 
-$lblConstruct = Yii::t('app', 'Construction');
-$lblHints = Yii::t('app', 'Current hints');
+$lblConstruct = \Yii::t('app', 'Construction');
+$lblHints = \Yii::t('app', 'Current hints');
 
 
 $base = $user->currentBase;
@@ -48,7 +46,7 @@ echo \frontend\widgets\construction\ConstructionWidget::widget([
   
   <?php
   /* @var $buildingComponent \frontend\components\building\BuildingComponent */
-  $buildingComponent = Yii::$app->building;
+  $buildingComponent = \Yii::$app->building;
   $groups = $buildingComponent->getGroups();
   sort($groups);
   ?>
@@ -59,14 +57,14 @@ echo \frontend\widgets\construction\ConstructionWidget::widget([
     $buildings = $buildingComponent->getByGroup($group);
     /* @var $building frontend\models\Building */
     // TODO sort buildings by name
-    $lblGroup = Yii::t('app', $group);
+    $lblGroup = \Yii::t('app', $group);
     ?>
     <li>
       <h4><?= $lblGroup ?></h4>
       <ul class="buildings">
       <?php foreach ($buildings as $building): ?>
         <?php
-        $name   = Yii::t( 'app', $building->getName() );
+        $name   = \Yii::t( 'app', $building->getName() );
         $count  = array_key_exists( $building->getId(), $buildingCounters )
           ? $buildingCounters[$building->getId()]
           : 0;
