@@ -1,12 +1,12 @@
 <?php
 namespace common\models;
 
-use Yii;
+use common\behaviors\CreateBaseBehavior;
+use frontend\interfaces\ConstructionTaskProvider;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
-use frontend\interfaces\ConstructionTaskProvider;
 
 /**
  * User model
@@ -48,7 +48,8 @@ class User  extends ActiveRecord
   {
     return [
       TimestampBehavior::className(),
-      // TaskBehavior::className(), 
+      CreateBaseBehavior::className(),
+      // TaskBehavior::className(),
     ];
   }
 
@@ -64,6 +65,16 @@ class User  extends ActiveRecord
     ];
   }
 
+  public function transactions()
+  {
+    return [
+      // Make insert transactional, because of CreateBaseBehavior.
+      // This ensures every inserted user will get a base. If something happens
+      // during base creation, the user insertion will be rolled back.
+      'default' => self::OP_INSERT,
+    ];
+  }  
+  
    /**
     * @inheritdoc
     */
