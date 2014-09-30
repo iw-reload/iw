@@ -2,6 +2,8 @@
 
 namespace console\controllers;
 
+use yii\db\Query;
+
 /**
  * Description of MessageController
  *
@@ -9,44 +11,129 @@ namespace console\controllers;
  */
 class MessageController extends \yii\console\controllers\MessageController
 {
+  /**
+   * @var string
+   */
+  private $_marker = '@translatable';
   
   protected function extractMessages($fileName, $translator)
   {
-    $messages = parent::extractMessages($fileName, $translator);
-    $subject = file_get_contents($fileName);
-
-    $nNamespaces = preg_match_all( '/\bnamespace\s+(?P<namespace>.+?);/', $subject, $matches );
+    $messages = parent::extractMessages( $fileName, $translator );
     
-    if ($nNamespaces === 0) {
-      // no further processing without a namespace (views, ...)
-      return $messages;
-    } else if ($nNamespaces > 1) {
-      // multiple namespaces not supported.
-      echo "Warning: found '{$nNamespaces}' namespaces. This command only supports one namespace per file.";
-      return $messages;
+    if (!empty($messages)) {
+      echo 'Found messages: ' . print_r($messages,true);
     }
     
-    $namespace = $matches['namespace'][0];
-//    echo "namespace: '$namespace'\n";
-    
-    $n = preg_match_all( '/\bclass\s+(?P<classname>.+?)\b/', $subject, $matches );
-    
-    for ($i = 0; $i < $n; ++$i)
+    try
     {
-      $className = $matches['classname'][$i];
-//      echo "className: '$className'\n";
-      
-      $fqn = $namespace . '\\' . $className;
-//      echo "fqn: '$fqn'\n";
-      
-      if (is_subclass_of($fqn, \yii\db\ActiveRecord::className()))
+      $fileContent = file_get_contents($fileName);
+      $markerFound = $this->findMarker( $fileContent );
+
+      if ($markerFound)
       {
-        // TODO: check for annotation
-        // TODO: select distinct for translatable columns
-      }      
+        $fqn = $this->extractClassname( $fileName, $fileContent );
+        $arMessages = $this->loadMessages( $fqn );
+
+        $messages[$fqn] = $arMessages;
+        
+        if (!empty($arMessages)) {
+          echo 'Added arMessages: ' . print_r($messages,true);
+        }
+      }
+    }
+    catch (\Exception $ex)
+    {
+      $msg = $ex->getMessage();
+      echo "  error: '{$msg}'\n";
     }
     
     return $messages;
   }
   
+  /**
+   * Quick check to see if our marker is present in a file. If it is, we can
+   * inspect the file more closely. If not, we don't need to process the file
+   * any further.
+   * 
+   * @param string $fileContent
+   * @return bool true if the marker can be found in $fileContent, false otherwise.
+   */
+  private function findMarker( $fileContent )
+  {
+    $markerPos = strpos( $fileContent, $this->_marker );
+    return is_int( $markerPos );
+  }
+  
+  /**
+   * Searches for classes annotated with our marker. We only support exactly
+   * one class per file. An exception will be thrown if there is no class,
+   * multiple classes or other errors like failing to detect the namespace.
+   * 
+   * @param string $fileContent
+   * @return string the fully qualified name of the class annotated with our
+   * marker.
+   * @throws Exception in case of an error.
+   */
+  private function extractClassname( $fileName, $fileContent )
+  {
+    $className = basename( $fileName, ".php" );
+    $namespace = $this->extractNamespace( $fileContent );
+    
+    return "{$namespace}\\{$className}";
+  }
+    
+  private function extractNamespace( $fileContent )
+  {
+    $matches = [];
+    $nNamespaces = preg_match_all( '/\bnamespace\s+(?P<namespace>.+?);/', $fileContent, $matches );
+    
+    if ($nNamespaces === 0) {
+      throw new \Exception('Failed to extract namespace');
+    } else if ($nNamespaces > 1) {
+      throw new \Exception("Found '{$nNamespaces}' namespaces. Supporting only one per file.");
+    }
+    
+    return $matches['namespace'][0];
+  }
+  
+  private function loadMessages( $className )
+  {
+    if (!is_subclass_of($className,\yii\db\ActiveRecord::className())) {
+      throw new \Exception("'{$className}' does not extend \yii\db\ActiveRecord.");
+    }
+    
+    $attributeNames = $this->getTranslatableAttributes( $className );
+    $messages = [];
+    
+    foreach ($attributeNames as $attributeName)
+    {
+      $query = new Query;
+      $query->select( $attributeName )
+        ->distinct()
+        ->from( $className::tableName() )
+        ;
+      
+      $messages = array_merge( $messages, $query->column() );
+    }
+    
+    return $messages;
+  }
+  
+  private function getTranslatableAttributes( $className )
+  {
+    $rc = new \ReflectionClass($className);
+    $docComment = $rc->getDocComment();
+    
+    $matches = [];
+    $regExp = '/' . preg_quote($this->_marker,'/') . '\s*\$(?P<attribute>.+?)\b/';
+    $nAnnotations = preg_match_all( $regExp, $docComment, $matches );
+    
+    if ($nAnnotations === false) {
+      throw new \Exception("Error while extracting annotations.");
+    } else if ($nAnnotations === 0) {
+      throw new \Exception("Failed to extract translatable attribute.");
+    }
+    
+    return $matches['attribute'];
+  }
 }
