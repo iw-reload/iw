@@ -47,6 +47,10 @@
 
 			"frontend/runtime",
 			"frontend/web/assets"
-		]
+		],
+    "asset-installer-paths": {
+        "npm-asset-library": "vendor/npm",
+        "bower-asset-library": "vendor/bower"
+    }
 	}
 }
