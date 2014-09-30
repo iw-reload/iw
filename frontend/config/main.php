@@ -18,9 +18,6 @@ return [
     'authClientCollection' => [
       'class' => 'yii\authclient\Collection',
       'clients' => [
-//        'google' => [
-//          'class' => 'yii\authclient\clients\GoogleOpenId',
-//        ],
         'github' => [
           'class' => 'yii\authclient\clients\GitHub',
           'clientId' => '3e037dd52fea20c19267',
@@ -43,12 +40,9 @@ return [
         ],
       ],
     ],
-    'universe' => [
-      'class' => 'common\components\universe\UniverseComponent',
-    ],
     'user' => [
       'identityClass' => 'common\models\User',
-      'enableAutoLogin' => true,
+      'enableAutoLogin' => false,
       'returnUrl' => ['game'],
     ],
   ],

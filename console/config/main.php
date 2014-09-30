@@ -26,9 +26,6 @@ return [
         ],
       ],
     ],
-    'universe' => [
-      'class' => 'common\components\universe\UniverseComponent',
-    ],
   ],
   'params' => $params,
 ];
