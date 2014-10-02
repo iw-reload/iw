@@ -37,7 +37,9 @@ PortalAsset::register($this);
             ];
             if (Yii::$app->user->isGuest) {
                 $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-                $menuItems[] = ['label' => 'Dev Login', 'url' => ['/site/dev-login']];
+                if (array_search(Yii::$app->request->getUserIP(),['127.0.0.1','::1'],true) !== false) {
+                  $menuItems[] = ['label' => 'Dev Login', 'url' => ['/site/dev-login']];
+                }
             } else {
                 $menuItems[] = [
                     'label' => 'Logout (' . Yii::$app->user->identity->name . ')',
