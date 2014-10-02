@@ -395,12 +395,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "e16233a290f369b850f5caa047f2aa94791520d1"
+                "reference": "2e0d3585969ee60bddee9197854feefe78f46194"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/e16233a290f369b850f5caa047f2aa94791520d1",
-                "reference": "e16233a290f369b850f5caa047f2aa94791520d1",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/2e0d3585969ee60bddee9197854feefe78f46194",
+                "reference": "2e0d3585969ee60bddee9197854feefe78f46194",
                 "shasum": ""
             },
             "require": {
@@ -475,7 +475,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2014-10-01 10:25:08"
+            "time": "2014-10-02 08:29:45"
         },
         {
             "name": "yiisoft/yii2-authclient",
@@ -749,12 +749,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Codeception/Codeception.git",
-                "reference": "0ac56b6f0c1d2c610f489c1be7c82560efa2e64a"
+                "reference": "233e98a674f00d1683239d13cfbda53e0330c1d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/0ac56b6f0c1d2c610f489c1be7c82560efa2e64a",
-                "reference": "0ac56b6f0c1d2c610f489c1be7c82560efa2e64a",
+                "url": "https://api.github.com/repos/Codeception/Codeception/zipball/233e98a674f00d1683239d13cfbda53e0330c1d8",
+                "reference": "233e98a674f00d1683239d13cfbda53e0330c1d8",
                 "shasum": ""
             },
             "require": {
@@ -822,7 +822,7 @@
                 "functional testing",
                 "unit testing"
             ],
-            "time": "2014-09-29 22:32:19"
+            "time": "2014-10-02 00:17:38"
         },
         {
             "name": "codeception/specify",
