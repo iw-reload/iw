@@ -24,18 +24,16 @@ class SiteController extends Controller
     return [
       'access' => [
         'class' => AccessControl::className(),
-        'only' => ['logout', 'signup'],
+        'ruleConfig' => [
+          'class' => 'yii\filters\AccessRule',
+          'allow' => true,
+        ],
         'rules' => [
-          [
-            'actions' => ['signup'],
-            'allow' => true,
-            'roles' => ['?'],
-          ],
-          [
-            'actions' => ['logout'],
-            'allow' => true,
-            'roles' => ['@'],
-          ],
+          ['actions' => ['auth','error','index','userlist'] ],
+          ['actions' => ['dev-login'] , 'ips' => ['127.0.0.1', '::1'] ],
+          ['actions' => ['login']     , 'roles' => ['?'] ],
+          ['actions' => ['logout']    , 'roles' => ['@'] ],
+          ['actions' => ['signup']    , 'roles' => ['?'] ],
         ],
       ],
       'verbs' => [
@@ -218,28 +216,6 @@ class SiteController extends Controller
       Yii::$app->user->logout();
 
       return $this->goHome();
-  }
-
-  public function actionContact()
-  {
-    $model = new ContactForm();
-    
-    if ($model->load(Yii::$app->request->post()) && $model->validate())
-    {
-      if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-        Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-      } else {
-        Yii::$app->session->setFlash('error', 'There was an error sending email.');
-      }
-
-      return $this->refresh();
-    }
-    else
-    {
-      return $this->render('contact', [
-        'model' => $model,
-      ]);
-    }
   }
 
 }
