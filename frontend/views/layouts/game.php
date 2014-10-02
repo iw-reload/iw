@@ -1,18 +1,23 @@
 <?php
-use yii\helpers\Html;
-use yii\widgets\Menu;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
+
+use common\models\User;
 use frontend\assets\GameAsset;
 use frontend\widgets\Alert;
+use yii\helpers\Html;
+use yii\widgets\Menu;
+use Yii;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-// TODO have a look at assets. Don't use the site.css, but a game.css.
-// TODO have a look at less/sass to create game.css
 GameAsset::register($this);
+
+$user = Yii::$app->user->getIdentity();
+/* @var $user User */
+/* @var $currentBase \common\models\Base */
+$currentBase = $user->getCurrentBase();
+
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -32,14 +37,6 @@ GameAsset::register($this);
             <div class="col-sm-2">
               <!--Sidebar content-->
               <?php
-                $css = <<<EOT
-li.disabled a {
-  pointer-events: none;
-  cursor: default;
-  color: red;
-}
-EOT;
-                $this->registerCss($css);
                 echo Menu::widget([
                     'items' => [
                         // Important: you need to specify url as 'controller/action',
@@ -75,7 +72,7 @@ EOT;
               
               <form>
                 <select>
-                  <option>[1:2:3] Kolonie von Ben</option>
+                  <option value="<?= $currentBase->id ?>"><?= $currentBase->getLabel() ?></option>
                 </select>
                 <select>
                   <option>---</option>

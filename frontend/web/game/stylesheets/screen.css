@@ -164,30 +164,37 @@ input {
 }
 
 /* line 61, ../sass/screen.scss */
+li.disabled a {
+  pointer-events: none;
+  cursor: default;
+  color: red;
+}
+
+/* line 67, ../sass/screen.scss */
 a[href="#"] {
   pointer-events: none;
   cursor: default;
   color: red;
 }
 
-/* line 70, ../sass/screen.scss */
+/* line 76, ../sass/screen.scss */
 .construction h4 {
   text-align: center;
 }
-/* line 74, ../sass/screen.scss */
+/* line 80, ../sass/screen.scss */
 .construction ul {
   padding: 0;
 }
-/* line 78, ../sass/screen.scss */
+/* line 84, ../sass/screen.scss */
 .construction li {
   list-style-type: none;
 }
-/* line 82, ../sass/screen.scss */
+/* line 88, ../sass/screen.scss */
 .construction ul.buildings > li {
   position: relative;
   margin-top: 10px;
 }
-/* line 86, ../sass/screen.scss */
+/* line 92, ../sass/screen.scss */
 .construction ul.buildings > li input {
   position: absolute;
   margin: auto;
@@ -196,7 +203,7 @@ a[href="#"] {
   right: 0;
   height: 2em;
 }
-/* line 96, ../sass/screen.scss */
+/* line 102, ../sass/screen.scss */
 .construction ul.cost li,
 .construction ul.balance li {
   display: inline;

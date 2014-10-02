@@ -58,6 +58,12 @@ input {
   background-color: #555555;
 }
 
+li.disabled a {
+  pointer-events: none;
+  cursor: default;
+  color: red;
+}
+
 a[href="#"] {
   pointer-events: none;
   cursor: default;
