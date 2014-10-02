@@ -22,6 +22,7 @@ class UserController extends Controller
       'access' => [
         'class' => AccessControl::className(),
         'ruleConfig' => [
+          'class' => 'yii\filters\AccessRule',
           'allow' => true,
         ],
         'rules' => [
