@@ -146,7 +146,7 @@ class SiteController extends Controller
 
       if ($model->load(Yii::$app->request->post()) && $model->login())
       {
-        $result = $this->goHome();
+        $result = $this->goBack();
       }
       else
       {
@@ -157,7 +157,7 @@ class SiteController extends Controller
     }
     else
     {
-      $result = Yii::$app->user->getReturnUrl();
+      $result = $this->goBack();
     }
     
     return $result;
