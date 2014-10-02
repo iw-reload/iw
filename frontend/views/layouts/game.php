@@ -5,7 +5,7 @@ use frontend\assets\GameAsset;
 use frontend\widgets\Alert;
 use yii\helpers\Html;
 use yii\widgets\Menu;
-use Yii;
+use \Yii;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
