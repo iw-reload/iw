@@ -5,6 +5,7 @@ namespace frontend\tasks;
 use frontend\interfaces\TaskInterface;
 use frontend\objects\AbstractTask;
 use frontend\objects\Resources;
+use yii\base\Event;
 
 /**
  * Description of UpdateWaterStockTask
@@ -13,6 +14,8 @@ use frontend\objects\Resources;
  */
 class UpdateWaterStockTask extends AbstractTask implements TaskInterface
 {
+  const EVENT_WATER_OVERFLOW = 'waterOverflow';
+
   /**
    * @var Resources 
    */
@@ -32,14 +35,33 @@ class UpdateWaterStockTask extends AbstractTask implements TaskInterface
     
     $waterProductionPerSecond = $production->water / 3600;
     $timeInSeconds = $to->getTimestamp() - $from->getTimestamp();
-    
-    // TODO measuring overflows - emit a signal of overflown resources
-    //      whoever kicks of the UpdateStockTasks can connect to the signals
-    //      and map the lost resources to a base or a user or an alliance or...
-    //      just make sure this class does not deal with such stuff directly
-    //      keep concerns separated
-    $water = $this->stock->water + $waterProductionPerSecond * $timeInSeconds;
-    $this->stock->water = \min( $water, $storage->water );
+    $waterDiff = $waterProductionPerSecond * $timeInSeconds;
+    $newWater = $this->stock->water + $waterDiff;
+
+    if ($newWater < 0)
+    {
+      $this->stock->water = 0;
+    }
+    else if ($newWater < $storage->water)
+    {
+      $this->stock->water = $newWater;
+    }
+    else /* if ($storage->water < $newWater) */
+    {
+      // TODO measuring overflows - emit a signal of overflown resources
+      //      whoever kicks of the UpdateStockTasks can connect to the signals
+      //      and map the lost resources to a base or a user or an alliance or...
+      //      just make sure this class does not deal with such stuff directly
+      //      keep concerns separated
+      
+      $overflow = $newWater - $storage->water;
+      
+      $this->trigger(self::EVENT_WATER_OVERFLOW, new Event([
+        'data' => $overflow,
+      ]));
+      
+      $this->stock->water = $storage->water;
+    }
   }
 
 }

@@ -9,13 +9,14 @@
 namespace frontend\objects;
 
 use frontend\interfaces\TaskInterface;
+use yii\base\Component;
 
 /**
  * Description of AbstractTask
  *
  * @author ben
  */
-abstract class AbstractTask implements TaskInterface
+abstract class AbstractTask extends Component implements TaskInterface
 {
   /**
    * @var TaskQueue
