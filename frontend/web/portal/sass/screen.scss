@@ -17,6 +17,12 @@ body {
   color: $font-color;
 }
 
+button,
+select,
+input {
+  background-color: #555555;
+}
+
 .jumbotron {
   background-color: #222;
 }

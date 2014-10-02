@@ -18,6 +18,13 @@ body {
 }
 
 /* line 20, ../sass/screen.scss */
+button,
+select,
+input {
+  background-color: #555555;
+}
+
+/* line 26, ../sass/screen.scss */
 .jumbotron {
   background-color: #222;
 }

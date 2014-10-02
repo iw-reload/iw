@@ -1,14 +1,15 @@
 <?php
 namespace frontend\controllers;
 
-use Yii;
-use frontend\models\SignupForm;
+use common\models\User;
+use frontend\models\AuthForm;
 use frontend\models\ContactForm;
-use yii\web\Controller;
+use frontend\models\SignupForm;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use frontend\models\AuthForm;
 use yii\helpers\Url;
+use yii\web\Controller;
+use Yii;
 
 /**
  * Site controller
@@ -120,12 +121,17 @@ class SiteController extends Controller
 
   public function actionLogin()
   {
-    if (!\Yii::$app->user->isGuest) {
-        return \Yii::$app->user->getReturnUrl();
+    if (Yii::$app->user->isGuest)
+    {
+      $result = $this->render('login', [
+      ]);
     }
-
-    return $this->render('login', [
-    ]);
+    else
+    {
+      $result = Yii::$app->user->getReturnUrl();
+    }
+    
+    return $result;
   }
 
   /**
@@ -134,14 +140,44 @@ class SiteController extends Controller
    */
   public function actionDevLogin()
   {
-    if (!\Yii::$app->user->isGuest) {
-        return \Yii::$app->user->getReturnUrl();
-    }
+    if (Yii::$app->user->isGuest)
+    {
+      $model = new \frontend\models\DevLoginForm();
 
-    return $this->render('devlogin', [
-    ]);
+      if ($model->load(Yii::$app->request->post()) && $model->login())
+      {
+        $result = $this->goHome();
+      }
+      else
+      {
+        $result = $this->render('devlogin', [
+          'model' => $model,
+        ]);
+      }
+    }
+    else
+    {
+      $result = Yii::$app->user->getReturnUrl();
+    }
+    
+    return $result;
   }
 
+  public function actionUserlist( $term )
+  {
+    // TODO: this action can be replaced with a call to /api/users
+    //       returning public user information if we ever introduce a REST API.
+    
+    $userNames = User::find()
+      ->select('name')
+      ->where(['like', 'name', $term])
+      ->orderBy('name')
+      ->column();
+    
+    Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    return $userNames;
+  }
+  
   public function actionSignup()
   {
     $authProviderName = Yii::$app->session->get( 'game/register/authProviderName' );
