@@ -4,9 +4,11 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\CelestialBody;
+use common\objects\RbacRole;
 use backend\models\CelestialBodySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -14,17 +16,33 @@ use yii\filters\VerbFilter;
  */
 class CelestialBodyController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+  public function behaviors()
+  {
+    return [
+      'access' => [
+        'class' => AccessControl::className(),
+        'ruleConfig' => [
+          'class' => 'yii\filters\AccessRule',
+          'allow' => true,
+        ],
+        'rules' => [
+          ['actions' => ['create'], 'roles' => [RbacRole::CELESTIAL_BODY_CREATE]],
+          ['actions' => ['delete'], 'roles' => [RbacRole::CELESTIAL_BODY_DELETE]],
+          ['actions' => ['index'] , 'roles' => [RbacRole::CELESTIAL_BODY_LIST]],
+          ['actions' => ['update'], 'roles' => [RbacRole::CELESTIAL_BODY_UPDATE]],
+          ['actions' => ['view']  , 'roles' => [RbacRole::CELESTIAL_BODY_VIEW]],
+        ],
+      ],
+      'verbs' => [
+        'class' => VerbFilter::className(),
+        'actions' => [
+          'create' => ['post'],
+          'delete' => ['post'],
+          'update' => ['post'],
+        ],
+      ],
+    ];
+  }
 
     /**
      * Lists all CelestialBody models.

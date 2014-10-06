@@ -209,3 +209,8 @@ a[href="#"] {
   display: inline;
   margin-right: 5px;
 }
+
+/* line 110, ../sass/screen.scss */
+footer > .container {
+  border-top: 1px solid aliceblue;
+}

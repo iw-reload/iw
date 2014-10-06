@@ -1,9 +1,9 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\DevLoginForm;
 use common\models\User;
 use frontend\models\AuthForm;
-use frontend\models\ContactForm;
 use frontend\models\SignupForm;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -12,6 +12,7 @@ use yii\web\Controller;
 use Yii;
 
 /**
+ * @todo refactor backend/siteController is very similar.
  * Site controller
  */
 class SiteController extends Controller
@@ -140,7 +141,7 @@ class SiteController extends Controller
   {
     if (Yii::$app->user->isGuest)
     {
-      $model = new \frontend\models\DevLoginForm();
+      $model = new DevLoginForm();
 
       if ($model->load(Yii::$app->request->post()) && $model->login())
       {

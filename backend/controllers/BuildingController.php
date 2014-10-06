@@ -4,9 +4,11 @@ namespace backend\controllers;
 
 use Yii;
 use common\models\Building;
+use common\objects\RbacRole;
 use backend\models\BuildingSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 
 /**
@@ -14,17 +16,33 @@ use yii\filters\VerbFilter;
  */
 class BuildingController extends Controller
 {
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['post'],
-                ],
-            ],
-        ];
-    }
+  public function behaviors()
+  {
+    return [
+      'access' => [
+        'class' => AccessControl::className(),
+        'ruleConfig' => [
+          'class' => 'yii\filters\AccessRule',
+          'allow' => true,
+        ],
+        'rules' => [
+          ['actions' => ['create'], 'roles' => [RbacRole::BUILDING_CREATE]],
+          ['actions' => ['delete'], 'roles' => [RbacRole::BUILDING_DELETE]],
+          ['actions' => ['index'] , 'roles' => [RbacRole::BUILDING_LIST]],
+          ['actions' => ['update'], 'roles' => [RbacRole::BUILDING_UPDATE]],
+          ['actions' => ['view']  , 'roles' => [RbacRole::BUILDING_VIEW]],
+        ],
+      ],
+      'verbs' => [
+        'class' => VerbFilter::className(),
+        'actions' => [
+          'create' => ['post'],
+          'delete' => ['post'],
+          'update' => ['post'],
+        ],
+      ],
+    ];
+  }
 
     /**
      * Lists all Building models.
