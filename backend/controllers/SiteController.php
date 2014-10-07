@@ -3,6 +3,7 @@ namespace backend\controllers;
 
 use common\models\DevLoginForm;
 use common\models\User;
+use frontend\models\AuthForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
