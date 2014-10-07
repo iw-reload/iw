@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use yii\base\Exception;
 use yii\base\Model;
 use common\models\Task;
 use frontend\validators\BaseOwnedByUserValidator;
@@ -86,6 +87,8 @@ class ConstructBuildingForm extends Model
     $taskModel->type = Task::TYPE_BUILDING_CONSTRUCTION;
     $taskModel->user_id = Yii::$app->user->id;
     
-    $taskModel->save();
+    if (!$taskModel->save()) {
+      throw new Exception('Failed to create task: ' . print_r($taskModel->firstErrors,true));
+    }
   }
 }

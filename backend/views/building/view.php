@@ -65,6 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'shelter_people',
             'highscore_points',
             'modified',
+            'limit',
         ],
     ]) ?>
 

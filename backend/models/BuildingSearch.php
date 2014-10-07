@@ -18,7 +18,7 @@ class BuildingSearch extends Building
     public function rules()
     {
         return [
-            [['id', 'cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points'], 'integer'],
+            [['id', 'cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points', 'limit'], 'integer'],
             [['group', 'name', 'image', 'description', 'cost_time', 'modified'], 'safe'],
             [['balance_credits', 'balance_satisfaction'], 'number'],
         ];
@@ -86,6 +86,7 @@ class BuildingSearch extends Building
             'shelter_people' => $this->shelter_people,
             'highscore_points' => $this->highscore_points,
             'modified' => $this->modified,
+            'limit' => $this->limit,
         ]);
 
         $query->andFilterWhere(['like', 'group', $this->group])

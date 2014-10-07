@@ -100,6 +100,8 @@ asort( $buildingGroups );
 
     <?= $form->field($model, 'highscore_points')->textInput() ?>
 
+    <?= $form->field($model, 'limit')->textInput() ?>
+  
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

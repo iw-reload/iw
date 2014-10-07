@@ -45,7 +45,8 @@ use Yii;
  * @property integer $shelter_people
  * @property integer $highscore_points
  * @property string $modified
- *
+ * @property integer $limit 
+ * 
  * @property BuildingsOnBase[] $buildingsOnBases
  * 
  * @translatable $name
@@ -67,9 +68,9 @@ class Building extends \yii\db\ActiveRecord
   public function rules()
   {
     return [
-      [['group', 'name', 'description', 'cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'cost_time', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'balance_credits', 'balance_satisfaction', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points'], 'required'],
+      [['group', 'name', 'description'], 'required'],
       [['image', 'description'], 'string'],
-      [['cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points'], 'integer'],
+      [['cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points', 'limit'], 'integer'],
       [['cost_time', 'modified'], 'safe'],
       [['balance_credits', 'balance_satisfaction'], 'number'],
       [['group', 'name'], 'string', 'max' => 255],
@@ -121,6 +122,7 @@ class Building extends \yii\db\ActiveRecord
             'shelter_people' => 'Shelter People',
             'highscore_points' => 'Highscore Points',
             'modified' => 'Modified',
+            'limit' => 'Limit',
         ];
     }
 

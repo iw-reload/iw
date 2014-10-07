@@ -23,6 +23,10 @@ return [
           'clientId' => '3e037dd52fea20c19267',
           'scope' => '',
         ],
+        'google' => [
+          'class' => 'yii\authclient\clients\GoogleOAuth',
+          'clientId' => '',
+        ],        
       ],
     ],    
     'building' => [

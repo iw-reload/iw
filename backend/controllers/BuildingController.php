@@ -76,15 +76,20 @@ class BuildingController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Building();
+      $model = new Building();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
+      if ($model->load(Yii::$app->request->post()) && $model->save()) {
+          $result = $this->redirect(['view', 'id' => $model->id]);
+      } else {
+        $model->loadDefaultValues();
+        $model->name = 'New Building';
+        $model->description = 'Building Description';
+        $result = $this->render('create', [
+            'model' => $model,
+        ]);
+      }
+      
+      return $result;
     }
 
     /**
