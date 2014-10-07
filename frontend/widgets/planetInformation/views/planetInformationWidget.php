@@ -1,6 +1,6 @@
 <?php
 
-use Yii;
+use \Yii;
 
 $f = Yii::$app->formatter;
 $ctx = $this->context;
