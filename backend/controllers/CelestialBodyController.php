@@ -36,9 +36,7 @@ class CelestialBodyController extends Controller
       'verbs' => [
         'class' => VerbFilter::className(),
         'actions' => [
-          'create' => ['post'],
           'delete' => ['post'],
-          'update' => ['post'],
         ],
       ],
     ];

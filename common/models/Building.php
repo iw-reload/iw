@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use yii\helpers\Inflector;
 use Yii;
 
 /**
@@ -60,20 +61,22 @@ class Building extends \yii\db\ActiveRecord
         return '{{%building}}';
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function rules()
-    {
-        return [
-            [['group', 'name', 'image', 'description', 'cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'cost_time', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'balance_credits', 'balance_satisfaction', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points'], 'required'],
-            [['image', 'description'], 'string'],
-            [['cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points'], 'integer'],
-            [['cost_time', 'modified'], 'safe'],
-            [['balance_credits', 'balance_satisfaction'], 'number'],
-            [['group', 'name'], 'string', 'max' => 255]
-        ];
-    }
+  /**
+   * @inheritdoc
+   */
+  public function rules()
+  {
+    return [
+      [['group', 'name', 'description', 'cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'cost_time', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'balance_credits', 'balance_satisfaction', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points'], 'required'],
+      [['image', 'description'], 'string'],
+      [['cost_iron', 'cost_steel', 'cost_chemicals', 'cost_vv4a', 'cost_ice', 'cost_water', 'cost_energy', 'cost_people', 'cost_credits', 'balance_iron', 'balance_steel', 'balance_chemicals', 'balance_vv4a', 'balance_ice', 'balance_water', 'balance_energy', 'balance_people', 'storage_chemicals', 'storage_ice_and_water', 'storage_energy', 'shelter_iron', 'shelter_steel', 'shelter_chemicals', 'shelter_vv4a', 'shelter_ice_and_water', 'shelter_energy', 'shelter_people', 'highscore_points'], 'integer'],
+      [['cost_time', 'modified'], 'safe'],
+      [['balance_credits', 'balance_satisfaction'], 'number'],
+      [['group', 'name'], 'string', 'max' => 255],
+
+      [['image'], 'filter', 'filter' => function() { return '@buildingImages/' . Inflector::slug($this->name) . '.png'; }],
+    ];
+  }
 
     /**
      * @inheritdoc
@@ -95,7 +98,7 @@ class Building extends \yii\db\ActiveRecord
             'cost_energy' => 'Cost Energy',
             'cost_people' => 'Cost People',
             'cost_credits' => 'Cost Credits',
-            'cost_time' => 'Cost Time',
+            'cost_time' => 'Cost Time (hh:mm:ss)',
             'balance_iron' => 'Balance Iron',
             'balance_steel' => 'Balance Steel',
             'balance_chemicals' => 'Balance Chemicals',
