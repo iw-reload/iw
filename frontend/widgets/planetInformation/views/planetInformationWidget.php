@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\Url;
 use \Yii;
 
 $f = Yii::$app->formatter;
@@ -40,7 +41,7 @@ $researchEnd = 'TODO';
     
     <div class="col-sm-6">
       <h4><?= $lblColony ?></h4>
-      <img src="images/whole-earth.jpg" style="width: 100%;" />
+      <img src="<?= Url::to('@web/images/whole-earth.jpg') ?>" style="width: 100%;" />
       <dl>
         <dt><?= $lblLivingConditions ?></dt>
         <dd><?= $livingConditions ?></dd>
