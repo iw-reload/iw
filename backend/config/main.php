@@ -23,7 +23,7 @@ return [
         ],
         'google' => [
           'class' => 'yii\authclient\clients\GoogleOAuth',
-          'clientId' => '',
+          'clientId' => '228423791479-2opkorudrgtntusni3c4lfb5ej1u79s4.apps.googleusercontent.com',
         ],        
       ],
     ],    
