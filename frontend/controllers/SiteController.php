@@ -202,9 +202,7 @@ class SiteController extends Controller
     }
     else
     {
-      $model->username = is_array($externalUserAttributes) && array_key_exists('login', $externalUserAttributes)
-        ? $externalUserAttributes['login']
-        : '';
+      $model->username = $model->getExternalUserName();
     }
     
     return $this->render('signup', [
