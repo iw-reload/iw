@@ -37,6 +37,9 @@ return [
     'urlManager' => [
       'enablePrettyUrl' => true,
       'showScriptName' => false,
+      'rules' => [
+        'oauth2callback/<authclient:google>' => 'site/auth',
+      ],
     ],
     'user' => [
       'identityClass' => 'common\models\User',
