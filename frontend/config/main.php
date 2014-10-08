@@ -22,11 +22,18 @@ return [
           'class' => 'yii\authclient\clients\GitHub',
           'clientId' => '3e037dd52fea20c19267',
           'scope' => '',
+          'normalizeUserAttributeMap' => [
+            'name' => 'login',
+          ],
         ],
         'google' => [
           'class' => 'yii\authclient\clients\GoogleOAuth',
           'clientId' => '741150207793-ufa33kfdcpquau3tsrsb9lb0gs9ceg66.apps.googleusercontent.com',
-        ],        
+          'scope' => 'profile',
+          'normalizeUserAttributeMap' => [
+            'name' => 'displayName',
+          ],
+        ],
       ],
     ],    
     'building' => [
@@ -42,6 +49,13 @@ return [
           'class' => 'yii\log\FileTarget',
           'levels' => ['error', 'warning'],
         ],
+      ],
+    ],
+    'urlManager' => [
+      'enablePrettyUrl' => true,
+      'showScriptName' => false,
+      'rules' => [
+        'oauth2callback/<authclient:google>' => 'site/auth',
       ],
     ],
     'user' => [

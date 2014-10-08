@@ -59,8 +59,8 @@ class SignupForm extends Model
     
   public function getExternalUserName()
   {
-    return is_array($this->_externalUserAttributes) && array_key_exists('login', $this->_externalUserAttributes)
-      ? $this->_externalUserAttributes['login']
+    return is_array($this->_externalUserAttributes) && array_key_exists('name', $this->_externalUserAttributes)
+      ? $this->_externalUserAttributes['name']
       : 'Anonymous';
   }
   
