@@ -80,7 +80,7 @@ class Task extends \yii\db\ActiveRecord
       ['finished', 'filter', 'filter' => function ($value) {
         return ($value instanceof \DateTime) ? $value->format( \DateTime::RFC3339 ) : $value;
       }],
-      ['finished', 'date', 'format' => \DateTime::RFC3339 ],
+      ['finished', 'date', 'format' => 'php:'.\DateTime::RFC3339 ],
       [['type'], 'string', 'max' => 255],
       ['type', 'validateType'],
       ['user_id', 'integer'],
