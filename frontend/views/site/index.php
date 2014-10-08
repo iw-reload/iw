@@ -47,7 +47,7 @@ $this->title = 'IceWars Reload';
                 </p>
 
                 <p>
-                    <?= Html::a('Login &raquo;', ['login'], ['class' => 'btn btn-default']) ?>
+                    <?= Html::a('Login &raquo;', ['game/index'], ['class' => 'btn btn-default']) ?>
                 </p>
             </div>
         </div>
