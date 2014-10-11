@@ -20,9 +20,8 @@ use yii\db\ActiveRecord;
  */
 class Task extends \yii\db\ActiveRecord
 {
-  const TYPE_BUILDING_CONSTRUCTION = 'contruct.building';
-  
-  public function behaviors() {
+  public function behaviors()
+  {
     return array_merge(parent::behaviors(), [
       [
         'class' => AttributeBehavior::className(),
@@ -82,7 +81,7 @@ class Task extends \yii\db\ActiveRecord
       }],
       ['finished', 'date', 'format' => 'php:'.\DateTime::RFC3339 ],
       [['type'], 'string', 'max' => 255],
-      ['type', 'validateType'],
+//      ['type', 'validateType'],
       ['user_id', 'integer'],
     ];
   }
@@ -93,23 +92,23 @@ class Task extends \yii\db\ActiveRecord
    * @param string $attribute
    * @param array $params
    */
-  public function validateType( $attribute, $params )
-  {
-    $rc = new \ReflectionClass( $this );
-
-    $validTypes = [];
-
-    foreach ($rc->getConstants() as $key => $val)
-    {
-      if (strpos($key,'TYPE_') === 0) {
-        $validTypes[] = $val;
-      }
-    }
-
-    if (array_search($this->$attribute,$validTypes,true) === false) {
-      $this->addError( $attribute, 'Type must be one of the TYPE_* constants.' );
-    }
-  }
+//  public function validateType( $attribute, $params )
+//  {
+//    $rc = new \ReflectionClass( $this );
+//
+//    $validTypes = [];
+//
+//    foreach ($rc->getConstants() as $key => $val)
+//    {
+//      if (strpos($key,'TYPE_') === 0) {
+//        $validTypes[] = $val;
+//      }
+//    }
+//
+//    if (array_search($this->$attribute,$validTypes,true) === false) {
+//      $this->addError( $attribute, 'Type must be one of the TYPE_* constants.' );
+//    }
+//  }
     
   /**
    * @inheritdoc

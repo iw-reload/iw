@@ -20,5 +20,5 @@ interface TaskInterface
   public function getQueue();
   public function setQueue( $queue );
   
-  public function execute( $params );
+  public function execute( $user );
 }

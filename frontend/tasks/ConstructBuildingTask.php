@@ -3,7 +3,7 @@
 namespace frontend\tasks;
 
 use frontend\tasks\BaseTask;
-use common\models\Base;
+use common\models\User;
 
 /**
  * Constructs a building on a base.
@@ -21,12 +21,24 @@ class ConstructBuildingTask extends BaseTask
   public function setBuildingId($buildingId) {
     $this->buildingId = $buildingId;
   }
-    
-  public function execute($params)
+  
+  /**
+   * @param User $user
+   */
+  public function execute( $user )
   {
-    /* @var $base Base */
-    $base = $params['base'];
-    $base->increaseBuildingCounter( $this->getBuildingId() );
+    foreach ($user->bases as $base)
+    {
+      $baseId = (int)$base->id;
+      $taskBaseId = (int)$this->getBaseId();
+      
+      if ($baseId !== $taskBaseId) {
+        continue;
+      }
+      
+      $base->increaseBuildingCounter( $this->getBuildingId() );
+      break;
+    }
   }
 
 }

@@ -1,7 +1,9 @@
 <?php
 namespace common\models;
 
+use frontend\tasks\ConstructBuildingTask;
 use common\behaviors\CreateBaseBehavior;
+use common\behaviors\TaskBehavior;
 use frontend\interfaces\ConstructionTaskProvider;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -49,7 +51,7 @@ class User  extends ActiveRecord
     return [
       TimestampBehavior::className(),
       CreateBaseBehavior::className(),
-      // TaskBehavior::className(),
+      TaskBehavior::className(),
     ];
   }
 
@@ -237,7 +239,7 @@ class User  extends ActiveRecord
     
     foreach ($this->tasks as $task)
     {
-      if ($task->type === Task::TYPE_BUILDING_CONSTRUCTION) {
+      if ($task->type === ConstructBuildingTask::className()) {
         $result[] = $task;
       }
     }

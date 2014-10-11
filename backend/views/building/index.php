@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
+            ['class' => 'yii\grid\ActionColumn'],
 
             'id',
             'group',
@@ -62,8 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
              'shelter_people',
              'highscore_points',
              'modified',
-
-            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

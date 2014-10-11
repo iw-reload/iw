@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use Yii;
+use common\models\BuildingsOnBase;
 use frontend\behaviors\TaskQueueBehavior;
 use frontend\behaviors\UpdateStockBehavior;
 use frontend\components\building\BuildingComponent;
@@ -10,6 +10,7 @@ use frontend\interfaces\ConstructionTaskProvider;
 use frontend\models\Building;
 use yii\behaviors\TimestampBehavior;
 use yii\di\Instance;
+use Yii;
 
 /**
  * This is the model class for table "base".
@@ -116,7 +117,6 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
       TaskQueueBehavior::className(),
       TimestampBehavior::className(),
       UpdateStockBehavior::className(),
-      // TaskBehavior::className(), 
     ]; 
   } 
 
@@ -156,6 +156,13 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
    */
   public function getTasks() {
     return $this->filterTasks( $this->user->tasks );
+  }
+
+  /**
+   * @return Task[]
+   */
+  public function getFinishedTasks() {
+    return $this->filterTasks( $this->user->finishedTasks );
   }
   
   /**
@@ -532,28 +539,24 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
   {
     $production = $this->getProduction();
     return $production['satisfaction'];
-  }
-  
+  }  
   
   private function ensureBuildingCountersLoaded()
   {
     if (is_array($this->buildingCounters)) {
       return;
+    } else {
+      $this->buildingCounters = [];
     }
 
-    $sql = <<<EOT
-SELECT [[building_id]], [[buildings_count]]
-FROM {{buildings_on_base}}
-WHERE [[base_id]] = {$this->id}
-EOT;
-    $command = Yii::$app->db->createCommand( $sql );
-    $buildingCounters = [];
+    $buildingsOnBase = BuildingsOnBase::find()
+      ->where(['base_id' => $this->id])
+      ->asArray()
+      ->all();
 
-    foreach ($command->queryAll() as $row) {
-      $buildingCounters[$row['building_id']] = $row['buildings_count'];
+    foreach ($buildingsOnBase as $row) {
+      $this->buildingCounters[$row['building_id']] = $row['buildings_count'];
     }
-
-    $this->buildingCounters = $buildingCounters;
   }
   
   /**
@@ -569,11 +572,25 @@ EOT;
   {
     $this->ensureBuildingCountersLoaded();
     
+    $buildingsOnBase = BuildingsOnBase::findOne([
+      'base_id' => $this->id,
+      'building_id' => $buildingId,
+    ]);
+    
+    if ($buildingsOnBase instanceof BuildingsOnBase) {
+      $buildingsOnBase->updateCounters(['buildings_count' => $inc]);
+    } else {
+      $buildingsOnBase = new BuildingsOnBase();
+      $buildingsOnBase->base_id = $this->id;
+      $buildingsOnBase->buildings_count = $inc;
+      $buildingsOnBase->building_id = $buildingId;
+      $buildingsOnBase->save();
+    }
+    
     if (array_key_exists($buildingId,$this->buildingCounters)) {
       $this->buildingCounters[$buildingId] += $inc;
     } else {
       $this->buildingCounters[$buildingId] = $inc;
     }
   }
-  
 }

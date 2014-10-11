@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $form->field($model, 'userName')->widget(
               AutoComplete::className(), [
                 'clientOptions' => [
-                  'source' => Url::toRoute('site/userlist'),
+                  'source' => Url::to(['site/userlist']),
                 ],
                 'options' => [
                   'class' => 'form-control',

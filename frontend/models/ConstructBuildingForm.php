@@ -2,11 +2,12 @@
 
 namespace frontend\models;
 
+use common\models\Task;
+use frontend\interfaces\BuildingFinderInterface;
+use frontend\tasks\ConstructBuildingTask;
+use frontend\validators\BaseOwnedByUserValidator;
 use yii\base\Exception;
 use yii\base\Model;
-use common\models\Task;
-use frontend\validators\BaseOwnedByUserValidator;
-use frontend\interfaces\BuildingFinderInterface;
 use Yii;
 
 /**
@@ -84,7 +85,7 @@ class ConstructBuildingForm extends Model
       'buildingId'  => $this->buildingId,
     ];
     $taskModel->finished = $finished;
-    $taskModel->type = Task::TYPE_BUILDING_CONSTRUCTION;
+    $taskModel->type = ConstructBuildingTask::className();
     $taskModel->user_id = Yii::$app->user->id;
     
     if (!$taskModel->save()) {

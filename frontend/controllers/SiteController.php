@@ -92,7 +92,7 @@ class SiteController extends Controller
         Yii::info('ExternalUser is registered. Logging in and redirecting to game/index.');
         
         $externalUser->login();
-        return $this->action->redirect( Url::toRoute(['game/index'],true) );
+        return $this->action->redirect( Url::to(['game/index'],true) );
       }
       else
       {
@@ -102,7 +102,7 @@ class SiteController extends Controller
         Yii::$app->session->set( 'game/register/authProviderTitle', $client->getTitle() );
         Yii::$app->session->set( 'game/register/attributes', $attributes );
         
-        return $this->action->redirect( Url::toRoute(['site/signup'],true) );
+        return $this->action->redirect( Url::to(['site/signup'],true) );
       }    
     }
     else

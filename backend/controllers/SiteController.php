@@ -90,7 +90,7 @@ class SiteController extends Controller
         Yii::info('ExternalUser is registered. Logging in and redirecting to game/index.');
         
         $externalUser->login();
-        return $this->action->redirect( Url::toRoute(['site/index'],true) );
+        return $this->action->redirect( Url::to(['site/index'],true) );
       }
       else
       {

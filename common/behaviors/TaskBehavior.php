@@ -3,6 +3,8 @@
 namespace common\behaviors;
 
 use common\models\Task;
+use common\models\User;
+use frontend\interfaces\TaskInterface;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 
@@ -52,21 +54,48 @@ class TaskBehavior extends Behavior
     
     $aTaskModelIds = [];
     
-    /* @var $finishedTask Task */
+    /* @var $finishedTaskModel Task */
     foreach ($aFinishedTaskModels as $finishedTaskModel)
     {
       $aTaskModelIds[] = $finishedTaskModel->id;
-      $task = unserialize( $finishedTaskModel->data );
+
+      try
+      {
+        $class = $finishedTaskModel->type;
+        $task = \Yii::createObject( array_merge($finishedTaskModel->data,['class' => $class]) );
+      }
+      catch (\Exception $ex)
+      {
+        \Yii::error($ex->getMessage());
+        continue;
+      }
+
+      if (!($task instanceof TaskInterface))
+      {
+        \Yii::error( "'$finishedTaskModel->type' does not implement TaskInterface!" );
+        continue;
+      }
       
-      // TODO check $task implements the Task Interface.
-      // TODO which data should we pass to $runnable?
-      //      We always have the TaskModel at hand.
-      //      We can check for related ARs (BaseTask/ AccountTask/ ...)
-      
-      $task->run( $finishedTaskModel, $model );
+      $user = $this->getUser( $this, $finishedTaskModel );
+      $task->execute( $user );
     }   
 
-    Task::deleteAll( ['id' => $aTaskModelIds] );
+    Task::deleteAll(['id' => $aTaskModelIds]);
     $model->save();
+  }
+  
+  /**
+   * @todo problem: once any task loads a user instance, we end up with
+   *       infinite recursion (we're in User::afterFind).
+   * @param TaskBehavior $taskBehavior
+   * @param Task $taskModel
+   */
+  static private function getUser( $taskBehavior, $taskModel )
+  {
+    if ($taskBehavior->owner instanceof User && (int)$taskBehavior->owner->id === (int)$taskModel->user_id) {
+      return $taskBehavior->owner;
+    } else {
+      return null;
+    }
   }
 }
