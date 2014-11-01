@@ -8,7 +8,9 @@
 
 namespace common\queries;
 
+use common\components\TimeComponent;
 use yii\db\ActiveQuery;
+use yii\di\Instance;
 
 /**
  * Description of TaskQuery
@@ -17,20 +19,27 @@ use yii\db\ActiveQuery;
  */
 class TaskQuery extends ActiveQuery
 {
+  /**
+   * @var string the application component ID of the TimeComponent
+   */
+  public $time = 'time';
+  
   public function finished()
   {
-    // TODO create date time helper in order to support high resolution time
-    // - always use $_SERVER['REQUEST_TIME_FLOAT'] as "now", so everything in
-    //   one request happens at once.
-    // - not sure if $_SERVER['REQUEST_TIME_FLOAT'] is available for cli
-    //   invocations. Wrapper must handle it.
     // TODO ensure MySQL stores microseconds
     //      @see "http://dev.mysql.com/doc/refman/5.7/en/fractional-seconds.html"
     //      requires MySQL 5.6.4. (currently on 5.5.38)
-    $now = \DateTime::createFromFormat( 'U.u', $_SERVER['REQUEST_TIME_FLOAT']);
+    $now = $this->getTimeComponent()->getStartTime();
     $this->andWhere( 'finished <= :now', [
       ':now' => $now->format('Y-m-d\TH:i:s.uO'),
     ]);
     return $this;
+  }
+  
+  /**
+   * @return TimeComponent
+   */
+  private function getTimeComponent() {
+    return Instance::ensure( $this->time, TimeComponent::className() );
   }
 }

@@ -51,6 +51,9 @@ return [
         ],
       ],
     ],
+    'task' => [
+      'class' => 'frontend\components\task\TaskComponent',
+    ],
     'urlManager' => [
       'enablePrettyUrl' => true,
       'showScriptName' => false,

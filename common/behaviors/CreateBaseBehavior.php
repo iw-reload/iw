@@ -2,6 +2,7 @@
 
 namespace common\behaviors;
 
+use common\components\universe\UniverseComponent;
 use common\models\Base;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
@@ -15,6 +16,10 @@ use yii\base\Exception;
  */
 class CreateBaseBehavior extends Behavior
 {
+  /**
+   * @var string the application component ID of the UniverseComponent
+   */
+  public $universe = 'universe';
   
   public function events()
   {
@@ -26,10 +31,7 @@ class CreateBaseBehavior extends Behavior
   public function afterInsert()
   {
     $user = $this->getUser();
-    
-    // TODO make configurable, use DI
-    /* @var $universe UniverseComponent */
-    $universe = Yii::$app->universe;
+    $universe = $this->getUniverseComponent();
 
     // 1) Find a celestial body for the player and reset its attributes
     //    to default values.
@@ -71,4 +73,12 @@ class CreateBaseBehavior extends Behavior
   {
     return $this->owner;
   }
+  
+  /**
+   * @return UniverseComponent
+   */
+  private function getUniverseComponent() {
+    return Instance::ensure( $this->universe, UniverseComponent::className() );
+  }
+  
 }

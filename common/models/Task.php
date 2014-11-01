@@ -3,7 +3,6 @@
 namespace common\models;
 
 use common\queries\TaskQuery;
-use frontend\interfaces\TaskInterface;
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
 
@@ -13,7 +12,8 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property string $type one of the TYPE_* constants
  * @property array $data can be used to configure a Task
- * @property \DateTime $finished
+ * @property string $finished the finished value as stored in DB
+ * @property \DateTime $dateTimeFinished the finished value as \DateTime instance
  * @property integer $user_id
  *
  * @property User $user
@@ -30,15 +30,6 @@ class Task extends \yii\db\ActiveRecord
         ],
         'value' => function ($event) {
           return unserialize( $this->data );
-        },
-      ],
-      [
-        'class' => AttributeBehavior::className(),
-        'attributes' => [
-          ActiveRecord::EVENT_AFTER_FIND => 'finished',
-        ],
-        'value' => function ($event) {
-          return new \DateTime( $this->finished );
         },
       ],
     ]);
@@ -75,9 +66,6 @@ class Task extends \yii\db\ActiveRecord
       }],
       ['data', 'filter', 'filter' => function ($value) {
         return serialize( $value );
-      }],
-      ['finished', 'filter', 'filter' => function ($value) {
-        return ($value instanceof \DateTime) ? $value->format( \DateTime::RFC3339 ) : $value;
       }],
       ['finished', 'date', 'format' => 'php:'.\DateTime::RFC3339 ],
       [['type'], 'string', 'max' => 255],
@@ -130,5 +118,16 @@ class Task extends \yii\db\ActiveRecord
   public function getUser()
   {
     return $this->hasOne(User::className(), ['id' => 'user_id']);
+  }
+  
+  /**
+   * @return \DateTime
+   */
+  public function getDateTimeFinished() {
+    return new \DateTime( $this->finished );
+  }
+  
+  public function setDateTimeFinished( \DateTime $finished ) {
+    $this->finished = $finished->format( \DateTime::RFC3339 );
   }
 }

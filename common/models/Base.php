@@ -3,14 +3,14 @@
 namespace common\models;
 
 use common\models\BuildingsOnBase;
-use frontend\behaviors\TaskQueueBehavior;
 use frontend\behaviors\UpdateStockBehavior;
 use frontend\components\building\BuildingComponent;
 use frontend\interfaces\ConstructionTaskProvider;
 use frontend\models\Building;
+use frontend\objects\Resources;
+use yii\behaviors\AttributeBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\di\Instance;
-use Yii;
 
 /**
  * This is the model class for table "base".
@@ -27,7 +27,8 @@ use Yii;
  * @property string $stored_energy
  * @property string $stored_people
  * @property string $stored_credits TODO credits are global, not per base
- * @property string $stored_last_update
+ * @property string $stored_last_update the value as stored in DB
+ * @property \DateTime $dateTimeStoredLastUpdate the stored_last_update value as \DateTime instance
  * @property string $produced_steel
  * @property string $produced_vv4a
  * @property string $produced_water
@@ -79,6 +80,7 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
           'produced_water',
         ], 'integer'],
       [['name'], 'string', 'max' => 255],
+      ['stored_last_update', 'date', 'format' => 'php:'.\DateTime::RFC3339 ],
     ];
   }
 
@@ -100,6 +102,7 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
       'stored_energy' => 'Stored Energy',
       'stored_people' => 'Stored People',
       'stored_credits' => 'Stored Credits',
+      'stored_last_update' => 'Storage Last Update',
       'produced_steel' => 'Produced Steel', 
       'produced_vv4a' => 'Produced VV4A', 
       'produced_water' => 'Produced Water', 
@@ -114,12 +117,22 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
   public function behaviors() 
   { 
     return [ 
-      TaskQueueBehavior::className(),
       TimestampBehavior::className(),
       UpdateStockBehavior::className(),
     ]; 
   } 
-
+  
+  /**
+   * @return \DateTime
+   */
+  public function getDateTimeStoredLastUpdate() {
+    return new \DateTime( $this->stored_last_update );
+  }
+  
+  public function setDateTimeStoredLastUpdate( \DateTime $value ) {
+    $this->stored_last_update = $value->format( \DateTime::RFC3339 );
+  }  
+  
   /**
    * @return \yii\db\ActiveQuery
    */
@@ -191,6 +204,41 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
     }
     
     return $result;
+  }
+
+  /**
+   * @return Resources
+   */
+  public function getStock()
+  {
+    $stock = new Resources();
+    $stock->chemicals = $this->stored_chemicals;
+    $stock->credits = $this->stored_credits;
+    $stock->energy = $this->stored_energy;
+    $stock->ice = $this->stored_ice;
+    $stock->iron = $this->stored_iron;
+    $stock->population = $this->stored_people;
+    $stock->steel = $this->stored_steel;
+    $stock->vv4a = $this->stored_vv4a;
+    $stock->water = $this->stored_water;
+    
+    return $stock;
+  }
+  
+  /**
+   * @param Resources $stock
+   */
+  public function setStock( $stock )
+  {
+    $this->stored_chemicals = $stock->chemicals;
+    $this->stored_credits = $stock->credits;
+    $this->stored_energy = $stock->energy;
+    $this->stored_ice = $stock->ice;
+    $this->stored_iron = $stock->iron;
+    $this->stored_people = $stock->population;
+    $this->stored_steel = $stock->steel;
+    $this->stored_vv4a = $stock->vv4a;
+    $this->stored_water = $stock->water;
   }
   
   /**

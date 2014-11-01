@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace frontend\interfaces;
 
 /**
@@ -14,11 +8,16 @@ namespace frontend\interfaces;
  */
 interface TaskInterface
 {
+  /**
+   * @return \DateTime The task's time context.
+   */
   public function getTime();
+  /**
+   * @param \DateTime $time The task's time context.
+   */
   public function setTime( \DateTime $time );
-  
-  public function getQueue();
-  public function setQueue( $queue );
-  
-  public function execute( $user );
+  /**
+   * Executes the task.
+   */
+  public function execute();
 }

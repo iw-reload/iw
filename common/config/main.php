@@ -8,6 +8,9 @@ return [
     'cache' => [
       'class' => 'yii\caching\FileCache',
     ],
+    'time' => [
+      'class' => 'common\components\TimeComponent',
+    ],
     'universe' => [
       'class' => 'common\components\universe\UniverseComponent',
     ],

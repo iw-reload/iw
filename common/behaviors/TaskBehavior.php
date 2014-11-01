@@ -2,11 +2,11 @@
 
 namespace common\behaviors;
 
-use common\models\Task;
-use common\models\User;
-use frontend\interfaces\TaskInterface;
+use frontend\components\task\TaskComponent;
 use yii\base\Behavior;
+use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
+use yii\di\Instance;
 
 /**
  * Cares for executing tasks that have been finished.
@@ -34,68 +34,41 @@ use yii\db\ActiveRecord;
  */
 class TaskBehavior extends Behavior
 {
+  /**
+   * @var string the application component ID of the TaskComponent
+   */
+  public $task = 'task';
+  
   public function events()
   {
     return [
       ActiveRecord::EVENT_AFTER_FIND => 'afterFind',
     ];
   }
- 
-  public function afterFind()
+  
+  public function attach($owner)
   {
-    // TODO use TaskQueue
-    
-    $model = $this->owner;
-    $aFinishedTaskModels = $model->getFinishedTasks()->all();
-    
-    if (empty($aFinishedTaskModels)) {
-      return;
+    if (!$owner instanceof \frontend\interfaces\TaskProviderInterface)
+    {
+      $behaviorClass = $this->className();
+      $ownerClass = '\frontend\interfaces\TaskProviderInterface';
+      throw new InvalidConfigException("'{$behaviorClass}' must only be attached to '{$ownerClass}' instances.");
     }
     
-    $aTaskModelIds = [];
-    
-    /* @var $finishedTaskModel Task */
-    foreach ($aFinishedTaskModels as $finishedTaskModel)
-    {
-      $aTaskModelIds[] = $finishedTaskModel->id;
+    parent::attach($owner);
+  }
 
-      try
-      {
-        $class = $finishedTaskModel->type;
-        $task = \Yii::createObject( array_merge($finishedTaskModel->data,['class' => $class]) );
-      }
-      catch (\Exception $ex)
-      {
-        \Yii::error($ex->getMessage());
-        continue;
-      }
-
-      if (!($task instanceof TaskInterface))
-      {
-        \Yii::error( "'$finishedTaskModel->type' does not implement TaskInterface!" );
-        continue;
-      }
-      
-      $user = $this->getUser( $this, $finishedTaskModel );
-      $task->execute( $user );
-    }   
-
-    Task::deleteAll(['id' => $aTaskModelIds]);
-    $model->save();
+  public function afterFind()
+  {
+    $taskComponent = $this->getTaskComponent();
+    $taskComponent->executeFinishedTasks( $this->owner );
   }
   
   /**
-   * @todo problem: once any task loads a user instance, we end up with
-   *       infinite recursion (we're in User::afterFind).
-   * @param TaskBehavior $taskBehavior
-   * @param Task $taskModel
+   * @return TaskComponent
    */
-  static private function getUser( $taskBehavior, $taskModel )
+  private function getTaskComponent()
   {
-    if ($taskBehavior->owner instanceof User && (int)$taskBehavior->owner->id === (int)$taskModel->user_id) {
-      return $taskBehavior->owner;
-    } else {
-      return null;
-    }
+    return Instance::ensure( $this->task, TaskComponent::className() );
   }
 }

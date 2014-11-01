@@ -2,9 +2,11 @@
 
 namespace frontend\widgets\construction;
 
+use common\components\TimeComponent;
 use frontend\interfaces\BuildingFinderInterface;
 use frontend\objects\ConstructionInfo;
 use yii\base\Widget;
+use yii\di\Instance;
 
 /**
  * Renders the buildings construction overview for a given base.
@@ -13,10 +15,16 @@ use yii\base\Widget;
  */
 class ConstructionWidget extends Widget
 {
+  
   /**
    * @var BuildingFinderInterface
    */
   private $buildingFinder;
+  
+  /**
+   * @var string the application component ID of the TimeComponent
+   */
+  public $time = 'time';
   
   /**
    * @var \frontend\interfaces\ConstructionTaskProvider
@@ -59,8 +67,7 @@ class ConstructionWidget extends Widget
       $buildingId = $taskModel->data['buildingId'];
       $building = $this->buildingFinder->getById( $buildingId );
       
-      // TODO get time from time component
-      $now = new \DateTime();
+      $now = $this->getTimeComponent()->getStartTime();
       /* @var $remaining \DateInterval */
       $remaining = $taskModel->finished->diff( $now );
       
@@ -75,5 +82,12 @@ class ConstructionWidget extends Widget
     }
     
     return $aConstructionInfo;
+  }
+  
+  /**
+   * @return TimeComponent
+   */
+  private function getTimeComponent() {
+    return Instance::ensure( $this->time, TimeComponent::className() );
   }
 }

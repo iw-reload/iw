@@ -5,6 +5,7 @@ use frontend\tasks\ConstructBuildingTask;
 use common\behaviors\CreateBaseBehavior;
 use common\behaviors\TaskBehavior;
 use frontend\interfaces\ConstructionTaskProvider;
+use frontend\interfaces\TaskProviderInterface;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -28,7 +29,7 @@ use yii\web\IdentityInterface;
  * @property Identity[] $identities
  */
 class User  extends ActiveRecord
-            implements IdentityInterface, ConstructionTaskProvider
+            implements IdentityInterface, TaskProviderInterface, ConstructionTaskProvider
 {
   /**
    * @var \common\models\Base
@@ -215,19 +216,19 @@ class User  extends ActiveRecord
   }
   
   /**
-   * @return \yii\db\ActiveQuery
+   * @return Task[]
    */
   public function getTasks()
   {
-    return $this->hasMany(Task::className(), ['user_id' => 'id']);
+    return $this->hasMany( Task::className(), ['user_id' => 'id'] )->all();
   }
 
-  /** 
-   * @return \yii\db\ActiveQuery 
-   */ 
+  /**
+   * @return Task[]
+   */
   public function getFinishedTasks() 
   { 
-    return $this->hasMany( Task::className(), ['user_id' => 'id'] )->finished(); 
+    return $this->hasMany( Task::className(), ['user_id' => 'id'] )->finished()->all(); 
   }
   
   /**

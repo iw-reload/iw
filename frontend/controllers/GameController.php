@@ -2,7 +2,7 @@
 namespace frontend\controllers;
 
 use frontend\widgets\FlashWidget;
-use frontend\models\ConstructBuildingForm;
+use frontend\components\task\models\ConstructBuildingForm;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
