@@ -5,7 +5,7 @@ namespace frontend\components\task\models;
 use common\components\TimeComponent;
 use common\models\Task;
 use frontend\interfaces\BuildingFinderInterface;
-use frontend\tasks\ConstructBuildingTask;
+use frontend\components\task\tasks\ConstructBuildingTask;
 use frontend\validators\BaseOwnedByUserValidator;
 use yii\base\Exception;
 use yii\base\Model;
@@ -88,7 +88,7 @@ class ConstructBuildingForm extends Model
       'baseId'      => $this->baseId,
       'buildingId'  => $this->buildingId,
     ];
-    $taskModel->finished = $finished;
+    $taskModel->dateTimeFinished = $finished;
     $taskModel->type = ConstructBuildingTask::className();
     $taskModel->user_id = Yii::$app->user->id;
     

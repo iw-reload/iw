@@ -1,9 +1,9 @@
 <?php
 namespace common\models;
 
-use frontend\tasks\ConstructBuildingTask;
 use common\behaviors\CreateBaseBehavior;
 use common\behaviors\TaskBehavior;
+use frontend\components\task\tasks\ConstructBuildingTask;
 use frontend\interfaces\ConstructionTaskProvider;
 use frontend\interfaces\TaskProviderInterface;
 use yii\base\NotSupportedException;

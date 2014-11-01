@@ -69,7 +69,7 @@ class ConstructionWidget extends Widget
       
       $now = $this->getTimeComponent()->getStartTime();
       /* @var $remaining \DateInterval */
-      $remaining = $taskModel->finished->diff( $now );
+      $remaining = $taskModel->dateTimeFinished->diff( $now );
       
       $info = new ConstructionInfo();
       $info->base = $base->getLabel();
