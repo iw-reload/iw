@@ -46,9 +46,18 @@ class UpdateStockBehavior extends Behavior
   public function afterFind()
   {
     $taskComponent = $this->getTaskComponent();
+    $base = $this->getBase();
     $now = $this->getTimeComponent()->getStartTime();
 
-    $taskComponent->updateStock( $this->owner, $now );
+    $taskComponent->updateStock( $base, $now );
+  }
+  
+  /**
+   * @return Base
+   */
+  private function getBase()
+  {
+    return $this->owner;
   }
   
   /**

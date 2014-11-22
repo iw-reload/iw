@@ -13,30 +13,31 @@ class UpdateStockTask extends AbstractUpdateStockTask
 {
   public function execute()
   {
+    parent::execute();
+    
+    // Objects are assigned by reference, so all the update stock tasks
+    // work on the same Resources instance, gradually updating it.
+    $aConfig = [
+      'from' => $this->from,
+      'population' => $this->population,
+      'production' => $this->production,
+      'stock' => $this->stock,
+      'storage' => $this->storage,
+      'to' => $this->to,
+    ];
+    
     $tasks = [
-      new UpdateChemicalsStockTask(),
-      new UpdateCurrentPopulationTask(),
-      new UpdateEnergyStockTask(),
-      new UpdateIceStockTask(),
-      new UpdateIronStockTask(),
-      new UpdateSteelStockTask(),
-      new UpdateVv4aStockTask(),
-      new UpdateWaterStockTask(),
+      new UpdateChemicalsStockTask($aConfig),
+      new UpdateCurrentPopulationTask($aConfig),
+      new UpdateEnergyStockTask($aConfig),
+      new UpdateIceStockTask($aConfig),
+      new UpdateIronStockTask($aConfig),
+      new UpdateSteelStockTask($aConfig),
+      new UpdateVv4aStockTask($aConfig),
+      new UpdateWaterStockTask($aConfig),
     ];
 
-    foreach ($tasks as $task)
-    {
-      // Objects are assigned by reference, so all the update stock tasks
-      // work on the same Resources instance, gradually updating it.
-
-      $task->from = $this->from;
-      $task->population = $this->population;
-      $task->production = $this->production;
-      $task->stock = $this->stock;
-      $task->storage = $this->storage;
-      $task->to = $this->to;
-      
-      $task->setTime( $this->getTime() );
+    foreach ($tasks as $task) {
       $task->execute();
     }
   }

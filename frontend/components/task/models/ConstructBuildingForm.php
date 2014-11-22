@@ -50,6 +50,7 @@ class ConstructBuildingForm extends Model
     return [
       [['baseId', 'buildingId'], 'required'],
       [['baseId', 'buildingId'], 'integer'],
+      [['baseId', 'buildingId'], 'filter', 'filter' => 'intval'],
       
       // TODO implement validator
       //['buildingId', ValidBuildingId ],
@@ -90,7 +91,7 @@ class ConstructBuildingForm extends Model
     ];
     $taskModel->dateTimeFinished = $finished;
     $taskModel->type = ConstructBuildingTask::className();
-    $taskModel->user_id = Yii::$app->user->id;
+    $taskModel->user_id = $user->id;
     
     if (!$taskModel->save()) {
       throw new Exception('Failed to create task: ' . print_r($taskModel->firstErrors,true));

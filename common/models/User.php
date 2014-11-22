@@ -2,7 +2,7 @@
 namespace common\models;
 
 use common\behaviors\CreateBaseBehavior;
-use common\behaviors\TaskBehavior;
+//use common\behaviors\TaskBehavior;
 use frontend\components\task\tasks\ConstructBuildingTask;
 use frontend\interfaces\ConstructionTaskProvider;
 use frontend\interfaces\TaskProviderInterface;
@@ -36,6 +36,11 @@ class User  extends ActiveRecord
    */
   private $currentBase = null;
   
+  public function init() {
+    parent::init();
+    
+  }
+  
   /**
    * @inheritdoc
    */
@@ -52,7 +57,7 @@ class User  extends ActiveRecord
     return [
       TimestampBehavior::className(),
       CreateBaseBehavior::className(),
-      TaskBehavior::className(),
+      // TaskBehavior::className(),
     ];
   }
 
@@ -136,7 +141,7 @@ class User  extends ActiveRecord
    */
   public function getBases()
   {
-    return $this->hasMany( Base::className(), ['user_id' => 'id'] );
+    return $this->hasMany(Base::className(),['user_id' => 'id'])->inverseOf('user');
   }
   
   /**
@@ -168,7 +173,7 @@ class User  extends ActiveRecord
    */
   public function getIdentities()
   {
-    return $this->hasMany(Identity::className(), ['internal_user_id' => 'id']);
+    return $this->hasMany(Identity::className(), ['internal_user_id' => 'id'])->inverseOf('internalUser');
   }
   
   

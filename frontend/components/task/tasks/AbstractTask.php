@@ -6,9 +6,17 @@ use common\models\User;
 use frontend\components\task\events\ModelModifiedEvent;
 use frontend\interfaces\TaskInterface;
 use yii\base\Component;
+use yii\db\ActiveRecordInterface;
 
 /**
- * Description of AbstractTask
+ * Abstract base class for all tasks.
+ * 
+ * Every task executes with a time hint. This time hint defines when something
+ * happened. For example when constructing a building, the time hint points
+ * to the time when the building has been finished. When updating resources,
+ * the time hint points to the time the resources should be updated to.
+ * 
+ * We extend Component so we can trigger events.
  *
  * @property User $user
  * @author ben
@@ -21,10 +29,16 @@ abstract class AbstractTask extends Component implements TaskInterface
    * @var \DateTime
    */
   private $time;
-  /**
-   * @var User
-   */
-  private $user;
+  
+  public function init()
+  {
+    parent::init();
+    
+    if (!$this->time instanceof \DateTime) {
+      throw new \yii\base\InvalidConfigException('AbstractTask::$time must be an instance of \DateTime.');
+    }
+  }
+
   
   public function getTime() {
     return $this->time;
@@ -33,19 +47,21 @@ abstract class AbstractTask extends Component implements TaskInterface
   public function setTime( \DateTime $time ) {
     $this->time = $time;
   }
-  
-  public function getUser() {
-    return $this->user;
+
+  public function execute() {
+    $className = $this->className();
+    \Yii::trace( "Executing {$className}", __METHOD__);
   }
 
-  public function setUser(User $user) {
-    $this->user = $user;
-  }
-    
   /**
-   * @param \yii\db\ActiveRecordInterface $model
+   * This event is provided so all tasks can trigger an event if they modify
+   * one of our models. The tasks framework will care for collecting modified
+   * models and to save them after all tasks have been executed. This ensures
+   * we don't save models more often then necessary.
+   * 
+   * @param ActiveRecordInterface $model
    */
-  protected function triggerModelModified( $model )
+  protected function triggerModelModified( ActiveRecordInterface $model )
   {
     $this->trigger(self::EVENT_MODEL_MODIFIED, new ModelModifiedEvent([
       'model' => $model,

@@ -7,7 +7,7 @@ $this->title = 'IceWars Reload - Construct';
 
 $lblConstruct = \Yii::t('app', 'Construction');
 $lblHints = \Yii::t('app', 'Current hints');
-
+  
 
 $base = $user->currentBase;
 $buildingCounters = $base->getBuildingCounters();

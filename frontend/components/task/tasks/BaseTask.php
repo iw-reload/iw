@@ -22,5 +22,4 @@ abstract class BaseTask extends AbstractTask
   public function setBase(Base $base) {
     $this->base = $base;
   }
-  
 }

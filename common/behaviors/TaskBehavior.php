@@ -48,14 +48,14 @@ class TaskBehavior extends Behavior
   
   public function attach($owner)
   {
+    parent::attach($owner);
+    
     if (!$owner instanceof \frontend\interfaces\TaskProviderInterface)
     {
       $behaviorClass = $this->className();
       $ownerClass = '\frontend\interfaces\TaskProviderInterface';
       throw new InvalidConfigException("'{$behaviorClass}' must only be attached to '{$ownerClass}' instances.");
     }
-    
-    parent::attach($owner);
   }
 
   public function afterFind()

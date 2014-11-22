@@ -8,8 +8,8 @@ use frontend\components\building\BuildingComponent;
 use frontend\interfaces\ConstructionTaskProvider;
 use frontend\models\Building;
 use frontend\objects\Resources;
-use yii\behaviors\AttributeBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\di\Instance;
 
 /**
@@ -41,7 +41,7 @@ use yii\di\Instance;
  * @property Task[] $tasks
  * @property Task[] $finishedTasks
  */
-class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
+class Base extends ActiveRecord implements ConstructionTaskProvider
 {
   /**
    * @var string the application component ID of the BuildingComponent
@@ -118,7 +118,7 @@ class Base extends \yii\db\ActiveRecord implements ConstructionTaskProvider
   { 
     return [ 
       TimestampBehavior::className(),
-      UpdateStockBehavior::className(),
+      //UpdateStockBehavior::className(),
     ]; 
   } 
   

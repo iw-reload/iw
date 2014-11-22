@@ -6,7 +6,9 @@ $params = array_merge(
   require(__DIR__ . '/params-local.php')
 );
 
-Yii::$container->setSingleton( 'frontend\interfaces\BuildingFinderInterface', 'frontend\components\building\BuildingComponent' );
+Yii::$container->setSingleton( 'frontend\interfaces\BuildingFinderInterface', function () {
+  return Yii::$app->get('building');
+});
 
 return [
   'id' => 'app-frontend',
@@ -36,6 +38,9 @@ return [
         ],
       ],
     ],    
+    'baseManager' => [
+      'class' => 'frontend\components\baseManager\BaseManager',
+    ],
     'building' => [
       'class' => 'frontend\components\building\BuildingComponent',
     ],
@@ -61,6 +66,9 @@ return [
         'oauth2callback/<authclient:google>' => 'site/auth',
       ],
     ],
+    'userManager' => [
+      'class' => 'frontend\components\userManager\UserManager',
+    ],
     'user' => [
       'identityClass' => 'common\models\User',
       'enableAutoLogin' => false,
@@ -73,5 +81,17 @@ return [
       'layout' => 'main',
     ],
   ],
+  'on beforeAction' => function ($event) {
+    // preload important components
+    \Yii::$app->get('userManager');
+    \Yii::$app->get('baseManager');
+    \Yii::$app->get('task');
+  },
+//  'as BaseManagerInitializer' => [
+//    'class' => 'frontend\components\baseManager\Initializer',
+//  ],
+//  'as UserManagerInitializer' => [
+//    'class' => 'frontend\components\userManager\Initializer',
+//  ],
   'params' => $params,
 ];
