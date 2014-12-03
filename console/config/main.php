@@ -11,6 +11,9 @@ return [
   'basePath' => dirname(__DIR__),
   'bootstrap' => ['log', 'gii'],
   'controllerMap' => [
+    'doctrine' => [
+      'class' => 'common\components\doctrine\console\DoctrineController',
+    ],
     'message' => [
       'class' => 'console\controllers\MessageController',
     ],
