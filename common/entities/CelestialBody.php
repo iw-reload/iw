@@ -25,10 +25,18 @@ class CelestialBody
    * @var CelestialBodySpecs
    * @Embedded(class = "CelestialBodySpecs")
    */
-  private $specs;
+  private $specs = null;
+  /**
+   * Unidirectional - Many CelestialBodies can have many CelestialBodySpecialties
+   * 
+   * @var \Doctrine\Common\Collections\Collection
+   * @ManyToMany(targetEntity="CelestialBodySpecialty", indexBy="type")
+   */
+  private $specialties = null;
   
   public function __construct() {
     $this->specs = new CelestialBodySpecs();
+    $this->specialties = new \Doctrine\Common\Collections\ArrayCollection();
   }
 
   public function getId() {
@@ -45,5 +53,9 @@ class CelestialBody
 
   public function getSpecs() {
     return $this->specs;
+  }  
+  
+  public function getSpecialties() {
+    return $this->specialties;
   }  
 }

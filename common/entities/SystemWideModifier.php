@@ -15,6 +15,13 @@ class SystemWideModifier
    */
   private $id;
   /**
+   * Just a label for identifiying a system wide modifier in DB. Think of
+   * "Blue nebula".
+   * @var String
+   * @Column(type="string")
+   */
+  private $label = '';
+  /**
    * The actual color, RGBA.
    * @var int
    * @Column(type = "integer", options={"unsigned":true})
@@ -24,16 +31,33 @@ class SystemWideModifier
    * @var CelestialBodySpecs
    * @Embedded(class = "CelestialBodySpecs")
    */
-  private $specsModifier;
+  private $specsModifier = null;
+  /**
+   * Unidirectional - Many SystemWideModifiers can imply many CelestialBodySpecialties
+   * on the CelestialBodies in the system.
+   * 
+   * @var \Doctrine\Common\Collections\Collection
+   * @ManyToMany(targetEntity="CelestialBodySpecialty", indexBy="type")
+   */
+  private $impliedSpecialties = null;
   
   public function __construct() {
     $this->specsModifier = new CelestialBodySpecs();
+    $this->impliedSpecialties = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
   public function getId() {
     return $this->id;
   }
   
+  public function getLabel() {
+    return $this->label;
+  }
+
+  public function setLabel($label) {
+    $this->label = (string)$label;
+  }
+
   public function getNebulaColor() {
     return $this->nebulaColor;
   }
@@ -42,7 +66,11 @@ class SystemWideModifier
     $this->nebulaColor = (int)$nebulaColor;
   }
 
-  public function getSpecsModifier(CelestialBodySpecs $specsModifier) {
-    $this->specsModifier = $specsModifier;
-  }  
+  public function getSpecsModifier() {
+    return $this->specsModifier;
+  }
+  
+  public function getImpliedSpecialities() {
+    return $this->impliedSpecialties;
+  }
 }

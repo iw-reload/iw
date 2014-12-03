@@ -15,15 +15,17 @@ class GalaxyWideModifier
    */
   private $id;
   /**
-   * @var string
-   * @Column(type = "string")
+   * Just a label for identifiying a galaxy wide modifier in DB. Think of
+   * "Asteroids in Chaos-Galaxies".
+   * @var String
+   * @Column(type="string")
    */
-  private $celestialBodyType;
+  private $label = '';
   /**
    * @var CelestialBodySpecs
    * @Embedded(class = "CelestialBodySpecs")
    */
-  private $specsModifier;
+  private $specsModifier = null;
   
   public function __construct() {
     $this->specsModifier = new CelestialBodySpecs();
@@ -33,15 +35,15 @@ class GalaxyWideModifier
     return $this->id;
   }
   
-  public function getCelestialBodyType() {
-    return $this->celestialBodyType;
+  public function getLabel() {
+    return $this->label;
   }
 
-  public function setCelestialBodyType($celestialBodyType) {
-    $this->celestialBodyType = (string)$celestialBodyType;
+  public function setLabel($label) {
+    $this->label = (string)$label;
   }
-
-  public function getSpecsModifier(CelestialBodySpecs $specsModifier) {
-    $this->specsModifier = $specsModifier;
+    
+  public function getSpecsModifier() {
+    return $this->specsModifier;
   }  
 }
