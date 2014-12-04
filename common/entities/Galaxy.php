@@ -25,9 +25,16 @@ class Galaxy
    * @OneToMany(targetEntity="GalaxyWideModifierConstraint", mappedBy="galaxy", indexBy="celestialBodyType")
    */
   private $modifiersByCelestialBodyType = null;
+  /**
+   * Bidirectional - One-To-Many (INVERSE SIDE)
+   * @var \Doctrine\Common\Collections\Collection
+   * @OneToMany(targetEntity="System", mappedBy="galaxy", indexBy="number")
+   */
+  private $systems = null;
   
   public function __construct() {
-    $this->modifierConstraints = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->modifiersByCelestialBodyType = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->systems = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
   public function getId() {
@@ -54,15 +61,52 @@ class Galaxy
   }
   
   /**
-   * Don't call this. It is meant to be used only by GalaxyWideModifierConstraint
-   * to keep bidirectional associations in sync.
-   * 
    * @param \common\entities\GalaxyWideModifierConstraint $galaxyWideModifierConstraint
+   * @param bool $sync
    */
-  public function modifierRegistered(GalaxyWideModifierConstraint $galaxyWideModifierConstraint)
+  public function addModifier( GalaxyWideModifierConstraint $galaxyWideModifierConstraint, $sync=true )
   {
     $this->modifiersByCelestialBodyType->set(
       $galaxyWideModifierConstraint->getCelestialBodyType(),
-      $galaxyWideModifierConstraint->getModifier() );
+      $galaxyWideModifierConstraint );
+    
+    if ($sync)
+    {
+      $galaxyWideModifierConstraint->setModifierForCelestialBodyTypeInGalaxy(
+        $galaxyWideModifierConstraint->getModifier(),
+        $galaxyWideModifierConstraint->getCelestialBodyType(),
+        $this,
+        false );
+    }
   }
+  
+  /**
+   * @param \common\entities\System $system
+   * @param bool $sync
+   */
+  public function addSystem( System $system, $sync=true )
+  {
+    $this->systems->set( $system->getNumber(), $system );
+    
+    if ($sync) {
+      $system->setGalaxy( $this, false );
+    }
+  }
+  
+  public function hasSystem( $number ) {
+    return $this->systems->containsKey( $number );
+  }
+ 
+  public function getSystem( $number ) {
+    return $this->systems->get( $number );
+  }
+ 
+  public function getSystemNumbers() {
+    return $this->systems->getKeys();
+  }
+ 
+  public function getAllSystems() {
+    return $this->systems->toArray();
+  }
+  
 }

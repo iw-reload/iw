@@ -33,10 +33,19 @@ class CelestialBody
    * @ManyToMany(targetEntity="CelestialBodySpecialty", indexBy="type")
    */
   private $specialties = null;
+  /**
+   * Bidirectional - Many CelestialBodies make uo one System (OWNING SIDE)
+   * 
+   * @var System
+   * @ManyToOne(targetEntity="System", inversedBy="celestialBodies")
+   * @JoinColumn(onDelete="CASCADE")
+   */
+  private $system = null;
   
   public function __construct() {
     $this->specs = new CelestialBodySpecs();
     $this->specialties = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->system = new System;
   }
 
   public function getId() {
@@ -57,5 +66,18 @@ class CelestialBody
   
   public function getSpecialties() {
     return $this->specialties;
-  }  
+  }
+  
+  public function getSystem() {
+    return $this->system;
+  }
+  
+  public function setSystem( System $system, $sync=true )
+  {
+    $this->system = $system;
+    
+    if ($sync) {
+      $system->addCelestialBody( $this, false );
+    }
+  }
 }

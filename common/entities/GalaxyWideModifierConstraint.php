@@ -66,12 +66,14 @@ class GalaxyWideModifierConstraint
     return $this->modifier;
   }
 
-  public function setModifierForCelestialBodyTypeInGalaxy( GalaxyWideModifier $modifier, $celestialBodyType, Galaxy $galaxy )
+  public function setModifierForCelestialBodyTypeInGalaxy( GalaxyWideModifier $modifier, $celestialBodyType, Galaxy $galaxy, $sync=true )
   {
     $this->modifier = $modifier;
     $this->celestialBodyType = (string)$celestialBodyType;
     $this->galaxy = $galaxy;
     
-    $galaxy->modifierRegistered( $this );
+    if ($sync) {
+      $galaxy->modifierRegistered( $this, false );
+    }
   }
 }
