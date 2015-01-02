@@ -1,5 +1,11 @@
-namespace: tests\codeception\common
 actor: Tester
+coverage:
+    enabled: true
+    blacklist:
+        include:
+            - ../../../tests/*
+            - ../../../vendor/*
+namespace: tests\codeception\common
 paths:
     tests: .
     log: _output
