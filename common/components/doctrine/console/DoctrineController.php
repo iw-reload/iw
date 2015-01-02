@@ -27,7 +27,23 @@ class DoctrineController extends \yii\console\Controller
 
   public function actionIndex()
   {
-    unset($_SERVER['argv'][1]);
+    unset( $_SERVER['argv'][1] );
+    
+    $option = '--' . \yii\console\Application::OPTION_APPCONFIG . '=';
+    foreach ($_SERVER['argv'] as $key => $param)
+    {
+      if (strpos($param,$option) === 0)
+      {
+        $keyToUnset = $key;
+        break;
+      }
+    }
+    
+    if (isset($keyToUnset))
+    {
+      unset( $_SERVER['argv'][$keyToUnset] );
+      unset( $keyToUnset );
+    }
     
     // Currently, symfony application uses a deprecated class (DialogHelper).
     // Don't throw an exception.
