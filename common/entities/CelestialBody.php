@@ -4,12 +4,40 @@ namespace common\entities;
 
 /**
  * Description of CelestialBody
- *
+ * 
  * @Entity
+ * @InheritanceType("SINGLE_TABLE")
+ * @DiscriminatorColumn(name="discr", type="smallint")
+ * @DiscriminatorMap({
+ *    0 = "Void"
+ *  , 1 = "TerrestrialPlanet"
+ *  , 2 = "IceGiant"
+ *  , 3 = "GasGiant"
+ *  , 4 = "Asteroid"
+ *  , 5 = "ElectricityStorm"
+ *  , 6 = "IonStorm"
+ *  , 7 = "SpatialDistortion"
+ *  , 8 = "GravimetricAnomaly"
+ * })
+ * @Table(
+ *  uniqueConstraints={
+ *    @UniqueConstraint(columns={"system_id","number"}),
+ *  }
+ * )
  * @author ben
  */
-class CelestialBody
+abstract class CelestialBody
 {
+  const DISCR_VOID = 0;
+  const DISCR_TERRESTRIAL_PLANET = 1;
+  const DISCR_ICE_GIANT = 2;
+  const DISCR_GAS_GIANT = 3;
+  const DISCR_ASTEROID = 4;
+  const DISCR_ELECTRICITY_STORM = 5;
+  const DISCR_ION_STORM = 6;
+  const DISCR_SPATIAL_DISTORTION = 7;
+  const DISCR_GRAVIMETRIC_ANOMALY = 8;
+  
   /**
    * @var int
    * @Id @Column(type="integer")
@@ -25,7 +53,7 @@ class CelestialBody
    * @var CelestialBodySpecs
    * @Embedded(class = "CelestialBodySpecs")
    */
-  private $specs = null;
+  protected $specs = null;
   /**
    * Unidirectional - Many CelestialBodies can have many CelestialBodySpecialties
    * 
@@ -38,7 +66,7 @@ class CelestialBody
    * 
    * @var System
    * @ManyToOne(targetEntity="System", inversedBy="celestialBodies")
-   * @JoinColumn(onDelete="CASCADE")
+   * @JoinColumn(nullable=false,onDelete="CASCADE")
    */
   private $system = null;
   
@@ -47,6 +75,8 @@ class CelestialBody
     $this->specialties = new \Doctrine\Common\Collections\ArrayCollection();
     $this->system = new System;
   }
+  
+  abstract public function getType();
 
   public function getId() {
     return $this->id;

@@ -22,19 +22,28 @@ class Galaxy
   /**
    * Bidirectional - One-To-Many (INVERSE SIDE)
    * @var \Doctrine\Common\Collections\Collection
-   * @OneToMany(targetEntity="GalaxyWideModifierConstraint", mappedBy="galaxy", indexBy="celestialBodyType")
+   * @OneToMany(targetEntity="GalaxyWideModifier", mappedBy="galaxy", indexBy="celestialBodyType")
    */
-  private $modifiersByCelestialBodyType = null;
+  private $modifiers = null;
   /**
    * Bidirectional - One-To-Many (INVERSE SIDE)
    * @var \Doctrine\Common\Collections\Collection
    * @OneToMany(targetEntity="System", mappedBy="galaxy", indexBy="number")
    */
   private $systems = null;
+  /**
+   * Bidirectional - Many Galaxies make up one Universe (OWNING SIDE)
+   * 
+   * @var Universe
+   * @ManyToOne(targetEntity="Universe", inversedBy="galaxies")
+   * @JoinColumn(nullable=false,onDelete="CASCADE")
+   */
+  private $universe = null;
   
   public function __construct() {
-    $this->modifiersByCelestialBodyType = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->modifiers = new \Doctrine\Common\Collections\ArrayCollection();
     $this->systems = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->universe = new Universe();
   }
   
   public function getId() {
@@ -49,34 +58,28 @@ class Galaxy
     $this->number = (int)$number;
   }
   
-  public function hasModifier($celestialBodyType) {
-    return $this->modifiersByCelestialBodyType->containsKey( $celestialBodyType );
+  public function getModifierKeys() {
+    return $this->modifiers->getKeys();
   }
   
-  public function getModifier($celestialBodyType)
-  {
-    /* @var $galaxyWideModifierConstraint GalaxyWideModifierConstraint */
-    $galaxyWideModifierConstraint = $this->modifiersByCelestialBodyType->get( $celestialBodyType );
-    return $galaxyWideModifierConstraint->getModifier();
+  public function hasModifier($celestialBodyType) {
+    return $this->modifiers->containsKey( $celestialBodyType );
+  }
+  
+  public function getModifier($celestialBodyType) {
+    return $this->modifiers->get( $celestialBodyType );
   }
   
   /**
-   * @param \common\entities\GalaxyWideModifierConstraint $galaxyWideModifierConstraint
+   * @param \common\entities\GalaxyWideModifier $galaxyWideModifier
    * @param bool $sync
    */
-  public function addModifier( GalaxyWideModifierConstraint $galaxyWideModifierConstraint, $sync=true )
+  public function addModifier( GalaxyWideModifier $galaxyWideModifier, $sync=true )
   {
-    $this->modifiersByCelestialBodyType->set(
-      $galaxyWideModifierConstraint->getCelestialBodyType(),
-      $galaxyWideModifierConstraint );
+    $this->modifiers->set( $galaxyWideModifier->getCelestialBodyType(), $galaxyWideModifier );
     
-    if ($sync)
-    {
-      $galaxyWideModifierConstraint->setModifierForCelestialBodyTypeInGalaxy(
-        $galaxyWideModifierConstraint->getModifier(),
-        $galaxyWideModifierConstraint->getCelestialBodyType(),
-        $this,
-        false );
+    if ($sync) {
+      $galaxyWideModifier->setGalaxy($this, false);
     }
   }
   
@@ -93,6 +96,14 @@ class Galaxy
     }
   }
   
+  public function countSystems() {
+    return $this->systems->count();
+  }
+ 
+  public function getSystemNumbers() {
+    return $this->systems->getKeys();
+  }
+ 
   public function hasSystem( $number ) {
     return $this->systems->containsKey( $number );
   }
@@ -101,12 +112,21 @@ class Galaxy
     return $this->systems->get( $number );
   }
  
-  public function getSystemNumbers() {
-    return $this->systems->getKeys();
-  }
- 
   public function getAllSystems() {
     return $this->systems->toArray();
+  }
+  
+  public function getUniverse() {
+    return $this->universe;
+  }
+  
+  public function setUniverse( Universe $universe, $sync=true )
+  {
+    $this->universe = $universe;
+    
+    if ($sync) {
+      $universe->addGalaxy( $this, false );
+    }
   }
   
 }

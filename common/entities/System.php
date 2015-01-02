@@ -3,6 +3,11 @@
 namespace common\entities;
 
 /**
+ * @Table(
+ *  uniqueConstraints={
+ *    @UniqueConstraint(columns={"galaxy_id","number"}),
+ *  }
+ * )
  * @Entity
  * @author ben
  */
@@ -30,7 +35,7 @@ class System
    * 
    * @var Galaxy
    * @ManyToOne(targetEntity="Galaxy", inversedBy="systems")
-   * @JoinColumn(onDelete="CASCADE")
+   * @JoinColumn(nullable=false,onDelete="CASCADE")
    */
   private $galaxy = null;
   /**
@@ -92,16 +97,20 @@ class System
     }
   }
   
+  public function countCelestialBodies() {
+    return $this->celestialBodies->count();
+  }
+ 
+  public function getCelestialBodyNumbers() {
+    return $this->celestialBodies->getKeys();
+  }
+ 
   public function hasCelestialBody( $number ) {
     return $this->celestialBodies->containsKey( $number );
   }
  
   public function getCelestialBody( $number ) {
     return $this->celestialBodies->get( $number );
-  }
- 
-  public function getCelestialBodyNumbers() {
-    return $this->celestialBodies->getKeys();
   }
  
   public function getAllCelestialBodies() {

@@ -3,7 +3,7 @@
 namespace common\entities;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="common\entityRepositories\CelestialBodySpecialty")
  * @author ben
  */
 class CelestialBodySpecialty

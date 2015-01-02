@@ -41,22 +41,22 @@ class Universe
    */
   private $defaultSpecs;
   /**
-   * Smallest CelestialBody Specs around.
-   * @var CelestialBodySpecs
-   * @Embedded(class = "CelestialBodySpecs")
+   * Bidirectional - One-To-Many (INVERSE SIDE)
+   * @var \Doctrine\Common\Collections\Collection
+   * @OneToMany(targetEntity="CelestialBodyTypeSpecs", mappedBy="universe", indexBy="celestialBodyType")
    */
-  private $minSpecs;
+  private $celestialBodyTypeSpecs = null;
   /**
-   * Biggest CelestialBody Specs around.
-   * @var CelestialBodySpecs
-   * @Embedded(class = "CelestialBodySpecs")
+   * Bidirectional - One-To-Many (INVERSE SIDE)
+   * @var \Doctrine\Common\Collections\Collection
+   * @OneToMany(targetEntity="Galaxy", mappedBy="universe", indexBy="number")
    */
-  private $maxSpecs;
+  private $galaxies = null;
   
   public function __construct() {
     $this->defaultSpecs = new CelestialBodySpecs();
-    $this->minSpecs = new CelestialBodySpecs();
-    $this->maxSpecs = new CelestialBodySpecs();
+    $this->celestialBodyTypeSpecs = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->galaxies = new \Doctrine\Common\Collections\ArrayCollection();
   }
   
   public function getId() {
@@ -99,11 +99,53 @@ class Universe
     return $this->defaultSpecs;
   }
 
-  public function getMinSpecs() {
-    return $this->minSpecs;
+  public function addCelestialBodyTypeSpecs(CelestialBodyTypeSpecs $celestialBodyTypeSpecs, $sync=true)
+  {
+    $this->celestialBodyTypeSpecs->set( $celestialBodyTypeSpecs->getCelestialBodyType(), $celestialBodyTypeSpecs );
+    
+    if ($sync) {
+      $celestialBodyTypeSpecs->setUniverse( $this, false );
+    }
   }
-
-  public function getMaxSpecs() {
-    return $this->maxSpecs;
+  
+  /**
+   * @param int $celestialBodyType
+   * @return CelestialBodyTypeSpecs
+   */
+  public function getCelestialBodyTypeSpecs( $celestialBodyType ) {
+    return $this->celestialBodyTypeSpecs->get( $celestialBodyType );
+  }
+  
+  /**
+   * @param \common\entities\Galaxy $galaxy
+   * @param bool $sync
+   */
+  public function addGalaxy(Galaxy $galaxy, $sync=true)
+  {
+    $this->galaxies->set( $galaxy->getNumber(), $galaxy );
+    
+    if ($sync) {
+      $galaxy->setUniverse( $this, false );
+    }
+  }
+  
+  public function countGalaxies() {
+    return $this->galaxies->count();
+  }
+ 
+  public function getGalaxyNumbers() {
+    return $this->galaxies->getKeys();
+  }
+ 
+  public function hasGalaxy( $number ) {
+    return $this->galaxies->containsKey( $number );
+  }
+ 
+  public function getGalaxy( $number ) {
+    return $this->galaxies->get( $number );
+  }
+ 
+  public function getAllGalaxies() {
+    return $this->galaxies->toArray();
   }
 }

@@ -4,6 +4,11 @@ namespace common\entities;
 
 /**
  * @Entity
+ * @Table(
+ *  uniqueConstraints={
+ *    @UniqueConstraint(columns={"galaxy_id","celestialBodyType"})
+ *  }
+ * )
  * @author ben
  */
 class GalaxyWideModifier
@@ -22,6 +27,21 @@ class GalaxyWideModifier
    */
   private $label = '';
   /**
+   * The celestial body type this galaxy wide modifier refers to.
+   * @var int
+   * @Column(type = "smallint")
+   */
+  private $celestialBodyType;
+  /**
+   * Bidirectional - Many (but at most one for every celestialBodyType)
+   * GalaxyWideModifiers can apply to one Galaxy (OWNING SIDE)
+   * 
+   * @var Galaxy
+   * @ManyToOne(targetEntity="Galaxy", inversedBy="modifiers")
+   * @JoinColumn(onDelete="CASCADE")
+   */
+  private $galaxy = null;
+  /**
    * @var CelestialBodySpecs
    * @Embedded(class = "CelestialBodySpecs")
    */
@@ -31,6 +51,10 @@ class GalaxyWideModifier
     $this->specsModifier = new CelestialBodySpecs();
   }
   
+  public function getCelestialBodyType() {
+    return $this->celestialBodyType;
+  }
+
   public function getId() {
     return $this->id;
   }
@@ -39,11 +63,24 @@ class GalaxyWideModifier
     return $this->label;
   }
 
-  public function setLabel($label) {
-    $this->label = (string)$label;
-  }
-    
   public function getSpecsModifier() {
     return $this->specsModifier;
   }  
+
+  public function setCelestialBodyType($celestialBodyType) {
+    $this->celestialBodyType = $celestialBodyType;
+  }
+  
+  public function setGalaxy(Galaxy $galaxy, $sync=true)
+  {
+    $this->galaxy = $galaxy;
+    
+    if ($sync) {
+      $galaxy->addModifier( $this, false );
+    }
+  }
+  
+  public function setLabel($label) {
+    $this->label = (string)$label;
+  }
 }

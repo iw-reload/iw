@@ -34,6 +34,11 @@ class CelestialBodySpecs
     $this->effects = new CelestialBodyEffects();
   }
   
+  public function __clone() {
+    $this->resourceDensity = clone $this->resourceDensity;
+    $this->effects = clone $this->effects;
+  }
+  
   public function getGravity() {
     return $this->gravity;
   }
