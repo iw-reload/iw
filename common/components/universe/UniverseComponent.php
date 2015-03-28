@@ -138,7 +138,7 @@ class UniverseComponent extends Component
       
       if (!$cb instanceof CelestialBody) {
         throw new InvalidCallException("Can't reset celestian body '{$celestialBody}'. It does not exist.");
-      }      
+      }
     }
     else if ($celestialBody instanceof CelestialBody)
     {

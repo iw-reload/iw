@@ -56,3 +56,28 @@ After creating and setting up the advanced application, follow these steps to pr
    ```
 
   If you already have run `codecept build` for each application, you can skip that step and run all tests by a single `codecept run`.
+
+6. IW specific
+   
+   Currently, doctrine tests use a sqlite db (configured in tests/codeception/config/config.php).
+   To update the DB's schema, run:
+
+   ```
+   # delete and re-create schema
+   cd tests/codeception
+   ./bin/yii doctrine orm:schema-tool:drop --force --appconfig=./config/console/unit.php
+   ./bin/yii doctrine orm:schema-tool:create --appconfig=./config/console/unit.php
+   
+   # update schema
+   cd tests/codeception
+   ./bin/yii doctrine orm:schema-tool:update --force --appconfig=./config/console/unit.php
+   ```
+   
+   Once the schema is up-to-date, you can run the tests like this:
+   
+   ```
+   # common
+   cd tests/codeception/common
+   codecept build
+   codecept run
+   ```

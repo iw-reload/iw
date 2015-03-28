@@ -28,3 +28,4 @@ composer.phar
 phpunit.phar
 # local phpunit config
 /phpunit.xml
+/common/data/iw_tests.sqlite
