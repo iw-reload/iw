@@ -88,6 +88,25 @@ class Universe
   }
   
   /**
+   * Selects a celestial body that should be used for a new player.
+   * @todo could use a better algorithm. Maybe place new players in areas that
+   *       are not too densly populated.
+   *       Or place them among other players just having started playing.
+   *       Currently, we simply take any celestial body that doesn't yet have
+   *       an owner.
+   * @return CelestialBody
+   */
+  public function chooseCelestialBodyForNewPlayer()
+  {
+    // TODO: entity repositories could be made accessible as application
+    //       components.
+    
+    /* @var $repo \common\entityRepositories\CelestialBody */
+    $repo = $this->em->getRepository('common\entities\CelestialBody');
+    return $repo->getFreeCelestialBody();
+  }
+  
+  /**
    * @param SystemEntity $systemEntity
    * @return \common\entities\CelestialBody
    * @throws \yii\base\InvalidValueException

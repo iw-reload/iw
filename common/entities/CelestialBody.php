@@ -5,7 +5,7 @@ namespace common\entities;
 /**
  * Description of CelestialBody
  * 
- * @Entity
+ * @Entity(repositoryClass="common\entityRepositories\CelestialBody")
  * @InheritanceType("SINGLE_TABLE")
  * @DiscriminatorColumn(name="discr", type="smallint")
  * @DiscriminatorMap({
@@ -50,6 +50,12 @@ abstract class CelestialBody
    */
   private $number = 0;
   /**
+   * Bidirectional - One-To-ZeroOrOne (INVERSE SIDE)
+   * @var Outpost|null
+   * @OneToOne(targetEntity="Outpost", mappedBy="celestialBody")
+   */
+  private $outpost = null;
+  /**
    * @var CelestialBodySpecs
    * @Embedded(class = "CelestialBodySpecs")
    */
@@ -88,6 +94,23 @@ abstract class CelestialBody
 
   public function setNumber($number) {
     $this->number = (int)$number;
+  }
+
+  public function hasOutpost() {
+    return $this->outpost instanceof Outpost;
+  }
+
+  public function getOutpost() {
+    return $this->outpost;
+  }
+
+  public function setOutpost(Outpost $outpost, $sync=true )
+  {
+    $this->outpost = $outpost;
+    
+    if ($sync) {
+      $outpost->setCelestialBody( $this, false );
+    }
   }
 
   public function getSpecs() {

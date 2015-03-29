@@ -31,7 +31,7 @@ class System
    */
   private $modifier = null;
   /**
-   * Bidirectional - Many Systems make uo one Galaxy (OWNING SIDE)
+   * Bidirectional - Many Systems make up one Galaxy (OWNING SIDE)
    * 
    * @var Galaxy
    * @ManyToOne(targetEntity="Galaxy", inversedBy="systems")
