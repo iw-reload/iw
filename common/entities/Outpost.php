@@ -28,7 +28,7 @@ class Outpost
    * Bidirectional - One-To-One (OWNING SIDE)
    * @var CelestialBody
    * @OneToOne(targetEntity="CelestialBody", mappedBy="outpost")
-   * @JoinColumn(name="celestialBody_id", referencedColumnName="id")
+   * @JoinColumn(nullable=false,onDelete="CASCADE")
    */
   private $celestialBody = null;
   

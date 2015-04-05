@@ -12,11 +12,19 @@ class CelestialBody extends EntityRepository
   /**
    * Returns a CelestialBody not being owned by any user (no Outpost on it).
    * @return \common\entities\CelestialBody
+   * @throws \Doctrine\ORM\NoResultException
    */
   public function getFreeCelestialBody()
   {
-    return $this->_em
-      ->createQuery('SELECT c, o.id FROM common\entities\CelestialBody c LEFT JOIN c.outpost o WHERE o.id IS NULL')
-      ->getOneOrNullResult();
+    $result = $this->_em->createQueryBuilder()
+      ->select('c', 'o.id')
+      ->from('common\entities\CelestialBody', 'c')
+      ->leftJoin('c.outpost', 'o')
+      ->where('o.id IS NULL')
+      ->setMaxResults(1)
+      ->getQuery()
+      ->getSingleResult();
+    
+    return empty($result) ? null : array_shift($result);
   }  
 }

@@ -7,8 +7,10 @@ use common\entities\CelestialBodySpecialty as CelestialBodySpecialtyEntity;
 use common\entities\Galaxy as GalaxyEntity;
 use common\entities\System as SystemEntity;
 use common\entities\Universe as UniverseEntity;
+use common\entityRepositories\CelestialBody as CelestialBodyRepository;
 use common\entityRepositories\CelestialBodySpecialty as CelestialBodySpecialtyRepository;
 use common\models\Galaxy as GalaxyModel;
+use common\objects\CelestialBodyFactory;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -22,6 +24,10 @@ class Universe
   const SPECIALTY_LIKELIHOOD = 100;
   
   /**
+   * @var CelestialBodyRepository
+   */
+  private $celestialBodyRepository = null;
+  /**
    * @var CelestialBodySpecialtyRepository
    */
   private $celestialBodySpecialtyRepository = null;
@@ -34,10 +40,16 @@ class Universe
    */   
   private $universeEntity = null;
   
-  public function __construct(EntityManagerInterface $em, UniverseEntity $universeEntity) {
+  public function __construct
+    (EntityManagerInterface $em
+    , UniverseEntity $universeEntity
+    , CelestialBodyRepository $celestialBodyRepository
+    , CelestialBodySpecialtyRepository $celestialBodySpecialtyRepository
+    ) {
+    $this->celestialBodyRepository = $celestialBodyRepository;
+    $this->celestialBodySpecialtyRepository = $celestialBodySpecialtyRepository;
     $this->em = $em;
     $this->universeEntity = $universeEntity;
-    $this->celestialBodySpecialtyRepository = $this->em->getRepository( CelestialBodySpecialtyEntity::class );
   }
 
   private function appendCelestialBody(SystemEntity $systemEntity)
@@ -89,21 +101,41 @@ class Universe
   
   /**
    * Selects a celestial body that should be used for a new player.
+   * 
    * @todo could use a better algorithm. Maybe place new players in areas that
    *       are not too densly populated.
    *       Or place them among other players just having started playing.
    *       Currently, we simply take any celestial body that doesn't yet have
    *       an owner.
-   * @return CelestialBody
+   * 
+   * @return \common\models\TerrestrialPlanet
    */
-  public function chooseCelestialBodyForNewPlayer()
+  public function getTerrestrialPlanetForNewPlayer()
   {
-    // TODO: entity repositories could be made accessible as application
-    //       components.
+    $celestialBodyEntity = $this->celestialBodyRepository->getFreeCelestialBody();
     
-    /* @var $repo \common\entityRepositories\CelestialBody */
-    $repo = $this->em->getRepository('common\entities\CelestialBody');
-    return $repo->getFreeCelestialBody();
+    if ($celestialBodyEntity instanceof \common\entities\TerrestrialPlanet)
+    {
+      $terrestrialPlanetEntity = $celestialBodyEntity;
+    }
+    else
+    {
+      $this->em->detach( $celestialBodyEntity );
+
+      // This is the bad part.
+      // Maybe there's a better alternative?
+      $discrTerrestrialPlanet = CelestialBodyEntity::DISCR_TERRESTRIAL_PLANET;
+      $query = "UPDATE celestialbody SET discr = {$discrTerrestrialPlanet} WHERE id = {$celestialBodyEntity->getId()}";
+      $this->em->getConnection()->exec( $query );
+
+      // this is now a terrestrial planet
+      $terrestrialPlanetEntity = $this->celestialBodyRepository->find( $celestialBodyEntity->getId() );
+    }    
+    
+    $terrestrialPlanetModel = CelestialBodyFactory::create( $terrestrialPlanetEntity, $this->celestialBodySpecialtyRepository );
+    $terrestrialPlanetModel->reset();
+    
+    return $terrestrialPlanetModel;
   }
   
   /**

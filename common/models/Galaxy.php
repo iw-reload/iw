@@ -2,7 +2,7 @@
 
 namespace common\models;
 
-use common\entities\CelestialBody;
+use common\entities\CelestialBody as CelestialBodyEntity;
 use common\entities\CelestialBodySpecs;
 use common\entities\Galaxy as GalaxyEntity;
 
@@ -25,25 +25,25 @@ class Galaxy
    * @var array
    */
   private $chaosGalaxyCelestialBodyTypes = [
-    CelestialBody::DISCR_ASTEROID
-    , CelestialBody::DISCR_GAS_GIANT
-    , CelestialBody::DISCR_ICE_GIANT
-    , CelestialBody::DISCR_TERRESTRIAL_PLANET
-    , CelestialBody::DISCR_VOID
+    CelestialBodyEntity::DISCR_ASTEROID
+    , CelestialBodyEntity::DISCR_GAS_GIANT
+    , CelestialBodyEntity::DISCR_ICE_GIANT
+    , CelestialBodyEntity::DISCR_TERRESTRIAL_PLANET
+    , CelestialBodyEntity::DISCR_VOID
   ];
   /**
    * @var array
    */
   private $normalGalaxyCelestialBodyTypes = [
-    CelestialBody::DISCR_ASTEROID
-    , CelestialBody::DISCR_ELECTRICITY_STORM
-    , CelestialBody::DISCR_GAS_GIANT
-    , CelestialBody::DISCR_GRAVIMETRIC_ANOMALY
-    , CelestialBody::DISCR_ICE_GIANT
-    , CelestialBody::DISCR_ION_STORM
-    , CelestialBody::DISCR_SPATIAL_DISTORTION
-    , CelestialBody::DISCR_TERRESTRIAL_PLANET
-    , CelestialBody::DISCR_VOID
+    CelestialBodyEntity::DISCR_ASTEROID
+    , CelestialBodyEntity::DISCR_ELECTRICITY_STORM
+    , CelestialBodyEntity::DISCR_GAS_GIANT
+    , CelestialBodyEntity::DISCR_GRAVIMETRIC_ANOMALY
+    , CelestialBodyEntity::DISCR_ICE_GIANT
+    , CelestialBodyEntity::DISCR_ION_STORM
+    , CelestialBodyEntity::DISCR_SPATIAL_DISTORTION
+    , CelestialBodyEntity::DISCR_TERRESTRIAL_PLANET
+    , CelestialBodyEntity::DISCR_VOID
   ];
   
   public function __construct(GalaxyEntity $galaxyEntity) {

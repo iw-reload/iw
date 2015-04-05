@@ -15,10 +15,6 @@ class UniverseTest extends TestCase
   use Specify;
 
   /**
-   * @var \Doctrine\ORM\EntityManagerInterface
-   */
-  private $em = null;
-  /**
    * @var \common\entities\Universe
    */
   private $universeEntity = null;
@@ -27,16 +23,12 @@ class UniverseTest extends TestCase
   {
     parent::setUp();
     
-    /* @var $doctrine \common\components\doctrine\DoctrineComponent */
-    $doctrine = Yii::$app->get('doctrine');
-    $em = $doctrine->getEntityManager();
-
     $universeEntity = new \common\entities\Universe();
     $universeEntity->setMaxCelestialBodies( 2 );
     $universeEntity->setMaxSystems( 2 );
     $universeEntity->setMinCelestialBodies( 1 );
     $universeEntity->setMinSystems( 1 );
-    $em->persist( $universeEntity );
+    $this->em->persist( $universeEntity );
     
     $asteroidSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $asteroidSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -61,7 +53,7 @@ class UniverseTest extends TestCase
     $asteroidSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $asteroidSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_ASTEROID );
     $asteroidSpecs->setUniverse( $universeEntity );
-    $em->persist( $asteroidSpecs );
+    $this->em->persist( $asteroidSpecs );
     
     $electricityStormSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $electricityStormSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -86,7 +78,7 @@ class UniverseTest extends TestCase
     $electricityStormSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $electricityStormSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_ELECTRICITY_STORM );
     $electricityStormSpecs->setUniverse( $universeEntity );
-    $em->persist( $electricityStormSpecs );
+    $this->em->persist( $electricityStormSpecs );
     
     $gasGiantSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $gasGiantSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -111,7 +103,7 @@ class UniverseTest extends TestCase
     $gasGiantSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $gasGiantSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_GAS_GIANT );
     $gasGiantSpecs->setUniverse( $universeEntity );
-    $em->persist( $gasGiantSpecs );
+    $this->em->persist( $gasGiantSpecs );
     
     $gravimetricAnomalySpecs = new \common\entities\CelestialBodyTypeSpecs();
     $gravimetricAnomalySpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -136,7 +128,7 @@ class UniverseTest extends TestCase
     $gravimetricAnomalySpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $gravimetricAnomalySpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_GRAVIMETRIC_ANOMALY );
     $gravimetricAnomalySpecs->setUniverse( $universeEntity );
-    $em->persist( $gravimetricAnomalySpecs );
+    $this->em->persist( $gravimetricAnomalySpecs );
     
     $iceGiantSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $iceGiantSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -161,7 +153,7 @@ class UniverseTest extends TestCase
     $iceGiantSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $iceGiantSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_ICE_GIANT );
     $iceGiantSpecs->setUniverse( $universeEntity );
-    $em->persist( $iceGiantSpecs );
+    $this->em->persist( $iceGiantSpecs );
     
     $ionStormSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $ionStormSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -186,7 +178,7 @@ class UniverseTest extends TestCase
     $ionStormSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $ionStormSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_ION_STORM );
     $ionStormSpecs->setUniverse( $universeEntity );
-    $em->persist( $ionStormSpecs );
+    $this->em->persist( $ionStormSpecs );
     
     $spatialDistortionSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $spatialDistortionSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -211,7 +203,7 @@ class UniverseTest extends TestCase
     $spatialDistortionSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $spatialDistortionSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_SPATIAL_DISTORTION );
     $spatialDistortionSpecs->setUniverse( $universeEntity );
-    $em->persist( $spatialDistortionSpecs );
+    $this->em->persist( $spatialDistortionSpecs );
     
     $terrestrialPlanetSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $terrestrialPlanetSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -236,7 +228,7 @@ class UniverseTest extends TestCase
     $terrestrialPlanetSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $terrestrialPlanetSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_TERRESTRIAL_PLANET );
     $terrestrialPlanetSpecs->setUniverse( $universeEntity );
-    $em->persist( $terrestrialPlanetSpecs );
+    $this->em->persist( $terrestrialPlanetSpecs );
     
     $voidSpecs = new \common\entities\CelestialBodyTypeSpecs();
     $voidSpecs->getMaxSpecs()->getEffects()->setBuildingCost( 1.0 );
@@ -261,21 +253,19 @@ class UniverseTest extends TestCase
     $voidSpecs->getMinSpecs()->setLivingConditions( 0.5 );
     $voidSpecs->setCelestialBodyType( \common\entities\CelestialBody::DISCR_VOID );
     $voidSpecs->setUniverse( $universeEntity );
-    $em->persist( $voidSpecs );
+    $this->em->persist( $voidSpecs );
     
-    $this->em = $em;
+    $this->em->flush();
+    
     $this->universeEntity = $universeEntity;
-  }
-
-  protected function tearDown()
-  {
-    parent::tearDown();
   }
 
   public function testAppendGalaxy()
   {
     $universeEntity = $this->universeEntity;
-    $model = new Universe( $this->em, $this->universeEntity );
+    $celestialBodyRepository = $this->em->getRepository( \common\entities\CelestialBody::class );
+    $celestialBodySpecialtyRepository = $this->em->getRepository( \common\entities\CelestialBodySpecialty::class );
+    $model = new Universe( $this->em, $universeEntity, $celestialBodyRepository, $celestialBodySpecialtyRepository );
 
     $this->specify('universe should be able to expand', function () use ($universeEntity,$model) {
       $nGalaxies = $universeEntity->countGalaxies();
@@ -287,4 +277,41 @@ class UniverseTest extends TestCase
     });
   }
 
+  public function testGetTerrestrialPlanetForNewPlayer()
+  {
+    // Ensure there is one free asteroid in the universe
+    // It should be chosen as the new player's planet and thereby be transformed
+    // into a terrestrial planet.
+    
+    $galaxyEntity = new \common\entities\Galaxy();
+    $galaxyEntity->setNumber( 0 );
+    $galaxyEntity->setUniverse( $this->universeEntity );
+    $this->em->persist( $galaxyEntity );
+    
+    $systemEntity = new \common\entities\System();
+    $systemEntity->setGalaxy( $galaxyEntity );
+    $systemEntity->setNumber( 0 );
+    $this->em->persist( $systemEntity );
+    
+    $asteroidEntity = new \common\entities\Asteroid();
+    $asteroidEntity->setNumber( 0 );
+    $asteroidEntity->setSystem( $systemEntity );
+    $this->em->persist( $asteroidEntity );
+    
+    $this->em->flush();
+    
+    $celestialBodyRepository = $this->em->getRepository(\common\entities\CelestialBody::class );
+    $celestialBodySpecialtyRepository = $this->em->getRepository( \common\entities\CelestialBodySpecialty::class );
+    $model = new Universe( $this->em, $this->universeEntity, $celestialBodyRepository, $celestialBodySpecialtyRepository );
+    
+    $this->specify
+      ( 'Getting a celestial body for a new player.'
+      , function () use ($model)
+    {
+      $terrestrialPlanetModel = $model->getTerrestrialPlanetForNewPlayer();
+
+      expect( 'celestial body is a terrestrial planet', $terrestrialPlanetModel instanceof \common\models\TerrestrialPlanet )
+        ->true();
+    });
+  }  
 }
