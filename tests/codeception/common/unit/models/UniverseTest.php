@@ -283,13 +283,20 @@ class UniverseTest extends TestCase
     // It should be chosen as the new player's planet and thereby be transformed
     // into a terrestrial planet.
     
-    $galaxyEntity = new \common\entities\Galaxy();
-    $galaxyEntity->setNumber( 0 );
-    $galaxyEntity->setUniverse( $this->universeEntity );
-    $this->em->persist( $galaxyEntity );
+    // chaos galaxy
+    $galaxyEntity0 = new \common\entities\Galaxy();
+    $galaxyEntity0->setNumber( 0 );
+    $galaxyEntity0->setUniverse( $this->universeEntity );
+    $this->em->persist( $galaxyEntity0 );
+    
+    // normal galaxy
+    $galaxyEntity1 = new \common\entities\Galaxy();
+    $galaxyEntity1->setNumber( 1 );
+    $galaxyEntity1->setUniverse( $this->universeEntity );
+    $this->em->persist( $galaxyEntity1 );
     
     $systemEntity = new \common\entities\System();
-    $systemEntity->setGalaxy( $galaxyEntity );
+    $systemEntity->setGalaxy( $galaxyEntity1 );
     $systemEntity->setNumber( 0 );
     $this->em->persist( $systemEntity );
     
@@ -303,15 +310,16 @@ class UniverseTest extends TestCase
     $celestialBodyRepository = $this->em->getRepository(\common\entities\CelestialBody::class );
     $celestialBodySpecialtyRepository = $this->em->getRepository( \common\entities\CelestialBodySpecialty::class );
     $model = new Universe( $this->em, $this->universeEntity, $celestialBodyRepository, $celestialBodySpecialtyRepository );
+    $asteroidId = $asteroidEntity->getId();
     
     $this->specify
       ( 'Getting a celestial body for a new player.'
-      , function () use ($model)
+      , function () use ($model,$asteroidId)
     {
       $terrestrialPlanetModel = $model->getTerrestrialPlanetForNewPlayer();
 
-      expect( 'celestial body is a terrestrial planet', $terrestrialPlanetModel instanceof \common\models\TerrestrialPlanet )
-        ->true();
+      expect('celestial body is a terrestrial planet', $terrestrialPlanetModel instanceof \common\models\TerrestrialPlanet )->true();
+      expect('celestial body did not change its id', $terrestrialPlanetModel->getId())->equals( $asteroidId );
     });
   }  
 }

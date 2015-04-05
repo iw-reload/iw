@@ -112,7 +112,7 @@ class Universe
    */
   public function getTerrestrialPlanetForNewPlayer()
   {
-    $celestialBodyEntity = $this->celestialBodyRepository->getFreeCelestialBody();
+    $celestialBodyEntity = $this->celestialBodyRepository->findForNewPlayer();
     
     if ($celestialBodyEntity instanceof \common\entities\TerrestrialPlanet)
     {

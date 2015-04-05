@@ -71,6 +71,10 @@ class System
     return $this->modifier;
   }
   
+  public function setModifier(SystemWideModifier $modifier) {
+    return $this->modifier = $modifier;
+  }
+  
   public function getGalaxy() {
     return $this->galaxy;
   }

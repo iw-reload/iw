@@ -28,6 +28,10 @@ class TerrestrialPlanet extends CelestialBody
     $this->terrestrialPlanetEntity = $entity;
   }
   
+  public function getId() {
+    return $this->terrestrialPlanetEntity->getId();
+  }
+
   /**
    * Resets the celestial body attributes to the defaults for new players.
    */
