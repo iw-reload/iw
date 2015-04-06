@@ -19,7 +19,7 @@ use yii\db\ActiveRecordInterface;
  * We extend Component so we can trigger events.
  *
  * @property User $user
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 abstract class AbstractTask extends Component implements TaskInterface
 {

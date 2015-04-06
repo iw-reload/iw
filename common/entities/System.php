@@ -9,7 +9,7 @@ namespace common\entities;
  *  }
  * )
  * @Entity
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class System
 {

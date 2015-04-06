@@ -7,7 +7,7 @@ use yii\base\Widget;
 /**
  * Renders the planet information overview for a given base.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class PlanetInformationWidget extends Widget
 {

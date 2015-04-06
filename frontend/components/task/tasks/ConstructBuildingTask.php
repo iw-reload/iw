@@ -8,7 +8,7 @@ use frontend\components\task\tasks\DeferredTask;
 /**
  * Constructs a building on a base.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ConstructBuildingTask extends DeferredTask
 {

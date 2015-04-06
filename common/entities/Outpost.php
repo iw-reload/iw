@@ -9,7 +9,7 @@ namespace common\entities;
  *  }
  * )
  * @Entity
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class Outpost
 {
@@ -31,10 +31,14 @@ class Outpost
    * @JoinColumn(nullable=false,onDelete="CASCADE")
    */
   private $celestialBody = null;
-  
-  public function __construct()
-  {
-  }
+  /**
+   * Bidirectional - one user can have many outposts (OWNING SIDE)
+   * 
+   * @var User
+   * @ManyToOne(targetEntity="User", inversedBy="outposts")
+   * @JoinColumn(nullable=false,onDelete="CASCADE")
+   */
+  private $owner = null;
   
   public function getId() {
     return $this->id;
@@ -58,6 +62,19 @@ class Outpost
     
     if ($sync) {
       $celestialBody->setOutpost( $this, false );
+    }
+  }
+  
+  public function getOwner() {
+    return $this->owner;
+  }
+
+  public function setOwner(User $user, $sync=true )
+  {
+    $this->owner = $user;
+    
+    if ($sync) {
+      $user->addOutpost( $this, false );
     }
   }
 }

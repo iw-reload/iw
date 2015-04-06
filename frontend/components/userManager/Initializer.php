@@ -9,7 +9,7 @@ use yii\di\Instance;
 /**
  * Description of UserManagerInitializer
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class Initializer extends Behavior
 {

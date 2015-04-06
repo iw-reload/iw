@@ -19,7 +19,7 @@ use yii\di\Instance;
  * Since the frontend application is not meant to modify building definitions,
  * this component only provides read-only access.
  * 
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class BuildingComponent extends Component implements BuildingFinderInterface
 {

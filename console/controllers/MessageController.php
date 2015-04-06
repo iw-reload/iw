@@ -7,7 +7,7 @@ use yii\db\Query;
 /**
  * Description of MessageController
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class MessageController extends \yii\console\controllers\MessageController
 {

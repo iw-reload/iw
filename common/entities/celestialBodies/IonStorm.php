@@ -6,7 +6,7 @@ use common\entities\CelestialBody as CelestialBodyEntity;
 
 /**
  * @Entity
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class IonStorm extends CelestialBodyEntity
 {

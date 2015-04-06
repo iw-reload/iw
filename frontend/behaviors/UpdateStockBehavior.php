@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 use yii\di\Instance;
 
 /**
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class UpdateStockBehavior extends Behavior
 {

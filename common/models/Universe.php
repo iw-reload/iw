@@ -22,7 +22,7 @@ use common\objects\CelestialBodyFactory;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class Universe
 {

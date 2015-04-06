@@ -6,7 +6,7 @@ use common\entities\celestialBodySpecialties\Moon;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class CelestialBodySpecialty extends EntityRepository
 {

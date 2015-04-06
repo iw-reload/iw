@@ -10,7 +10,7 @@ use yii\base\Object;
 /**
  * Calculates Production of a Base.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ProductionCalculator extends Object
 {

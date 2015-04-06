@@ -14,7 +14,7 @@ use Yii;
 /**
  * Renders the resource overview for a given base.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ResourceWidget extends Widget
 {

@@ -6,7 +6,7 @@ namespace common\entities;
  * Description of ResourceDensity
  * 
  * @Embeddable
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ResourceDensity
 {

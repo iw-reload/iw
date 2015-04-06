@@ -9,7 +9,7 @@ use frontend\interfaces\UserFinderInterface;
 
 /**
  * 
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 abstract class DeferredTask extends AbstractTask
 {

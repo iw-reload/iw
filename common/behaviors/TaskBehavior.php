@@ -30,7 +30,7 @@ use yii\di\Instance;
  * we get an instance with all finished tasks applied, which is also in sync
  * with the DB.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class TaskBehavior extends Behavior
 {

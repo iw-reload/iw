@@ -7,7 +7,7 @@ use yii\base\Component;
 /**
  * Description of TimeComponent
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class TimeComponent extends Component
 {

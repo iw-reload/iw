@@ -6,7 +6,7 @@ use common\entities\CelestialBodySpecialty as CelestialBodySpecialtyEntity;
 
 /**
  * @Entity
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class Gold extends CelestialBodySpecialtyEntity
 {

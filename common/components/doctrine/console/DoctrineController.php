@@ -9,7 +9,7 @@ use yii\di\Instance;
 /**
  * Description of DoctrineCommand
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class DoctrineController extends \yii\console\Controller
 {

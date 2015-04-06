@@ -8,7 +8,7 @@ use frontend\objects\Population;
 use yii\base\Object;
 
 /**
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class PopulationCalculator extends Object
 {

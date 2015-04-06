@@ -9,7 +9,7 @@ use yii\base\Object;
 /**
  * Calculates the capacity of a number of shelters.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ShelterCapacityCalculator extends Object
 {

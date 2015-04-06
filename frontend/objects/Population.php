@@ -5,7 +5,7 @@ namespace frontend\objects;
 use yii\base\Object;
 
 /**
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class Population extends Object
 {

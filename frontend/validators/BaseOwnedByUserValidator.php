@@ -10,7 +10,7 @@ use yii\base\InvalidConfigException;
 /**
  * Description of BaseOwnedByUserValidator
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class BaseOwnedByUserValidator extends Validator
 {

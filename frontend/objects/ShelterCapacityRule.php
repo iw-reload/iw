@@ -7,7 +7,7 @@ use yii\base\Object;
 
 /**
  * Implements the rule for shelter capacity growth.
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ShelterCapacityRule extends Object
 {

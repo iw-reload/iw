@@ -8,7 +8,7 @@ use frontend\components\task\tasks\AbstractUpdateStockTask;
 /**
  * Description of UpdateEnergyStockTask
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class UpdateEnergyStockTask extends AbstractUpdateStockTask
 {

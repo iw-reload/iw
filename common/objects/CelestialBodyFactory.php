@@ -17,7 +17,7 @@ use common\models\celestialBodies\Void as VoidModel;
 /**
  * Description of CelestialBodyFactory
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class CelestialBodyFactory
 {

@@ -4,7 +4,7 @@ namespace common\entities;
 
 /**
  * @Embeddable
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class CelestialBodySpecs
 {

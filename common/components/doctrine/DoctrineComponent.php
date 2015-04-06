@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
 /**
  * Description of DoctrineComponent
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class DoctrineComponent extends \yii\base\Component
 {

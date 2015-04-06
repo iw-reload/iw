@@ -6,7 +6,7 @@ namespace common\entities;
  * Describes how the CelestialBody influences various aspects of the game.
  * 
  * @Embeddable
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class CelestialBodyEffects
 {

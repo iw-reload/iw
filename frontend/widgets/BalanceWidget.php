@@ -8,7 +8,7 @@ use frontend\objects\Resources;
 /**
  * Renders a list of running expenses and benefits (for buildings, ships, ...).
  * 
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class BalanceWidget extends Widget
 {

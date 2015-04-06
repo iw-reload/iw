@@ -11,7 +11,7 @@ use frontend\objects\Resources;
  * Base class for Update{Xyz}StockTask classes.
  *
  * @property \DateTime $to alias for TaskInterface::$time
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 abstract class AbstractUpdateStockTask extends AbstractTask
 {

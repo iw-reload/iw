@@ -8,7 +8,7 @@ use common\models\User;
 /**
  * Description of UserController
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class UserController extends Controller
 {

@@ -24,7 +24,7 @@ namespace common\entities;
  *    @UniqueConstraint(columns={"system_id","number"}),
  *  }
  * )
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 abstract class CelestialBody
 {

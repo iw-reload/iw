@@ -9,7 +9,7 @@ use yii\base\Behavior;
  * Can be attached to Components implementing ShelterInterface, so they can
  * calculate shelter capacities.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ShelterCapacityBehavior extends Behavior
 {

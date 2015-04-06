@@ -11,7 +11,7 @@ use yii\di\Instance;
 /**
  * Description of UniverseComponent
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class UniverseComponent extends Component
 {

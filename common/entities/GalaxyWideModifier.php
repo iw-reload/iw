@@ -9,7 +9,7 @@ namespace common\entities;
  *    @UniqueConstraint(columns={"galaxy_id","celestialBodyType"})
  *  }
  * )
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class GalaxyWideModifier
 {

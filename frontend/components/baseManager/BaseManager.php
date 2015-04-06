@@ -10,7 +10,7 @@ use yii\base\Event;
 /**
  * Loads bases by id, ensuring they won't be loaded twice.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class BaseManager extends Component implements BaseFinderInterface
 {

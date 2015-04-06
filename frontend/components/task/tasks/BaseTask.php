@@ -9,7 +9,7 @@ use frontend\components\task\tasks\AbstractTask;
  * For Tasks related to a user's base.
  *
  * @property Base $base
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 abstract class BaseTask extends AbstractTask
 {

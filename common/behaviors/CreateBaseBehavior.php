@@ -12,7 +12,7 @@ use yii\base\Exception;
 /**
  * Cares for creating a base for newly created users.
  * 
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class CreateBaseBehavior extends Behavior
 {

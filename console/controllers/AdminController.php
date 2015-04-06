@@ -10,7 +10,7 @@ use common\objects\RbacRole;
 /**
  * Description of AdminController
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class AdminController extends Controller
 {

@@ -7,7 +7,7 @@ use frontend\components\task\tasks\AbstractUpdateStockTask;
 /**
  * Description of UpdateVv4aStockTask
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class UpdateVv4aStockTask extends AbstractUpdateStockTask
 {

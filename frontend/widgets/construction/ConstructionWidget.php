@@ -11,7 +11,7 @@ use yii\di\Instance;
 /**
  * Renders the buildings construction overview for a given base.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class ConstructionWidget extends Widget
 {

@@ -5,7 +5,7 @@ namespace common\objects;
 /**
  * Defines building groups.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class BuildingGroup
 {

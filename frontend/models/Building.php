@@ -15,7 +15,7 @@ use yii\base\Component;
  * The frontend\components\Building component is responsible for creating
  * instances of this class and to initialize them with their properties.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 abstract class Building extends Component
                         implements ShelterInterface

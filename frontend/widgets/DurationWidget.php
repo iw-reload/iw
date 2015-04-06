@@ -10,7 +10,7 @@ use Yii;
 /**
  * Renders the time needed to build something (for buildings, ships, ...).
  * 
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class DurationWidget extends Widget
 {

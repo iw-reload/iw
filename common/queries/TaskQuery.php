@@ -15,7 +15,7 @@ use yii\di\Instance;
 /**
  * Description of TaskQuery
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class TaskQuery extends ActiveQuery
 {

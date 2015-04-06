@@ -8,7 +8,7 @@ use common\entities\Galaxy as GalaxyEntity;
 
 
 /**
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class Galaxy
 {

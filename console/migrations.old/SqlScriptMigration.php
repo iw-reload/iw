@@ -8,7 +8,7 @@ use Yii;
 /**
  * Description of SqlScriptMigration
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class SqlScriptMigration extends Migration
 {

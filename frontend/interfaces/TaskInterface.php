@@ -4,7 +4,7 @@ namespace frontend\interfaces;
 
 /**
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 interface TaskInterface
 {

@@ -6,7 +6,7 @@ use common\models\User;
 
 /**
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 interface UserFinderInterface
 {

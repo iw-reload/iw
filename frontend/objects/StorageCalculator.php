@@ -10,7 +10,7 @@ use yii\base\Object;
 /**
  * Calculates Storage Capacity of a Base.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class StorageCalculator extends Object
 {

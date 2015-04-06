@@ -10,7 +10,7 @@ use yii\base\Event;
 /**
  * Loads users by id, ensuring they won't be loaded twice.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class UserManager extends Component implements UserFinderInterface
 {

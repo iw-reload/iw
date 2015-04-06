@@ -25,7 +25,7 @@ use Yii;
 /**
  * Description of TaskComponent
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class TaskComponent extends Component
 {

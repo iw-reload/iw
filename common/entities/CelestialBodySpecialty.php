@@ -19,7 +19,7 @@ namespace common\entities;
  *  ,  9 = "\common\entities\celestialBodySpecialties\Natives"
  *  , 10 = "\common\entities\celestialBodySpecialties\FewResources"
  * })
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 abstract class CelestialBodySpecialty
 {

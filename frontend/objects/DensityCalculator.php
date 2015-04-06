@@ -14,7 +14,7 @@ use yii\base\Object;
  * But also iron and chemicals densities can decrease, if a robo miner is used
  * to produce these resources from a celestial body.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class DensityCalculator extends Object
 {

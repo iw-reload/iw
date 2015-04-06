@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
 /**
  * Cares for creating an external user identity for newly created users.
  * 
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class CreateExternalIdentityBehavior extends Behavior
 {

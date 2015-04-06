@@ -5,7 +5,7 @@ namespace common\objects;
 /**
  * Defines role name constants for use with auth manager.
  *
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class RbacRole
 {

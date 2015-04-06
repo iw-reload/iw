@@ -9,7 +9,7 @@ namespace common\entities;
  *    @UniqueConstraint(columns={"universe_id","celestialBodyType"})
  *  }
  * )
- * @author ben
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class CelestialBodyTypeSpecs
 {
