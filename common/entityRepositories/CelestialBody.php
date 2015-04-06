@@ -56,5 +56,5 @@ class CelestialBody extends EntityRepository
       ->getSingleResult();
     
     return empty($result) ? null : array_shift($result);
-  }  
+  }
 }

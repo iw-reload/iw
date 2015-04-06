@@ -7,17 +7,17 @@ namespace common\entities;
  * @InheritanceType("SINGLE_TABLE")
  * @DiscriminatorColumn(name="discr", type="smallint")
  * @DiscriminatorMap({
- *     0 = "Moon"
- *  ,  1 = "OldRuins"
- *  ,  2 = "AsteroidBelt"
- *  ,  3 = "InstableCore"
- *  ,  4 = "Gold"
- *  ,  5 = "NaturalWell"
- *  ,  6 = "PlanetaryRing"
- *  ,  7 = "Radioative"
- *  ,  8 = "Toxic"
- *  ,  9 = "Natives"
- *  , 10 = "FewResources"
+ *     0 = "\common\entities\celestialBodySpecialties\Moon"
+ *  ,  1 = "\common\entities\celestialBodySpecialties\OldRuins"
+ *  ,  2 = "\common\entities\celestialBodySpecialties\AsteroidBelt"
+ *  ,  3 = "\common\entities\celestialBodySpecialties\InstableCore"
+ *  ,  4 = "\common\entities\celestialBodySpecialties\Gold"
+ *  ,  5 = "\common\entities\celestialBodySpecialties\NaturalWell"
+ *  ,  6 = "\common\entities\celestialBodySpecialties\PlanetaryRing"
+ *  ,  7 = "\common\entities\celestialBodySpecialties\Radioative"
+ *  ,  8 = "\common\entities\celestialBodySpecialties\Toxic"
+ *  ,  9 = "\common\entities\celestialBodySpecialties\Natives"
+ *  , 10 = "\common\entities\celestialBodySpecialties\FewResources"
  * })
  * @author ben
  */

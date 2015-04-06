@@ -2,7 +2,7 @@
 
 namespace common\entityRepositories;
 
-use common\entities\Moon;
+use common\entities\celestialBodySpecialties\Moon;
 use Doctrine\ORM\EntityRepository;
 
 /**

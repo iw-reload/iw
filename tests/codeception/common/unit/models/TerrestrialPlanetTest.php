@@ -3,11 +3,15 @@
 namespace tests\codeception\common\unit\models;
 
 use Codeception\Specify;
+use common\entities\celestialBodies\TerrestrialPlanet as TerrestrialPlanetEntity;
 use common\entities\CelestialBody as CelestialBodyEntity;
+use common\entities\CelestialBodySpecialty as CelestialBodySpecialtyEntity;
+use common\entities\Galaxy as GalaxyEntity;
+use common\entities\System as SystemEntity;
+use common\entities\Universe as UniverseEntity;
 use common\entityRepositories\CelestialBodySpecialty as CelestialBodySpecialtyRepository;
 use common\objects\CelestialBodyFactory;
 use tests\codeception\common\unit\TestCase;
-use Yii;
 
 class TerrestrialPlanetTest extends TestCase
 {
@@ -25,24 +29,24 @@ class TerrestrialPlanetTest extends TestCase
     // Prepare a universe with one planet.
     // 1) an terrestrial planet
     
-    $universeEntity = new \common\entities\Universe();
+    $universeEntity = new UniverseEntity();
     $universeEntity->setMaxCelestialBodies( 1 );
     $universeEntity->setMaxSystems( 1 );
     $universeEntity->setMinCelestialBodies( 1 );
     $universeEntity->setMinSystems( 1 );
     $this->em->persist( $universeEntity );
     
-    $galaxyEntity = new \common\entities\Galaxy();
+    $galaxyEntity = new GalaxyEntity();
     $galaxyEntity->setNumber( 0 );
     $galaxyEntity->setUniverse( $universeEntity );
     $this->em->persist( $galaxyEntity );
     
-    $systemEntity = new \common\entities\System();
+    $systemEntity = new SystemEntity();
     $systemEntity->setGalaxy( $galaxyEntity );
     $systemEntity->setNumber( 0 );
     $this->em->persist( $systemEntity );
     
-    $terrestrialPlanetEntity = new \common\entities\TerrestrialPlanet();
+    $terrestrialPlanetEntity = new TerrestrialPlanetEntity();
     $terrestrialPlanetEntity->setNumber( 0 );
     $terrestrialPlanetEntity->setSystem( $systemEntity );
     $this->em->persist( $terrestrialPlanetEntity );
@@ -59,7 +63,7 @@ class TerrestrialPlanetTest extends TestCase
   public function testReset()
   {
     $celestialBodyEntity = $this->celestialBody;
-    $celestialBodySpecialtiesRepository = $this->em->getRepository( \common\entities\CelestialBodySpecialty::class );
+    $celestialBodySpecialtiesRepository = $this->em->getRepository( CelestialBodySpecialtyEntity::class );
     /* @var $celestialBodySpecialtiesRepository CelestialBodySpecialtyRepository */
     
     $this->specify

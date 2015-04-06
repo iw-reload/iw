@@ -3,7 +3,15 @@
 namespace common\models;
 
 use common\entities\CelestialBody as CelestialBodyEntity;
-use common\entities\CelestialBodySpecialty as CelestialBodySpecialtyEntity;
+use common\entities\celestialBodies\Asteroid as AsteroidEntity;
+use common\entities\celestialBodies\ElectricityStorm as ElectricityStormEntity;
+use common\entities\celestialBodies\GasGiant as GasGiantEntity;
+use common\entities\celestialBodies\GravimetricAnomaly as GravimetricAnomalyEntity;
+use common\entities\celestialBodies\IceGiant as IceGiantEntity;
+use common\entities\celestialBodies\IonStorm as IonStormEntity;
+use common\entities\celestialBodies\SpatialDistortion as SpatialDistortionEntity;
+use common\entities\celestialBodies\TerrestrialPlanet as TerrestrialPlanetEntity;
+use common\entities\celestialBodies\Void as VoidEntity;
 use common\entities\Galaxy as GalaxyEntity;
 use common\entities\System as SystemEntity;
 use common\entities\Universe as UniverseEntity;
@@ -114,7 +122,7 @@ class Universe
   {
     $celestialBodyEntity = $this->celestialBodyRepository->findForNewPlayer();
     
-    if ($celestialBodyEntity instanceof \common\entities\TerrestrialPlanet)
+    if ($celestialBodyEntity instanceof TerrestrialPlanetEntity)
     {
       $terrestrialPlanetEntity = $celestialBodyEntity;
     }
@@ -153,31 +161,31 @@ class Universe
     switch ($celestialBodyType)
     {
     case CelestialBodyEntity::DISCR_ASTEROID:
-        $celestialBody = new \common\entities\Asteroid();
+        $celestialBody = new AsteroidEntity();
         break;
     case CelestialBodyEntity::DISCR_ELECTRICITY_STORM:
-        $celestialBody = new \common\entities\ElectricityStorm();
+        $celestialBody = new ElectricityStormEntity();
         break;
     case CelestialBodyEntity::DISCR_GAS_GIANT:
-        $celestialBody = new \common\entities\GasGiant();
+        $celestialBody = new GasGiantEntity();
         break;
     case CelestialBodyEntity::DISCR_GRAVIMETRIC_ANOMALY:
-        $celestialBody = new \common\entities\GravimetricAnomaly();
+        $celestialBody = new GravimetricAnomalyEntity();
         break;
     case CelestialBodyEntity::DISCR_ICE_GIANT:
-        $celestialBody = new \common\entities\IceGiant();
+        $celestialBody = new IceGiantEntity();
         break;
     case CelestialBodyEntity::DISCR_ION_STORM:
-        $celestialBody = new \common\entities\IonStorm();
+        $celestialBody = new IonStormEntity();
         break;
     case CelestialBodyEntity::DISCR_SPATIAL_DISTORTION:
-        $celestialBody = new \common\entities\SpatialDistortion();
+        $celestialBody = new SpatialDistortionEntity();
         break;
     case CelestialBodyEntity::DISCR_TERRESTRIAL_PLANET:
-        $celestialBody = new \common\entities\TerrestrialPlanet();
+        $celestialBody = new TerrestrialPlanetEntity();
         break;
     case CelestialBodyEntity::DISCR_VOID:
-        $celestialBody = new \common\entities\Void();
+        $celestialBody = new VoidEntity();
         break;
     default:
         throw new \yii\base\InvalidValueException("Can't create celestial body of type '{$celestialBodyType}'.");

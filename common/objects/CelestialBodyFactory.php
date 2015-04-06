@@ -4,15 +4,15 @@ namespace common\objects;
 
 use common\entities\CelestialBody as CelestialBodyEntity;
 use common\entityRepositories\CelestialBodySpecialty as CelestialBodySpecialtyRepository;
-use common\models\Asteroid as AsteroidModel;
-use common\models\ElectricityStorm as ElectricityStormModel;
-use common\models\GasGiant as GasGiantModel;
-use common\models\GravimetricAnomaly as GravimetricAnomalyModel;
-use common\models\IceGiant as IceGiantModel;
-use common\models\IonStorm as IonStormModel;
-use common\models\SpatialDistortion as SpatialDistortionModel;
-use common\models\TerrestrialPlanet as TerrestrialPlanetModel;
-use common\models\Void as VoidModel;
+use common\models\celestialBodies\Asteroid as AsteroidModel;
+use common\models\celestialBodies\ElectricityStorm as ElectricityStormModel;
+use common\models\celestialBodies\GasGiant as GasGiantModel;
+use common\models\celestialBodies\GravimetricAnomaly as GravimetricAnomalyModel;
+use common\models\celestialBodies\IceGiant as IceGiantModel;
+use common\models\celestialBodies\IonStorm as IonStormModel;
+use common\models\celestialBodies\SpatialDistortion as SpatialDistortionModel;
+use common\models\celestialBodies\TerrestrialPlanet as TerrestrialPlanetModel;
+use common\models\celestialBodies\Void as VoidModel;
 
 /**
  * Description of CelestialBodyFactory

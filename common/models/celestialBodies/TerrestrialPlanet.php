@@ -1,14 +1,14 @@
 <?php
 
-namespace common\models;
+namespace common\models\celestialBodies;
 
-use common\entities\TerrestrialPlanet as TerrestrialPlanetEntity;
+use common\entities\celestialBodies\TerrestrialPlanet as TerrestrialPlanetEntity;
 use common\entityRepositories\CelestialBodySpecialty as CelestialBodySpecialtyRepository;
 
 /**
  * 
  */
-class TerrestrialPlanet extends CelestialBody
+class TerrestrialPlanet extends \common\models\CelestialBody
 {
   /**
    * @var TerrestrialPlanetEntity

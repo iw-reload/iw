@@ -9,15 +9,15 @@ namespace common\entities;
  * @InheritanceType("SINGLE_TABLE")
  * @DiscriminatorColumn(name="discr", type="smallint")
  * @DiscriminatorMap({
- *    0 = "Void"
- *  , 1 = "TerrestrialPlanet"
- *  , 2 = "IceGiant"
- *  , 3 = "GasGiant"
- *  , 4 = "Asteroid"
- *  , 5 = "ElectricityStorm"
- *  , 6 = "IonStorm"
- *  , 7 = "SpatialDistortion"
- *  , 8 = "GravimetricAnomaly"
+ *    0 = "\common\entities\celestialBodies\Void"
+ *  , 1 = "\common\entities\celestialBodies\TerrestrialPlanet"
+ *  , 2 = "\common\entities\celestialBodies\IceGiant"
+ *  , 3 = "\common\entities\celestialBodies\GasGiant"
+ *  , 4 = "\common\entities\celestialBodies\Asteroid"
+ *  , 5 = "\common\entities\celestialBodies\ElectricityStorm"
+ *  , 6 = "\common\entities\celestialBodies\IonStorm"
+ *  , 7 = "\common\entities\celestialBodies\SpatialDistortion"
+ *  , 8 = "\common\entities\celestialBodies\GravimetricAnomaly"
  * })
  * @Table(
  *  uniqueConstraints={

@@ -3,10 +3,17 @@
 namespace tests\codeception\common\unit\entityRepositories;
 
 use Codeception\Specify;
+use common\entities\celestialBodies\Asteroid as AsteroidEntity;
+use common\entities\celestialBodies\IceGiant as IceGiantEntity;
+use common\entities\celestialBodies\TerrestrialPlanet as TerrestrialPlanetEntity;
+use common\entities\celestialBodies\Void as VoidEntity;
 use common\entities\CelestialBody as CelestialBodyEntity;
-use common\entityRepositories\CelestialBody as CelestialBodyRepository;
+use common\entities\Galaxy as GalaxyEntity;
+use common\entities\Outpost as OutpostEntity;
+use common\entities\System as SystemEntity;
+use common\entities\SystemWideModifier as SystemWideModifierEntity;
+use common\entities\Universe as UniverseEntity;
 use tests\codeception\common\unit\TestCase;
-use Yii;
 
 /**
  * Login form test
@@ -37,7 +44,7 @@ class CelestialBodyTest extends TestCase
     // -- 0: system with 1 free planet but a nebula
     // -- 1: system with 1 free planet and 1 planet with an outpost
     
-    $universeEntity = new \common\entities\Universe();
+    $universeEntity = new UniverseEntity();
     $universeEntity->setMaxCelestialBodies( 2 );
     $universeEntity->setMaxSystems( 2 );
     $universeEntity->setMinCelestialBodies( 1 );
@@ -46,64 +53,64 @@ class CelestialBodyTest extends TestCase
     
     // --- chaos galaxy -------------------------------------------------------
     
-    $g_0 = new \common\entities\Galaxy();
+    $g_0 = new GalaxyEntity();
     $g_0->setNumber( 0 );
     $g_0->setUniverse( $universeEntity );
     $this->em->persist( $g_0 );
     
-    $s_0_0 = new \common\entities\System();
+    $s_0_0 = new SystemEntity();
     $s_0_0->setGalaxy( $g_0 );
     $s_0_0->setNumber( 0 );
     $this->em->persist( $s_0_0 );
     
-    $cb_0_0_0 = new \common\entities\Asteroid();
+    $cb_0_0_0 = new AsteroidEntity();
     $cb_0_0_0->setNumber( 0 );
     $cb_0_0_0->setSystem( $s_0_0 );
     $this->em->persist( $cb_0_0_0 );
     
     // --- normal galaxy ------------------------------------------------------
     
-    $g_1 = new \common\entities\Galaxy();
+    $g_1 = new GalaxyEntity();
     $g_1->setNumber( 1 );
     $g_1->setUniverse( $universeEntity );
     $this->em->persist( $g_1 );
 
     // --- system with nebula -------------------------------------------------
     
-    $redNebula = new \common\entities\SystemWideModifier();
+    $redNebula = new SystemWideModifierEntity();
     $redNebula->setLabel('roter Nebel');
     $redNebula->setNebulaColor(hexdec('FF0000'));
     $this->em->persist( $redNebula );
     
-    $s_1_0 = new \common\entities\System();
+    $s_1_0 = new SystemEntity();
     $s_1_0->setGalaxy( $g_1 );
     $s_1_0->setModifier( $redNebula );
     $s_1_0->setNumber( 0 );
     $this->em->persist( $s_1_0 );
     
-    $cb_1_0_0 = new \common\entities\IceGiant();
+    $cb_1_0_0 = new IceGiantEntity();
     $cb_1_0_0->setNumber( 0 );
     $cb_1_0_0->setSystem( $s_1_0 );
     $this->em->persist( $cb_1_0_0 );
     
     // --- system without nebula ----------------------------------------------
 
-    $s_1_1 = new \common\entities\System();
+    $s_1_1 = new SystemEntity();
     $s_1_1->setGalaxy( $g_1 );
     $s_1_1->setNumber( 1 );
     $this->em->persist( $s_1_1 );
     
-    $cb_1_1_0 = new \common\entities\Void();
+    $cb_1_1_0 = new VoidEntity();
     $cb_1_1_0->setNumber( 0 );
     $cb_1_1_0->setSystem( $s_1_1 );
     $this->em->persist( $cb_1_1_0 );
     
-    $cb_1_1_1 = new \common\entities\TerrestrialPlanet();
+    $cb_1_1_1 = new TerrestrialPlanetEntity();
     $cb_1_1_1->setNumber( 1 );
     $cb_1_1_1->setSystem( $s_1_1 );
     $this->em->persist( $cb_1_1_1 );
     
-    $outpostEntity = new \common\entities\Outpost();
+    $outpostEntity = new OutpostEntity();
     $outpostEntity->setName("Someone's outpost");
     $outpostEntity->setCelestialBody( $cb_1_1_1 );
     $this->em->persist( $outpostEntity );
@@ -142,7 +149,7 @@ class CelestialBodyTest extends TestCase
     $this->specify('CelestialBodyRepository should not be able to find a Celestial Body for a new player if there are no more', function ()
     {
       // after this, there are no more free celestial bodies left.
-      $outpostEntity = new \common\entities\Outpost();
+      $outpostEntity = new OutpostEntity();
       $outpostEntity->setName("Another outpost");
       $outpostEntity->setCelestialBody( $this->celestialBodyForNewPlayer );
       
