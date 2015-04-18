@@ -5,7 +5,12 @@ namespace common\entities;
 /**
  * Description of User
  *
- * @Entity
+ * @Table(
+ *  uniqueConstraints={
+ *    @UniqueConstraint(columns={"name"}),
+ *  }
+ * )
+ * @Entity(repositoryClass="common\entityRepositories\User")
  * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
 class User
@@ -33,6 +38,11 @@ class User
    * @OneToMany(targetEntity="Outpost", mappedBy="owner")
    */
   private $outposts = null;
+  
+  public function __construct() {
+    $this->identities = new \Doctrine\Common\Collections\ArrayCollection();
+    $this->outposts = new \Doctrine\Common\Collections\ArrayCollection();
+  }
   
   public function getId() {
     return $this->id;

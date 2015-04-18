@@ -2,10 +2,15 @@
 
 namespace console\controllers;
 
-use yii\console\Controller;
-use common\models\User;
-use yii\di\Instance;
+use common\entities\User as UserEntity;
+use common\entityRepositories\User as UserRepository;
+use common\components\doctrine\DoctrineComponent;
+use common\models\User as UserModel;
 use common\objects\RbacRole;
+use Doctrine\ORM\EntityManager;
+use yii\console\Controller;
+use yii\di\Instance;
+use yii\rbac\ManagerInterface as AuthManagerInterface;
 
 /**
  * Description of AdminController
@@ -15,30 +20,22 @@ use common\objects\RbacRole;
 class AdminController extends Controller
 {
   /**
-   * @var yii\rbac\ManagerInterface
+   * @var AuthManagerInterface
    */
   public $authManager = 'authManager';
+  /**
+   * @var DoctrineComponent
+   */
+  public $doctrine = 'doctrine';
 
   public function actionIndex()
   {
-    $this->authManager = Instance::ensure( $this->authManager, 'yii\rbac\ManagerInterface' );
+    $authManager = $this->getAuthManager();
+    $userRepository = $this->getUserRepository();
     
-    $userIds = User::find()
-      ->select('id')
-      ->column();
-    
-    $adminIds = [];
-    foreach ($userIds as $userId)
-    {
-      if ($this->authManager->checkAccess($userId,RbacRole::ADMIN)) {
-        $adminIds[] = $userId;
-      }
-    }
-    
-    $admins = User::find()
-      ->where(['id' => $adminIds])
-      ->indexBy('name')
-      ->all();
+    $admins = $userRepository->findAllByIdFilter( function($userId) use ($authManager) {
+      return $authManager->checkAccess( $userId, RbacRole::ADMIN );
+    });
 
     if (empty($admins))
     {
@@ -46,33 +43,33 @@ class AdminController extends Controller
     }
     else
     {
-      ksort( $admins );
+      usort( $admins, function(UserEntity $lhs, UserEntity $rhs) {
+        return strcmp( $lhs->getName(), $rhs->getName() );
+      });
 
       echo "Admins:\n";
       foreach ($admins as $admin) {
-        echo " - '{$admin->name}'\n";
+        echo " - '{$admin->getName()}'\n";
       }
     }
   }
 
   public function actionCreate( $userName )
   {
-    $this->authManager = Instance::ensure( $this->authManager, 'yii\rbac\ManagerInterface' );
-
-    $user = User::find()
-      ->where(['name' => $userName])
-      ->one();
+    $authManager = $this->getAuthManager();
+    $userRepository = $this->getUserRepository();
+    $user = $userRepository->findOneByName( $userName );
     
-    if ($user instanceof User)
+    if ($user instanceof UserEntity)
     {
-      if ($this->authManager->checkAccess($user->id,RbacRole::ADMIN))
+      if ($authManager->checkAccess($user->getId(),RbacRole::ADMIN))
       {
         echo "User '{$userName}' already is an admin!\n";
       }
       else
       {
-        $role = $this->authManager->getRole( RbacRole::ADMIN );
-        $this->authManager->assign( $role, $user->id );
+        $role = $authManager->getRole( RbacRole::ADMIN );
+        $authManager->assign( $role, $user->getId() );
       }
     }
     else
@@ -81,4 +78,39 @@ class AdminController extends Controller
     }
   }
 
+  /**
+   * @return AuthManagerInterface
+   */
+  private function getAuthManager()
+  {
+    $this->authManager = Instance::ensure( $this->authManager, AuthManagerInterface::class );
+    return $this->authManager;
+  }
+  
+  /**
+   * @return DoctrineComponent
+   */
+  private function getDoctrineComponent()
+  {
+    $this->doctrine = Instance::ensure( $this->doctrine, DoctrineComponent::class );
+    return $this->doctrine;
+  }
+  
+  /**
+   * @return EntityManager
+   */
+  private function getEntityManager()
+  {
+    $doctrine = $this->getDoctrineComponent();
+    return $doctrine->getEntityManager();
+  }
+  
+  /**
+   * @return UserRepository
+   */
+  private function getUserRepository()
+  {
+    $em = $this->getEntityManager();
+    return $em->getRepository( UserEntity::class );
+  }
 }

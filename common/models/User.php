@@ -2,141 +2,65 @@
 
 namespace common\models;
 
-use common\behaviors\CreateBaseBehavior;
-//use common\behaviors\TaskBehavior;
-use frontend\components\task\tasks\ConstructBuildingTask;
-use frontend\interfaces\ConstructionTaskProvider;
-use frontend\interfaces\TaskProviderInterface;
+use common\entities\User as UserEntity;
 use yii\base\NotSupportedException;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
  * User model
  *
- * @property integer $id
- * @property string $name
- * @property integer $created_at
- * @property integer $updated_at
- * 
- * @property Base[] $bases
- * @property Base $currentBase
- * @property Base $mainBase
- * 
- * @property Task[] $tasks
- * @property Task[] $finishedTasks
- * 
- * @property Identity[] $identities
+ * @author Benjamin Wöster <benjamin.woester@gmail.com>
  */
-class User  extends ActiveRecord
-            implements IdentityInterface, TaskProviderInterface, ConstructionTaskProvider
+class User implements IdentityInterface
 {
   /**
-   * @var \common\models\Base
+   * @var UserEntity
    */
-  private $currentBase = null;
+  private $entity = null;
   
-  public function init() {
-    parent::init();
-    
+  public function __construct(UserEntity $entity) {
+    $this->entity = $entity;
   }
+  
+  // --- IdentityInterface - START --------------------------------------------
   
   /**
    * @inheritdoc
    */
-  public static function tableName()
-  {
-    return '{{%user}}';
+  public static function findIdentity($id) {
+    throw new NotSupportedException('"findIdentity" is not implemented.');
   }
 
   /**
    * @inheritdoc
    */
-  public function behaviors()
-  {
-    return [
-      TimestampBehavior::className(),
-      CreateBaseBehavior::className(),
-      // TaskBehavior::className(),
-    ];
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public function rules()
-  {
-    return [
-      [['name'], 'required'],
-      [['name'], 'string', 'max' => 255],
-      [['name'], 'unique']
-    ];
-  }
-
-  public function transactions()
-  {
-    return [
-      // Make insert transactional, because of CreateBaseBehavior.
-      // This ensures every inserted user will get a base. If something happens
-      // during base creation, the user insertion will be rolled back.
-      'default' => self::OP_INSERT,
-    ];
-  }  
-  
-   /**
-    * @inheritdoc
-    */
-   public function attributeLabels()
-   {
-      return [
-        'id' => 'ID',
-        'name' => 'Name',
-        'created_at' => 'Created At',
-        'updated_at' => 'Updated At',
-      ];
-   }
-   
-  /**
-   * @inheritdoc
-   */
-  public static function findIdentity($id)
-  {
-    return static::findOne(['id' => $id]);
-  }
-
-  /**
-   * @inheritdoc
-   */
-  public static function findIdentityByAccessToken($token, $type = null)
-  {
+  public static function findIdentityByAccessToken($token, $type = null) {
     throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
   }
 
   /**
    * @inheritdoc
    */
-  public function getId()
-  {
-    return $this->getPrimaryKey();
+  public function getId() {
+    return $this->entity->getId();
   }
 
   /**
    * @inheritdoc
    */
-  public function getAuthKey()
-  {
+  public function getAuthKey() {
     throw new NotSupportedException('"getAuthKey" is not implemented.');
   }
 
   /**
    * @inheritdoc
    */
-  public function validateAuthKey($authKey)
-  {
+  public function validateAuthKey($authKey) {
     throw new NotSupportedException('"validateAuthKey" is not implemented.');
   }
-
+  
+  // --- IdentityInterface - STOP ---------------------------------------------
+  
   /**
    * @return \yii\db\ActiveQuery
    */

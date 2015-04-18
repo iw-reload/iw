@@ -52,18 +52,18 @@ class TaskComponent extends Component
     $this->_dirtyModelsInfo = [];
 
     // whenever a base is loaded, update its stock
-    Event::on( Base::className(), Base::EVENT_AFTER_FIND,
-      function ($event) {
-        $this->updateStock( $event->sender );
-      }
-    );
+//    Event::on( Base::className(), Base::EVENT_AFTER_FIND,
+//      function ($event) {
+//        $this->updateStock( $event->sender );
+//      }
+//    );
     
     // whenever a user is loaded, execute the user's finished tasks
-    Event::on( User::className(), User::EVENT_AFTER_FIND,
-      function ($event) {
-        $this->executeFinishedTasks( $event->sender );
-      }
-    );
+//    Event::on( User::className(), User::EVENT_AFTER_FIND,
+//      function ($event) {
+//        $this->executeFinishedTasks( $event->sender );
+//      }
+//    );
     
     Event::on(
       AbstractTask::className(),

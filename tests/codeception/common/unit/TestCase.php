@@ -33,6 +33,7 @@ class TestCase extends \yii\codeception\TestCase
     $this->em->createQuery('delete from common\entities\Galaxy')->execute();
     $this->em->createQuery('delete from common\entities\CelestialBodyTypeSpecs')->execute();
     $this->em->createQuery('delete from common\entities\Universe')->execute();
+    $this->em->createQuery('delete from common\entities\User')->execute();
     $this->em->flush();
   }
 }

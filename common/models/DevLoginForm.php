@@ -2,7 +2,9 @@
 
 namespace common\models;
 
-use common\models\User;
+use common\entityRepositories\User as UserRepository;
+use common\entities\User as UserEntity;
+use common\models\User as UserModel;
 use yii\base\Model;
 use Yii;
 
@@ -11,7 +13,20 @@ use Yii;
  */
 class DevLoginForm extends Model
 {
+  /**
+   * @var string
+   */
   public $userName;
+  /**
+   * @var UserRepository
+   */
+  private $userRepository = null;
+  
+  public function __construct(UserRepository $userRepository, $config = array())
+  {
+    parent::__construct($config);
+    $this->userRepository = $userRepository;
+  }
   
   /**
    * @inheritdoc
@@ -20,7 +35,7 @@ class DevLoginForm extends Model
   {
     return [
       [['userName'], 'required'],
-      [['userName'], 'exist', 'targetClass' => User::className(), 'targetAttribute' => 'name'],
+      [['userName'], \common\validators\doctrine\ExistValidator::class, 'repository' => $this->userRepository, 'targetAttribute' => 'name'],
     ];
   }
   
@@ -37,20 +52,17 @@ class DevLoginForm extends Model
   }
 
   /**
-   * @return User|null
+   * @return UserModel|null
    */
   public function getUser()
   {
-    $result = null;
-    
     if ($this->validate())
     {
-      $result = User::find()
-        ->where(['name' => $this->userName])
-        ->one();
+      $userEntity = $this->userRepository->findOneByName( $this->userName );
+      return new UserModel( $userEntity );
     }
 
-    return $result;
+    return null;
   }
   
 }

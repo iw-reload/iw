@@ -1,10 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\doctrine\DoctrineComponent;
 use common\models\DevLoginForm;
-use common\models\User;
 use frontend\models\AuthForm;
 use frontend\models\SignupForm;
+use yii\di\Instance;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
@@ -17,6 +18,11 @@ use Yii;
  */
 class SiteController extends Controller
 {
+  /**
+    * @var string the application component ID of the doctrine component.
+    */
+  public $doctrine = 'doctrine';
+  
   /**
    * @inheritdoc
    */
@@ -141,7 +147,8 @@ class SiteController extends Controller
   {
     if (Yii::$app->user->isGuest)
     {
-      $model = new DevLoginForm();
+      $userRepository = $this->getUserRepository();
+      $model = new DevLoginForm( $userRepository );
 
       if ($model->load(Yii::$app->request->post()) && $model->login())
       {
@@ -166,12 +173,13 @@ class SiteController extends Controller
   {
     // TODO: this action can be replaced with a call to /api/users
     //       returning public user information if we ever introduce a REST API.
+    $userRepository = $this->getUserRepository();
     
-    $userNames = User::find()
-      ->select('name')
-      ->where(['like', 'name', $term])
-      ->orderBy('name')
-      ->column();
+    // TODO: check if this works as intended
+    $users = $userRepository->findByNameLike( $term );
+    
+    // TODO: check if this works as intended
+    // $userNames = $userRepository->findNamesLike( $term );
     
     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     return $userNames;
@@ -217,4 +225,19 @@ class SiteController extends Controller
       return $this->goHome();
   }
 
+  /**
+   * @return \common\entityRepositories\User
+   */
+  private function getUserRepository() {
+    $doctrine = $this->getDoctrineComponent();
+    $em = $doctrine->getEntityManager();
+    return $em->getRepository( \common\entities\User::class );
+  }
+  
+  /**
+   * @return DoctrineComponent
+   */
+  private function getDoctrineComponent() {
+    return Instance::ensure( $this->doctrine, DoctrineComponent::className() );
+  }
 }

@@ -13,6 +13,7 @@ use common\entities\Outpost as OutpostEntity;
 use common\entities\System as SystemEntity;
 use common\entities\SystemWideModifier as SystemWideModifierEntity;
 use common\entities\Universe as UniverseEntity;
+use common\entities\User as UserEntity;
 use tests\codeception\common\unit\TestCase;
 
 /**
@@ -110,10 +111,16 @@ class CelestialBodyTest extends TestCase
     $cb_1_1_1->setSystem( $s_1_1 );
     $this->em->persist( $cb_1_1_1 );
     
+    $user = new UserEntity();
+    $user->setName('Someone');
+    $this->em->persist( $user );
+    
     $outpostEntity = new OutpostEntity();
-    $outpostEntity->setName("Someone's outpost");
     $outpostEntity->setCelestialBody( $cb_1_1_1 );
+    $outpostEntity->setName("Someone's outpost");
+    $outpostEntity->setOwner($user);
     $this->em->persist( $outpostEntity );
+    
     $this->em->flush();
     
     // $cb_1_1_0 is the only celestial body suitable for a new player.
@@ -148,10 +155,15 @@ class CelestialBodyTest extends TestCase
     
     $this->specify('CelestialBodyRepository should not be able to find a Celestial Body for a new player if there are no more', function ()
     {
+      $user = new UserEntity();
+      $user->setName('Someone else');
+      $this->em->persist( $user );
+      
       // after this, there are no more free celestial bodies left.
       $outpostEntity = new OutpostEntity();
-      $outpostEntity->setName("Another outpost");
       $outpostEntity->setCelestialBody( $this->celestialBodyForNewPlayer );
+      $outpostEntity->setName("Another outpost");
+      $outpostEntity->setOwner($user);
       
       $this->em->persist( $outpostEntity );
       $this->em->flush();

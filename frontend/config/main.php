@@ -38,9 +38,6 @@ return [
         ],
       ],
     ],    
-    'baseManager' => [
-      'class' => 'frontend\components\baseManager\BaseManager',
-    ],
     'building' => [
       'class' => 'frontend\components\building\BuildingComponent',
     ],
@@ -66,9 +63,6 @@ return [
         'oauth2callback/<authclient:google>' => 'site/auth',
       ],
     ],
-    'userManager' => [
-      'class' => 'frontend\components\userManager\UserManager',
-    ],
     'user' => [
       'identityClass' => 'common\models\User',
       'enableAutoLogin' => false,
@@ -83,8 +77,6 @@ return [
   ],
   'on beforeAction' => function ($event) {
     // preload important components
-    \Yii::$app->get('userManager');
-    \Yii::$app->get('baseManager');
     \Yii::$app->get('task');
   },
 //  'as BaseManagerInitializer' => [
