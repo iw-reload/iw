@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\components\doctrine\DoctrineComponent;
+use common\entities\User as UserEntity;
 use common\models\DevLoginForm;
 use frontend\models\AuthForm;
 use frontend\models\SignupForm;
@@ -177,9 +178,9 @@ class SiteController extends Controller
     
     // TODO: check if this works as intended
     $users = $userRepository->findByNameLike( $term );
-    
-    // TODO: check if this works as intended
-    // $userNames = $userRepository->findNamesLike( $term );
+    $userNames = array_map(function( UserEntity $user ){
+      return $user->getName();
+    }, $users);
     
     Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     return $userNames;
