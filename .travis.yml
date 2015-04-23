@@ -2,3 +2,7 @@ language: php
 php:
   - 5.5
   - hhvm
+
+install:
+  - travis_retry composer self-update && composer --version
+  - travis_retry composer install --prefer-dist --no-interaction
