@@ -9,9 +9,8 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - travis_retry composer install --prefer-dist --no-interaction
 
+before_script:
+  - tests/codeception/bin/yii doctrine orm:schema-tool:create --appconfig=./tests/codeception/config/console/unit.php
+  
 script:
-  - cd tests/codeception
-  - ./bin/yii doctrine orm:schema-tool:create --appconfig=./config/console/unit.php
-  - cd common
-  - codecept build
-  - codecept run
+  - codecept build --config ./tests/codeception/common/codeception.yml && codecept run --config ./tests/codeception/common/codeception.yml
