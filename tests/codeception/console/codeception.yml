@@ -10,12 +10,13 @@ coverage:
     whitelist:
       include:
         - ../../../console/*
-    blacklist:
-      include:
-        - ../../../architecture/*
+      exclude:
         - ../../../console/config/*
         - ../../../console/migrations/*
         - ../../../console/runtime/*
+    blacklist:
+      include:
+        - ../../../architecture/*
         - ../../../environments/*
         - ../../../tests/*
         - ../../../vendor/*

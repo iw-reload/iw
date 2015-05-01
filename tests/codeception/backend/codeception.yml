@@ -10,13 +10,14 @@ coverage:
     whitelist:
       include:
         - ../../../backend/*
-    blacklist:
-      include:
-        - ../../../architecture/*
+      exclude:
         - ../../../backend/config/*
         - ../../../backend/runtime/*
         - ../../../backend/web/assets/*
         - ../../../backend/web/css/*
+    blacklist:
+      include:
+        - ../../../architecture/*
         - ../../../environments/*
         - ../../../tests/*
         - ../../../vendor/*

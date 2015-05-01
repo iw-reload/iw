@@ -10,11 +10,12 @@ coverage:
     whitelist:
       include:
         - ../../../common/*
+      exclude:
+        - ../../../common/config/*
+        - ../../../common/data/*
     blacklist:
       include:
         - ../../../architecture/*
-        - ../../../common/config/*
-        - ../../../common/data/*
         - ../../../environments/*
         - ../../../tests/*
         - ../../../vendor/*

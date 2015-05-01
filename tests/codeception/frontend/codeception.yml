@@ -10,9 +10,7 @@ coverage:
     whitelist:
       include:
         - ../../../frontend/*
-    blacklist:
-      include:
-        - ../../../architecture/*
+      exclude:
         - ../../../frontend/config/*
         - ../../../frontend/messages/*
         - ../../../frontend/runtime/*
@@ -20,6 +18,9 @@ coverage:
         - ../../../frontend/web/game/*
         - ../../../frontend/web/images/*
         - ../../../frontend/web/portal/*
+    blacklist:
+      include:
+        - ../../../architecture/*
         - ../../../environments/*
         - ../../../tests/*
         - ../../../vendor/*
