@@ -68,7 +68,7 @@ class AdminControllerTest extends TestCase
     $authMan->assign( $role, $user1->getId() );
     $authMan->assign( $role, $user2->getId() );
     
-    $this->specify('AdminController on database with admins', function () use ($user1) {
+    $this->specify('AdminController on database with admins', function () use ($user1,$user2) {
       ob_start();
       \Yii::$app->runAction('admin/index');
       $output = ob_get_flush();
