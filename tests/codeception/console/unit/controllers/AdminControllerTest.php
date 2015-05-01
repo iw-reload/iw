@@ -41,12 +41,12 @@ class AdminControllerTest extends TestCase
     });
 
     $user1 = new UserEntity();
-    $user1->setName('user1');
+    $user1->setName('xyz_user1');
 
     $this->em->persist( $user1 );
 
     $user2 = new UserEntity();
-    $user2->setName('user2');
+    $user2->setName('abc_user2');
 
     $this->em->persist( $user2 );
 
@@ -60,19 +60,22 @@ class AdminControllerTest extends TestCase
       expect('Output should indicate that there are no admins.', $output)->contains( 'No Admins found.' );
     });
 
-    // make $user1 an admin
+    // make $user1 and $user2 an admin
     $authMan = \Yii::$app->getAuthManager();
     /* @var $authMan \yii\rbac\ManagerInterface */
 
     $role = $authMan->getRole( \common\objects\RbacRole::ADMIN );
     $authMan->assign( $role, $user1->getId() );
+    $authMan->assign( $role, $user2->getId() );
     
-    $this->specify('AdminController on database with admin', function () use ($user1) {
+    $this->specify('AdminController on database with admins', function () use ($user1) {
       ob_start();
       \Yii::$app->runAction('admin/index');
       $output = ob_get_flush();
       
       expect('Output should indicate that user1 is an admin.', $output)->contains( $user1->getName() );
+      expect('Output should indicate that user2 is an admin.', $output)->contains( $user2->getName() );
+      expect('Output is sorted.', strpos($output,$user2->getName()))->lessThen(strpos($output,$user1->getName()));
     });
   }
   
