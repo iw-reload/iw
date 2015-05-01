@@ -9,5 +9,10 @@ use yii\test\ActiveFixture;
  */
 class UserFixture extends ActiveFixture
 {
-    public $modelClass = 'common\models\User';
+  public function __construct($config = [])
+  {
+    $this->tableName = 'user';
+    parent::__construct($config);
+  }
+
 }

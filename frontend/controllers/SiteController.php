@@ -177,7 +177,7 @@ class SiteController extends Controller
     $userRepository = $this->getUserRepository();
     
     // TODO: check if this works as intended
-    $users = $userRepository->findByNameLike( $term );
+    $users = $userRepository->findByNameLike( $term . '%' );
     $userNames = array_map(function( UserEntity $user ){
       return $user->getName();
     }, $users);

@@ -5,10 +5,10 @@ namespace tests\codeception\frontend\_pages;
 use yii\codeception\BasePage;
 
 /**
- * Represents about page
+ * Represents userList page
  * @property \codeception_frontend\AcceptanceTester|\codeception_frontend\FunctionalTester $actor
  */
-class AboutPage extends BasePage
+class UserListPage extends BasePage
 {
-    public $route = 'site/about';
+    public $route = 'site/userlist';
 }

@@ -3,6 +3,15 @@ include:
   - codeception/console
   - codeception/backend
   - codeception/frontend
+  
+coverage:
+    enabled: true
+    blacklist:
+        include:
+            - ../architecture/*
+            - ../environments/*
+            - ../tests/*
+            - ../vendor/*
 
 paths:
   log: codeception/_output
