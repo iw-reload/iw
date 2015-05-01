@@ -5,6 +5,21 @@ paths:
     log: _output
     data: _data
     helpers: _support
+coverage:
+    enabled: true
+    whitelist:
+      include:
+        - ../../../backend/*
+    blacklist:
+      include:
+        - ../../../architecture/*
+        - ../../../backend/config/*
+        - ../../../backend/runtime/*
+        - ../../../backend/web/assets/*
+        - ../../../backend/web/css/*
+        - ../../../environments/*
+        - ../../../tests/*
+        - ../../../vendor/*
 settings:
     bootstrap: _bootstrap.php
     suite_class: \PHPUnit_Framework_TestSuite

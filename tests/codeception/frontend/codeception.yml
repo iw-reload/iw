@@ -5,6 +5,24 @@ paths:
     log: _output
     data: _data
     helpers: _support
+coverage:
+    enabled: true
+    whitelist:
+      include:
+        - ../../../frontend/*
+    blacklist:
+      include:
+        - ../../../architecture/*
+        - ../../../frontend/config/*
+        - ../../../frontend/messages/*
+        - ../../../frontend/runtime/*
+        - ../../../frontend/web/assets/*
+        - ../../../frontend/web/game/*
+        - ../../../frontend/web/images/*
+        - ../../../frontend/web/portal/*
+        - ../../../environments/*
+        - ../../../tests/*
+        - ../../../vendor/*
 settings:
     bootstrap: _bootstrap.php
     suite_class: \PHPUnit_Framework_TestSuite
