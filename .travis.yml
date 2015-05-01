@@ -36,9 +36,5 @@ install:
 before_script:
   - tests/codeception/bin/yii doctrine orm:schema-tool:create --appconfig=./tests/codeception/config/console/unit.php
 
-env:
-  - CODECEPTION_CONFIG=./tests/codeception/common/codeception.yml
-  - CODECEPTION_CONFIG=./tests/codeception/console/codeception.yml
-  
 script:
-  - codecept run --config $CODECEPTION_CONFIG
+  - codecept run --config ./tests/codeception.yml
